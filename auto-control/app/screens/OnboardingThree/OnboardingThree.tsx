@@ -17,7 +17,7 @@ export default function OnboardingThree() {
         }}
       >
         <LottieView
-          source={require("../../assets/images/person-schedule-animation.json")}
+          source={require("../../../assets/images/person-schedule-animation.json")}
           style={{ width: "100%", height: "80%" }}
           autoPlay
           loop
@@ -55,7 +55,7 @@ export default function OnboardingThree() {
           <View style={styles.referenceFilled}></View>
         </View>
       </View>
-      <Link href="/screens/Login" asChild>
+      <Link href="/screens/Login/Login" asChild>
         <Pressable
           style={{
             width: "50%",

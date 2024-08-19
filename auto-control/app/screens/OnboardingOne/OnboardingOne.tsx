@@ -1,11 +1,9 @@
 import { Text, View, StyleSheet, Pressable } from "react-native";
-import OrganizeImage from "../../assets/images/organize.svg";
-import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
 import LottieView from "lottie-react-native";
 
-export default function OnboardingTwo() {
+export default function OnboardingOne() {
   return (
     <LinearGradient colors={["#2282FF", "#0f3970"]} style={styles.container}>
       <View
@@ -19,8 +17,8 @@ export default function OnboardingTwo() {
         }}
       >
         <LottieView
-          source={require("../../assets/images/search-animation.json")}
-          style={{ width: "100%", height: "80%" }}
+          source={require("../../../assets/images/relax-animation.json")}
+          style={{ width: "90%", height: "80%" }}
           autoPlay
           loop
         />
@@ -32,32 +30,30 @@ export default function OnboardingTwo() {
             fontSize: 32,
           }}
         >
-          Facilidade
+          Fique tranquilo
         </Text>
         <Text
           style={{
             color: "white",
-            marginTop: 10,
-            textAlign: "center",
-            width: "80%",
+            marginTop: 40,
           }}
         >
-          Tenha acesso à todos os documentos do seu veículo em um só lugar
+          Não tenha surpresas com os gastos de seus veículos
         </Text>
         <View
           style={{
             display: "flex",
             flexDirection: "row",
             gap: 20,
-            marginTop: 40,
+            marginTop: 20,
           }}
         >
-          <View style={styles.reference}></View>
           <View style={styles.referenceFilled}></View>
+          <View style={styles.reference}></View>
           <View style={styles.reference}></View>
         </View>
       </View>
-      <Link href="/screens/OnboardingThree" asChild>
+      <Link href="/screens/OnboardingTwo/OnboardingTwo" asChild>
         <Pressable
           style={{
             width: "50%",

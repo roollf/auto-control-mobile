@@ -3,7 +3,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
 import LottieView from "lottie-react-native";
 
-export default function OnboardingOne() {
+export default function OnboardingTwo() {
   return (
     <LinearGradient colors={["#2282FF", "#0f3970"]} style={styles.container}>
       <View
@@ -17,8 +17,8 @@ export default function OnboardingOne() {
         }}
       >
         <LottieView
-          source={require("../../assets/images/relax-animation.json")}
-          style={{ width: "90%", height: "80%" }}
+          source={require("../../../assets/images/search-animation.json")}
+          style={{ width: "100%", height: "80%" }}
           autoPlay
           loop
         />
@@ -30,30 +30,32 @@ export default function OnboardingOne() {
             fontSize: 32,
           }}
         >
-          Fique tranquilo
+          Facilidade
         </Text>
         <Text
           style={{
             color: "white",
-            marginTop: 40,
+            marginTop: 10,
+            textAlign: "center",
+            width: "80%",
           }}
         >
-          Não tenha surpresas com os gastos de seus veículos
+          Tenha acesso à todos os documentos do seu veículo em um só lugar
         </Text>
         <View
           style={{
             display: "flex",
             flexDirection: "row",
             gap: 20,
-            marginTop: 20,
+            marginTop: 40,
           }}
         >
-          <View style={styles.referenceFilled}></View>
           <View style={styles.reference}></View>
+          <View style={styles.referenceFilled}></View>
           <View style={styles.reference}></View>
         </View>
       </View>
-      <Link href="/screens/OnboardingTwo" asChild>
+      <Link href="/screens/OnboardingThree/OnboardingThree" asChild>
         <Pressable
           style={{
             width: "50%",
