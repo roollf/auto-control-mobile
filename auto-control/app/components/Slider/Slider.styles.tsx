@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-end",
     width: "100%",
+    minHeight: 20,
   },
   headerText: {
     color: "white",
@@ -40,9 +41,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     alignItems: "center",
-  },
-  bottomSheetContainer: {
-    // position: "absolute",
   },
 });
 

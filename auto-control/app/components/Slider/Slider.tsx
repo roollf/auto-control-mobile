@@ -4,9 +4,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { FlatList, Pressable, View, Text } from "react-native";
 import { Image } from "expo-image";
 
-// Third-Party Libraries
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-
 // Project Resources
 import RightArrow from "../../../assets/images/right-arrow.svg";
 import Slides from "../../resources/onboarding-slides";
@@ -17,15 +14,20 @@ import SliderItem from "../SliderItem/SliderItem";
 import OnboardingButton from "../OnboardingButton/OnboardingButton";
 import Pagination from "../Pagination/Pagination";
 import Login from "@/app/screens/Login/Login";
+import BottomSheetComponent from "@/app/components/BottomSheet/BottomSheetComponent";
 
 // Type Imports
-import itemProps from "./Slider.types";
+import SliderProps from "./Slider.types";
+import SliderItemProps from "../SliderItem/SliderItem.types";
+
+type PageType = SliderProps["page"];
 
 const Slider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const flatListRef = useRef<FlatList>(null);
+  const [pageToDisplay, setPageToDisplay] = useState<PageType | null>(null);
+  const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
 
-  const bottomSheetRef = useRef<BottomSheet>(null);
+  const flatListRef = useRef<FlatList>(null);
 
   const handleNextPress = () => {
     const nextIndex = currentIndex + 1;
@@ -35,28 +37,42 @@ const Slider = () => {
     }
   };
 
+  const lastIndex = Slides.length - 1;
+
   const handleGoToLastSlide = () => {
-    const lastIndex = Slides.length - 1;
     flatListRef.current?.scrollToIndex({ index: lastIndex, animated: true });
     setCurrentIndex(lastIndex);
   };
 
-  const handleExpandBottomSheet = () => {
-    bottomSheetRef.current?.snapToIndex(2);
+  // revisit higher order functions to fix a proper handler for the pressable onPress
+  const handleExpandBottomSheet = (page: PageType) => {
+    setPageToDisplay(page);
+    setIsBottomSheetVisible(true);
   };
 
-  const snapPoints = ["25%", "50%", "90%"];
+  const teste = () => {
+    console.log("teste");
+  };
+
+  const handleOnClose = () => {
+    setPageToDisplay(null);
+    setIsBottomSheetVisible(false);
+  };
 
   return (
     <>
       <SafeAreaView>
         <View style={styles.container}>
-          <View style={styles.headerTextContainer}>
-            <Pressable onPress={handleGoToLastSlide}>
-              <Text style={styles.headerText}>Pular</Text>
-            </Pressable>
-            <Image source={RightArrow} style={{ width: 20, height: 20 }} />
-          </View>
+          {currentIndex !== lastIndex ? (
+            <View style={styles.headerTextContainer}>
+              <Pressable onPress={handleGoToLastSlide}>
+                <Text style={styles.headerText}>Pular</Text>
+              </Pressable>
+              <Image source={RightArrow} style={{ width: 20, height: 20 }} />
+            </View>
+          ) : (
+            <View style={styles.headerTextContainer} />
+          )}
           <FlatList
             horizontal
             data={Slides}
@@ -67,7 +83,9 @@ const Slider = () => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.list}
             keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }: itemProps) => <SliderItem item={item} />}
+            renderItem={({ item }: SliderItemProps) => (
+              <SliderItem item={item} />
+            )}
           />
           <Pagination Slides={Slides} SelectedDot={currentIndex} />
           {currentIndex !== Slides.length - 1 ? (
@@ -75,23 +93,24 @@ const Slider = () => {
           ) : (
             <View style={styles.authContainer}>
               <OnboardingButton text="Criar conta" onPress={handleNextPress} />
-              <Pressable onPress={handleExpandBottomSheet}>
+
+              <Pressable
+                onPress={() => {
+                  setPageToDisplay(Login);
+                  setIsBottomSheetVisible(true);
+                }}
+              >
                 <Text style={styles.authLoginText}>Login</Text>
               </Pressable>
             </View>
           )}
         </View>
       </SafeAreaView>
-      <BottomSheet
-        ref={bottomSheetRef}
-        enablePanDownToClose
-        index={-1}
-        snapPoints={snapPoints}
-      >
-        <BottomSheetView style={styles.contentContainer}>
-          <Login />
-        </BottomSheetView>
-      </BottomSheet>
+      <BottomSheetComponent
+        isVisible={isBottomSheetVisible}
+        onClose={handleOnClose}
+        page={pageToDisplay}
+      />
     </>
   );
 };

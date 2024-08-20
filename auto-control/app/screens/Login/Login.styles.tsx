@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
   },
   userTokenImage: {
-    resizeMode: "contain",
     width: 30,
     height: 30,
   },
@@ -126,7 +125,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   socialImage: {
-    resizeMode: "contain",
     width: 30,
     height: 30,
   },

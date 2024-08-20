@@ -1,4 +1,4 @@
-interface itemProps {
+interface SliderProps {
   item: {
     id: number;
     name: string;
@@ -6,6 +6,7 @@ interface itemProps {
     description: string;
     image: object;
   };
+  page: React.ReactNode;
 }
 
-export default itemProps;
+export default SliderProps;
