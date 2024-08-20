@@ -1,15 +1,16 @@
+// React and React Native imports
 import { Text, View, SafeAreaView } from "react-native";
 
+// Third party Libraries
 import { Image } from "expo-image";
 import Checkbox from "expo-checkbox";
 
+// Project Resources
 import AppInput from "../../components/AppInput/AppInput";
 import LoginButton from "../../components/LoginButton/LoginButton";
-
 import Google from "../../../assets/images/google.png";
 import Facebook from "../../../assets/images/facebook.png";
 import User from "../../../assets/images/user.svg";
-
 import styles from "./Login.styles";
 
 export default function Login() {
@@ -18,7 +19,7 @@ export default function Login() {
       <View style={styles.container}>
         <View style={styles.innerContainer}>
           <View style={styles.welcomeTextContainer}>
-            <Text style={styles.welcomeText}>Seja {"\n"}bem-vindo,</Text>
+            <Text style={styles.welcomeText}>Seja bem-vindo,</Text>
           </View>
           <View style={styles.middleContainer}>
             <View style={styles.userTokenImageContainer}>
