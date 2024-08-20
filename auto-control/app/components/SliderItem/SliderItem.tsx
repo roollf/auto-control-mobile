@@ -1,9 +1,17 @@
+//React and React Native imports
 import React from "react";
 import { View, Text } from "react-native";
+
+//Third party Libraries
 import LottieView from "lottie-react-native";
+
+//Project Resources
 import styles from "../SliderItem/SliderItem.styles";
 
-const SliderItem = ({ item }) => {
+//Types Imports
+import SliderItemProps from "./SliderItem.types";
+
+const SliderItem = ({ item }: SliderItemProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>

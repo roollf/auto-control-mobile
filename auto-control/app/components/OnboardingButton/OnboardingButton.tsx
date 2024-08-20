@@ -1,7 +1,10 @@
+//React and React Native imports
 import { Text, View, Pressable } from "react-native";
 import React from "react";
-import styles from "./OnboardingButton.styles";
+
+//Project Resources
 import OnboardingButtonProps from "./OnboardingButton.types";
+import styles from "./OnboardingButton.styles";
 
 const OnboardingButton = ({ onPress, text }: OnboardingButtonProps) => {
   return (
