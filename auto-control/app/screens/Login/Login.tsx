@@ -18,7 +18,7 @@ export default function Login() {
       <View style={styles.container}>
         <View style={styles.innerContainer}>
           <View style={styles.welcomeTextContainer}>
-            <Text style={styles.welcomeText}>Seja {"\n"}bem-vindo,</Text>
+            <Text style={styles.welcomeText}>Seja bem-vindo,</Text>
           </View>
           <View style={styles.middleContainer}>
             <View style={styles.userTokenImageContainer}>

@@ -156,10 +156,12 @@ const styles = StyleSheet.create({
     textAlign: "left",
     alignSelf: "flex-start",
     marginBottom: 40,
+    height: 50,
   },
   welcomeTextContainer: {
     paddingTop: 40,
     width: "100%",
+    height: "auto",
     display: "flex",
     alignItems: "flex-end",
   },

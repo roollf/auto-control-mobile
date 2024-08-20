@@ -41,6 +41,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
+  bottomSheetContainer: {
+    // position: "absolute",
+  },
 });
 
 export default styles;
