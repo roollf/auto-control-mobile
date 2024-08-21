@@ -7,7 +7,7 @@ import { LinearGradient } from "expo-linear-gradient";
 //Project Resources
 import Onboarding from "./screens/Onboarding/Onboarding";
 
-const Index = () => {
+export default function Index() {
   return (
     <GestureHandlerRootView>
       <LinearGradient colors={["#2282FF", "#326aee"]}>
@@ -15,6 +15,4 @@ const Index = () => {
       </LinearGradient>
     </GestureHandlerRootView>
   );
-};
-
-export default Index;
+}
