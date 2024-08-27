@@ -14,12 +14,12 @@ import SliderItem from "../SliderItem/SliderItem";
 import OnboardingButton from "../OnboardingButton/OnboardingButton";
 import Pagination from "../Pagination/Pagination";
 import Login from "@/app/screens/Login/Login";
-import BottomSheetComponent from "@/app/components/BottomSheet/BottomSheetComponent";
+import BottomSheetComponent from "@/components/BottomSheet/BottomSheetComponent";
 
 // Type Imports
 import SliderProps from "./Slider.types";
 import SliderItemProps from "../SliderItem/SliderItem.types";
-import { TabBarIcon } from "@/components/navigation/TabBarIcon";
+import { TabBarIcon } from "@/components/expo/navigation/TabBarIcon";
 
 type PageType = SliderProps["page"];
 
