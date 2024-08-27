@@ -5,7 +5,7 @@ import { FlatList, Pressable, View, Text } from "react-native";
 import { Image } from "expo-image";
 
 // Project Resources
-import RightArrow from "../../../assets/images/right-arrow.svg";
+import RightArrow from "../../assets/images/right-arrow.svg";
 import { Slides } from "@/constants/OnboardingSlides";
 import styles from "./Slider.styles";
 
