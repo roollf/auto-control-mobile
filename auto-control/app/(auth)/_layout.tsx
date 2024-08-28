@@ -1,18 +1,8 @@
 import { Redirect, Stack } from "expo-router";
-import { useSession } from "../ctx";
+import { useSession } from "../../contexts/ctx";
 import { Text } from "react-native";
 
 export default function Layout() {
-  const { session, isLoading } = useSession();
-
-  if (isLoading) {
-    return <Text>Loading...</Text>;
-  }
-
-  if (!session) {
-    return <Redirect href={"/"} />;
-  }
-
   return (
     <Stack>
       <Stack.Screen

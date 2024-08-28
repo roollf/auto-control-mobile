@@ -1,6 +1,6 @@
 import { Button, StyleSheet, Text, View } from "react-native";
 
-import { useSession } from "../../ctx";
+import { useSession } from "../../contexts/ctx";
 import { Link, router } from "expo-router";
 
 export default function TabOneScreen() {
@@ -18,7 +18,7 @@ export default function TabOneScreen() {
       <Button title="Sign Out" onPress={handleLogout} />
       <Link
         href={{
-          pathname: "/(stack)/register",
+          pathname: "/screens/register",
           params: { session: session },
         }}
       >

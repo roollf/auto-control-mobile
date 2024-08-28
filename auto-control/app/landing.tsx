@@ -2,8 +2,8 @@
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { View, Text, TextInput, Button } from "react-native";
 import { router, Link } from "expo-router";
-import { useSession } from "./ctx";
-import styles from "./index.styles";
+import { useSession } from "../contexts/ctx";
+import styles from "./lading.styles";
 
 //Third party Libraries
 import { LinearGradient } from "expo-linear-gradient";
@@ -21,34 +21,17 @@ import Onboarding from "./screens/Onboarding/Onboarding";
 //   );
 // }
 
-export default function Index() {
+export default function SignIn() {
   const { signIn } = useSession();
 
   const handleLogin = () => {
+    console.log("Cliquei.");
     signIn();
-    router.replace("/(auth)");
+    router.replace("/");
   };
 
   return (
     <>
-      {/* <View
-        style={{
-          flex: 1,
-          backgroundColor: "white",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text>Página HOME</Text>
-        <Link
-          href={{
-            pathname: "/(auth)/(stack)/register",
-            params: { id: "testando" },
-          }}
-        >
-          Ir para tela de registro
-        </Link>
-      </View> */}
       <View style={styles.container}>
         <Text style={styles.title}>Welcome! 🌈 </Text>
         <Text style={styles.paragraph}>
@@ -63,6 +46,12 @@ export default function Index() {
           style={styles.input}
         />
         <Button title="Login" onPress={handleLogin} />
+        <Button
+          title="Register"
+          onPress={() => {
+            router.push("/screens/register");
+          }}
+        />
       </View>
     </>
   );

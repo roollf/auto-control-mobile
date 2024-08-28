@@ -32,6 +32,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
     <AuthContext.Provider
       value={{
         signIn: () => {
+          console.log("Sign-in executed");
           setSession("Rolf");
         },
         signOut: () => {
