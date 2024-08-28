@@ -13,8 +13,8 @@ import { Image } from "expo-image";
 import Checkbox from "expo-checkbox";
 
 // Project Resources
-import AppInput from "../../components/AppInput/AppInput";
-import LoginButton from "../../components/LoginButton/LoginButton";
+import AppInput from "../../../components/AppInput/AppInput";
+import LoginButton from "../../../components/LoginButton/LoginButton";
 import Google from "../../../assets/images/google.png";
 import Facebook from "../../../assets/images/facebook.png";
 import User from "../../../assets/images/user.svg";

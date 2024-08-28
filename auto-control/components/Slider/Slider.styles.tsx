@@ -5,8 +5,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     display: "flex",
     alignItems: "center",
-    paddingTop: 20,
-    gap: 60,
+    // paddingTop: 20,
+    // gap: 60,
   },
   list: {
     alignItems: "center",
