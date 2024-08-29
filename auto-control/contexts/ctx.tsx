@@ -21,7 +21,6 @@ export function useSession() {
       throw new Error("useSession must be wrapped in a <SessionProvider />");
     }
   }
-
   return value;
 }
 
@@ -36,6 +35,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
           setSession("Rolf");
         },
         signOut: () => {
+          console.log("Sign-out executed");
           setSession(null);
         },
         session,
