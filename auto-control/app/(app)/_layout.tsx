@@ -12,12 +12,12 @@ export default function Layout() {
 
   if (!session) {
     console.log("No session, redirecting to login page...");
-    return <Redirect href="/landing" />;
+    return <Redirect href="/" />;
   }
 
   return (
     <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="home" options={{ headerShown: false }} />
     </Stack>
   );
 }

@@ -1,6 +1,6 @@
 import { ExpenseData } from "../expense/expense.type";
 
-export interface VehicleData {
+interface VehicleData {
   id?: number;
   name: string;
   description?: string;
@@ -16,12 +16,14 @@ export interface VehicleData {
   expenses?: ExpenseData[];
 }
 
-export interface VehicleType {
+interface VehicleType {
   id?: number;
   name: string;
 }
 
-export interface VehicleBrand {
+interface VehicleBrand {
   id?: number;
   name: string;
 }
+
+export { VehicleData, VehicleType, VehicleBrand };

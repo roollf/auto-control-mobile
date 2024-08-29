@@ -13,13 +13,13 @@ import styles from "./Slider.styles";
 import SliderItem from "../SliderItem/SliderItem";
 import OnboardingButton from "../OnboardingButton/OnboardingButton";
 import Pagination from "../Pagination/Pagination";
-import Login from "@/app/screens/Login/Login";
+import Login from "../../app/(auth)/login";
 import BottomSheetComponent from "@/components/BottomSheet/BottomSheetComponent";
 
 // Type Imports
 import SliderProps from "./Slider.types";
 import SliderItemProps from "../SliderItem/SliderItem.types";
-import { TabBarIcon } from "@/components/expo/navigation/TabBarIcon";
+import { router } from "expo-router";
 
 type PageType = SliderProps["page"];
 
@@ -49,10 +49,6 @@ const Slider = () => {
   const handleExpandBottomSheet = (page: PageType) => {
     setPageToDisplay(page);
     setIsBottomSheetVisible(true);
-  };
-
-  const teste = () => {
-    console.log("teste");
   };
 
   const handleOnClose = () => {
@@ -89,16 +85,18 @@ const Slider = () => {
             )}
           />
           <Pagination Slides={Slides} SelectedDot={currentIndex} />
+          <View style={{ paddingBottom: 20 }} />
           {currentIndex !== Slides.length - 1 ? (
-            <OnboardingButton text="Próximo" onPress={handleNextPress} />
+            <>
+              <OnboardingButton text="Próximo" onPress={handleNextPress} />
+              <View style={{ paddingBottom: 20 }} />
+            </>
           ) : (
             <View style={styles.authContainer}>
               <OnboardingButton text="Criar conta" onPress={handleNextPress} />
-
               <Pressable
                 onPress={() => {
-                  setPageToDisplay(Login);
-                  setIsBottomSheetVisible(true);
+                  router.navigate("/(auth)/login")
                 }}
               >
                 <Text style={styles.authLoginText}>Login</Text>
@@ -115,4 +113,5 @@ const Slider = () => {
     </>
   );
 };
+
 export default Slider;

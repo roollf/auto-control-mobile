@@ -10,10 +10,10 @@ export default function Login() {
     const action: Record<typeof route, () => void> = {
       login: () => {
         signIn();
-        router.replace("/");
+        router.replace("/(app)/home");
       },
-      register: () => router.navigate("register"),
-      recover: () => router.navigate("recover"),
+      register: () => router.navigate("/register"),
+      recover: () => router.navigate("/recover"),
     };
 
     action[route]();

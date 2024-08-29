@@ -1,7 +1,13 @@
 import { StyleSheet } from "react-native";
 
+const whereAmI = {
+  borderColor: "red",
+  borderWidth: 1,
+};
+
 const loginStyles = StyleSheet.create({
   container: {
+    ...whereAmI,
     display: "flex",
     flex: 1,
   },

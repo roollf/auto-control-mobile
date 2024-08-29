@@ -1,4 +1,4 @@
-export interface ExpenseData {
+interface ExpenseData {
   id?: number;
   name: string;
   value: string;
@@ -10,7 +10,9 @@ export interface ExpenseData {
   type_name?: string;
 }
 
-export interface ExpenseType {
+interface ExpenseType {
   id?: number;
   name: string;
 }
+
+export { ExpenseData, ExpenseType };

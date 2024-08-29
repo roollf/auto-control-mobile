@@ -4,13 +4,14 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     display: "flex",
+    height: "100%",
     alignItems: "center",
+    backgroundColor: "grey",
     // paddingTop: 20,
     // gap: 60,
   },
   list: {
     alignItems: "center",
-    justifyContent: "space-around",
   },
   authContainer: {
     display: "flex",
@@ -18,6 +19,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     gap: 20,
+    paddingBottom: 20,
   },
   authLoginText: {
     color: "white",

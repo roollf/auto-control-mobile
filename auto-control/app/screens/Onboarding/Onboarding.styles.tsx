@@ -1,14 +1,13 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
-  mainContainer: {
-    height: "100%",
-  },
-  gradientContainer: {
+const onboardingStyles = StyleSheet.create({
+  container: {
+    borderColor: "red",
+    borderWidth: 1,
     display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    flex: 1,
+    backgroundColor: "grey",
   },
 });
 
-export default styles;
+export default onboardingStyles;

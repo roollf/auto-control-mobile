@@ -1,4 +1,5 @@
 import { AnimationObject } from "lottie-react-native";
+
 interface SliderItemProps {
   item: {
     id: number;
