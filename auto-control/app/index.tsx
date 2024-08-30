@@ -24,12 +24,12 @@ export default function Landing() {
   return (
     <>
       <GestureHandlerRootView>
-        <SafeAreaView style={{ display: "flex", flex: 1 }}>
-          <StatusBar />
-          <View style={landingStyles.container}>
-            <Slider />
-          </View>
-        </SafeAreaView>
+        {/* <SafeAreaView style={{ display: "flex", flex: 1 }}> */}
+        {/* <StatusBar /> */}
+        <View style={landingStyles.container}>
+          <Slider />
+        </View>
+        {/* </SafeAreaView> */}
       </GestureHandlerRootView>
       {/* <View style={landingStyles.container}>
         <View style={landingStyles.upperContent}>

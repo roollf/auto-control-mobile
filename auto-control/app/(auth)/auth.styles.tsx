@@ -23,12 +23,19 @@ const loginStyles = StyleSheet.create({
 
 const registerStyles = StyleSheet.create({
   container: {
+    ...whereAmI,
+    display: "flex",
+    flex: 1,
+  },
+  header: {
     display: "flex",
     flex: 1,
   },
   upperContent: {},
   middleContent: {},
+  inputContainer: {},
   bottomContent: {},
+  buttonContainer: {},
 });
 
 const recoverStyles = StyleSheet.create({

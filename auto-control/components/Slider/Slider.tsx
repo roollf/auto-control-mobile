@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FlatList, Pressable, View, Text } from "react-native";
 import { Image } from "expo-image";
+import { router } from "expo-router";
 
 // Project Resources
 import RightArrow from "../../assets/images/right-arrow.svg";
@@ -19,7 +20,6 @@ import BottomSheetComponent from "@/components/BottomSheet/BottomSheetComponent"
 // Type Imports
 import SliderProps from "./Slider.types";
 import SliderItemProps from "../SliderItem/SliderItem.types";
-import { router } from "expo-router";
 
 type PageType = SliderProps["page"];
 
@@ -93,10 +93,15 @@ const Slider = () => {
             </>
           ) : (
             <View style={styles.authContainer}>
-              <OnboardingButton text="Criar conta" onPress={handleNextPress} />
+              <OnboardingButton
+                text="Criar conta"
+                onPress={() => {
+                  router.navigate("/(auth)/register");
+                }}
+              />
               <Pressable
                 onPress={() => {
-                  router.navigate("/(auth)/login")
+                  router.navigate("/(auth)/login");
                 }}
               >
                 <Text style={styles.authLoginText}>Login</Text>
