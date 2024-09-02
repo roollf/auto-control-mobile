@@ -5,10 +5,7 @@ export default function Layout() {
     <Stack>
       <Stack.Screen name="login" options={{ headerShown: false }} />
       <Stack.Screen name="register" options={{ headerShown: false }} />
-      {/* <Stack.Screen
-        name="recover"
-        options={{ headerShown: true, headerTitle: "Recover" }}
-      /> */}
+      <Stack.Screen name="recover" options={{ headerShown: false }} />
     </Stack>
   );
 }

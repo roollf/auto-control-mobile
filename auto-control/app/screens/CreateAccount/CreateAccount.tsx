@@ -2,7 +2,7 @@
 import React from "react";
 
 // import from react native and expo
-import { View, SafeAreaView, Text, TextInput, Pressable } from "react-native";
+import { View, Text, TextInput, Pressable } from "react-native";
 import { router } from "expo-router";
 
 // import from custom hooks
@@ -26,7 +26,6 @@ export default function CreateAccount() {
   };
 
   return (
-    <SafeAreaView style={styles.mainContainer}>
       <View style={styles.container}>
         <View style={styles.upperContent}>
           <View style={styles.header}>
@@ -49,6 +48,5 @@ export default function CreateAccount() {
           </View>
         </View>
       </View>
-    </SafeAreaView>
   );
 }

@@ -2,7 +2,7 @@
 import React from "react";
 
 // import from react native and expo
-import { View, SafeAreaView, Text, TextInput, Pressable } from "react-native";
+import { View, Text, TextInput, Pressable } from "react-native";
 import { router } from "expo-router";
 
 // import from custom hooks
@@ -15,8 +15,11 @@ import { router } from "expo-router";
 
 // import from custom components
 import { registerStyles } from "./auth.styles";
+import AppInput from "@/components/AppInput/AppInput";
+import AppButton from "@/components/appButton/appButton";
 
 // import from images and svgs
+import User from "../../assets/images/user.svg";
 
 // color scheme and variables
 
@@ -28,23 +31,31 @@ export default function CreateAccount() {
   return (
     <View style={registerStyles.container}>
       <View style={registerStyles.upperContent}>
-        <View style={registerStyles.header}>
-          <Text>Crie sua conta Autocontrol</Text>
+        <View style={registerStyles.headerContainer}>
+          <Text style={registerStyles.headerTitle}>
+            Crie sua conta Autocontrol
+          </Text>
         </View>
       </View>
       <View style={registerStyles.middleContent}>
         <View style={registerStyles.inputContainer}>
-          <TextInput placeholder="Nome Completo" />
-          <TextInput placeholder="Email" />
-          <TextInput placeholder="Carteira Nacional de Habilitação" />
-          <TextInput placeholder="Senha" />
+          <AppInput placeholder="Nome Completo" />
+          <AppInput placeholder="Email" />
+          <AppInput placeholder="CNH" />
+          <AppInput placeholder="Senha" />
         </View>
       </View>
       <View style={registerStyles.bottomContent}>
         <View style={registerStyles.buttonContainer}>
-          <Pressable onPress={handleSubmit}>
-            <Text>Registrar</Text>
-          </Pressable>
+          <AppButton label="Registrar" destination={() => handleSubmit()} />
+          <AppButton
+            label="Voltar"
+            isPrimary={false}
+            backgroundColor="transparent"
+            destination={() => {
+              router.back();
+            }}
+          />
         </View>
       </View>
     </View>

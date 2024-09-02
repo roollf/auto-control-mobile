@@ -1,5 +1,5 @@
 // React and React Native Imports
-import { TextInput, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import { Image } from "expo-image";
 
 // Project Resources
@@ -12,9 +12,13 @@ export default function AppInput({ placeholder, icon }: AppInputProps) {
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
-        <Image source={icon} style={styles.icon} />
+        <Text>
+          teste.
+        </Text>
       </View>
-      <TextInput style={styles.input} placeholder={placeholder} />
+      <View style={styles.inputContainer}>
+        <TextInput style={{ paddingLeft: 5 }} placeholder={placeholder} />
+      </View>
     </View>
   );
 }

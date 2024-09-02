@@ -1,10 +1,13 @@
 import { StyleSheet } from "react-native";
 
+const whereAmI = {
+  borderColor: "red",
+  borderWidth: 1,
+};
+
 const landingStyles = StyleSheet.create({
   container: {
-    // borderColor: "red",
-    // borderWidth: 1,
-    display: "flex",
+    ...whereAmI,
     flex: 1,
   },
   upperContent: {},

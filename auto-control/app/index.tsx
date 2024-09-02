@@ -1,6 +1,6 @@
 //React and React Native imports
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { View, Text, StatusBar, SafeAreaView } from "react-native";
+import { View } from "react-native";
 import landingStyles from "./lading.styles";
 
 //Third party Libraries
@@ -24,12 +24,9 @@ export default function Landing() {
   return (
     <>
       <GestureHandlerRootView>
-        {/* <SafeAreaView style={{ display: "flex", flex: 1 }}> */}
-        {/* <StatusBar /> */}
         <View style={landingStyles.container}>
           <Slider />
         </View>
-        {/* </SafeAreaView> */}
       </GestureHandlerRootView>
       {/* <View style={landingStyles.container}>
         <View style={landingStyles.upperContent}>

@@ -1,6 +1,5 @@
 // React and React Native Imports
 import React, { useRef, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { FlatList, Pressable, View, Text } from "react-native";
 import { Image } from "expo-image";
 import { router } from "expo-router";
@@ -58,58 +57,54 @@ const Slider = () => {
 
   return (
     <>
-      <SafeAreaView>
-        <View style={styles.container}>
-          {currentIndex !== lastIndex ? (
-            <View style={styles.headerTextContainer}>
-              <Pressable onPress={handleGoToLastSlide}>
-                <Text style={styles.headerText}>Pular</Text>
-              </Pressable>
-              <Image source={RightArrow} style={{ width: 20, height: 20 }} />
-            </View>
-          ) : (
-            <View style={styles.headerTextContainer} />
-          )}
-          <FlatList
-            horizontal
-            data={Slides}
-            pagingEnabled
-            ref={flatListRef}
-            scrollEnabled={false}
-            snapToAlignment="center"
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.list}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }: SliderItemProps) => (
-              <SliderItem item={item} />
-            )}
-          />
-          <Pagination Slides={Slides} SelectedDot={currentIndex} />
-          <View style={{ paddingBottom: 20 }} />
-          {currentIndex !== Slides.length - 1 ? (
-            <>
-              <OnboardingButton text="Próximo" onPress={handleNextPress} />
-              <View style={{ paddingBottom: 20 }} />
-            </>
-          ) : (
-            <View style={styles.authContainer}>
-              <OnboardingButton
-                text="Criar conta"
-                onPress={() => {
-                  router.navigate("/(auth)/register");
-                }}
-              />
-              <Pressable
-                onPress={() => {
-                  router.navigate("/(auth)/login");
-                }}
-              >
-                <Text style={styles.authLoginText}>Login</Text>
-              </Pressable>
-            </View>
-          )}
-        </View>
-      </SafeAreaView>
+      <View style={styles.container}>
+        {currentIndex !== lastIndex ? (
+          <View style={styles.headerTextContainer}>
+            <Pressable onPress={handleGoToLastSlide}>
+              <Text style={styles.headerText}>Pular</Text>
+            </Pressable>
+            <Image source={RightArrow} style={{ width: 20, height: 20 }} />
+          </View>
+        ) : (
+          <View style={styles.headerTextContainer} />
+        )}
+        <FlatList
+          horizontal
+          data={Slides}
+          pagingEnabled
+          ref={flatListRef}
+          scrollEnabled={false}
+          snapToAlignment="center"
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.list}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }: SliderItemProps) => <SliderItem item={item} />}
+        />
+        <Pagination Slides={Slides} SelectedDot={currentIndex} />
+        <View style={{ paddingBottom: 20 }} />
+        {currentIndex !== Slides.length - 1 ? (
+          <>
+            <OnboardingButton text="Próximo" onPress={handleNextPress} />
+            <View style={{ paddingBottom: 20 }} />
+          </>
+        ) : (
+          <View style={styles.authContainer}>
+            <OnboardingButton
+              text="Criar conta"
+              onPress={() => {
+                router.replace("/(auth)/register");
+              }}
+            />
+            <Pressable
+              onPress={() => {
+                router.replace("/(auth)/login");
+              }}
+            >
+              <Text style={styles.authLoginText}>Login</Text>
+            </Pressable>
+          </View>
+        )}
+      </View>
       <BottomSheetComponent
         isVisible={isBottomSheetVisible}
         onClose={handleOnClose}
