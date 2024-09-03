@@ -12,21 +12,33 @@ const loginStyles = StyleSheet.create({
     // justifyContent: "center",
   },
   upperContent: {
-    ...whereAmI,
+    // ...whereAmI,
   },
-  header: {},
+  header: {
+    alignItems: "center",
+  },
   headerTitle: {
     fontSize: 40,
     fontWeight: "700",
   },
   middleContent: {
-    ...whereAmI,
+    // ...whereAmI,
+    justifyContent: "center",
     gap: 20,
+    flex: 2,
   },
   midUpContent: {
-    ...whereAmI,
+    // ...whereAmI,
     alignItems: "center",
     gap: 10,
+  },
+  midUpTitle: {
+    fontSize: 24,
+    fontWeight: "500",
+  },
+  midUpSubtitle: {
+    fontSize: 14,
+    fontWeight: "300",
   },
   inputContainer: {
     // ...whereAmI,
@@ -38,68 +50,40 @@ const loginStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
   },
+  midBotText: {
+    fontSize: 14,
+    fontWeight: "300",
+  },
   checkContainer: {
     flexDirection: "row",
     gap: 10,
   },
-  separator: {
-    width: "40%",
-    backgroundColor: "black",
-    opacity: 0.4,
-    height: 1,
-    marginTop: 40,
+  checkText: {
+    fontSize: 14,
+    fontWeight: "300",
   },
-  reference: {
-    backgroundColor: "gray",
-    borderRadius: 10,
-    height: 6,
-    width: "10%",
-  },
-  referenceFilled: {
-    backgroundColor: "white",
-    borderRadius: 10,
-    height: 6,
-    width: "10%",
-  },
-  userTokenImageContainer: {},
-  userTokenImage: {
-    width: 30,
-    height: 30,
-  },
-  separatorContainer: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    opacity: 0.3,
-  },
-  separatorText: {
-    paddingTop: 34,
-    opacity: 0.4,
-  },
-  bottomContainer: {
-    width: "100%",
-    height: 50,
-    display: "flex",
-    flexDirection: "row",
+  bottomContent: {
+    // ...whereAmI,
     justifyContent: "center",
-    gap: 40,
-    marginTop: 40,
+    flex: 1,
+    gap: 30,
   },
   socialContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    gap: 40,
+  },
+  socialImageContainer: {
     alignSelf: "center",
     backgroundColor: "white",
     borderRadius: 100,
     width: 50,
     height: 50,
-    display: "flex",
     justifyContent: "center",
     alignItems: "center",
     paddingLeft: 2,
     borderColor: "#f1f1f1",
     borderWidth: 2,
-    marginBottom: 30,
   },
   socialImage: {
     width: 30,
@@ -107,10 +91,7 @@ const loginStyles = StyleSheet.create({
   },
   buttonContainer: {
     // ...whereAmI,
-    display: "flex",
-    flexDirection: "column",
     alignItems: "center",
-    marginBottom: 16,
     gap: 12,
   },
 });

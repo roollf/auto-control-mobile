@@ -3,6 +3,7 @@ import { recoverStyles } from "./auth.styles";
 import AppInput from "@/components/AppInput/AppInput";
 import AppButton from "@/components/appButton/appButton";
 import { router } from "expo-router";
+import { Entypo } from "@expo/vector-icons";
 
 export default function Recover() {
   return (
@@ -20,7 +21,12 @@ export default function Recover() {
           <Text style={recoverStyles.inputTitle}>
             Recupere a sua senha Autocontrol
           </Text>
-          <AppInput placeholder="E-mail" />
+          <AppInput
+            placeholder="E-mail"
+            icon={
+              <Entypo name="email" size={28} color="rgba(34, 130, 255, 0.7)" />
+            }
+          />
         </View>
       </View>
       <View style={recoverStyles.bottomContent}>

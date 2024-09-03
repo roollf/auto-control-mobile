@@ -2,7 +2,7 @@
 import React from "react";
 
 // import from react native and expo
-import { View, Text, TextInput, Pressable } from "react-native";
+import { View, Text } from "react-native";
 import { router } from "expo-router";
 
 // import from custom hooks
@@ -17,6 +17,10 @@ import { router } from "expo-router";
 import { registerStyles } from "./auth.styles";
 import AppInput from "@/components/AppInput/AppInput";
 import AppButton from "@/components/appButton/appButton";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
 
 // import from images and svgs
 import User from "../../assets/images/user.svg";
@@ -39,10 +43,38 @@ export default function CreateAccount() {
       </View>
       <View style={registerStyles.middleContent}>
         <View style={registerStyles.inputContainer}>
-          <AppInput placeholder="Nome Completo" />
-          <AppInput placeholder="Email" />
-          <AppInput placeholder="CNH" />
-          <AppInput placeholder="Senha" />
+          <AppInput
+            placeholder="Nome Completo"
+            icon={
+              <FontAwesome5
+                name="user-circle"
+                size={28}
+                color="rgba(34, 130, 255, 0.7)"
+              />
+            }
+          />
+          <AppInput
+            placeholder="Email"
+            icon={
+              <Entypo name="email" size={28} color="rgba(34, 130, 255, 0.7)" />
+            }
+          />
+          <AppInput
+            placeholder="CNH"
+            icon={
+              <FontAwesome
+                name="drivers-license"
+                size={28}
+                color="rgba(34, 130, 255, 0.7)"
+              />
+            }
+          />
+          <AppInput
+            placeholder="Senha"
+            icon={
+              <Octicons name="key" size={28} color="rgba(34, 130, 255, 0.7)" />
+            }
+          />
         </View>
       </View>
       <View style={registerStyles.bottomContent}>
@@ -53,7 +85,9 @@ export default function CreateAccount() {
             isPrimary={false}
             backgroundColor="transparent"
             destination={() => {
-              router.back();
+              router.canGoBack()
+                ? router.back()
+                : router.replace("/(auth)/login");
             }}
           />
         </View>

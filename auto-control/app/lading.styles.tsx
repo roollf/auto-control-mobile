@@ -7,7 +7,7 @@ const whereAmI = {
 
 const landingStyles = StyleSheet.create({
   container: {
-    ...whereAmI,
+    // ...whereAmI,
     flex: 1,
   },
   upperContent: {},

@@ -12,6 +12,8 @@ import {
 import { router } from "expo-router";
 import Checkbox from "expo-checkbox";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
+
 
 // import from custom hooks
 
@@ -55,63 +57,72 @@ export default function Login() {
         <View style={loginStyles.container}>
           <View style={loginStyles.upperContent}>
             <View style={loginStyles.header}>
-              <Text style={loginStyles.headerTitle}>Seja bem-vindo,</Text>
+              <Text style={loginStyles.headerTitle}>Seja bem-vindo</Text>
             </View>
           </View>
           <View style={loginStyles.middleContent}>
             <View style={loginStyles.midUpContent}>
               <FontAwesome5 name="user-circle" size={52} color={"#2282FF"} />
-              <Text>Faça seu Login ou Registre-se</Text>
-              <Text>Controle as despesas de seus veículos com AutoControl</Text>
+              <Text style={loginStyles.midUpTitle}>
+                Faça seu Login ou Registre-se
+              </Text>
+              <Text style={loginStyles.midUpSubtitle}>
+                Controle as despesas de seus veículos com AutoControl
+              </Text>
             </View>
             <View style={loginStyles.inputContainer}>
               <AppInput
                 placeholder="E-mail"
                 icon={
-                  <FontAwesome5 name="user-circle" size={28} color="blue" />
+                  <FontAwesome5
+                    name="user-circle"
+                    size={28}
+                    color="rgba(34, 130, 255, 0.7)"
+                  />
                 }
               />
               <AppInput
                 placeholder="Senha"
                 icon={
-                  <FontAwesome5 name="user-circle" size={28} color="blue" />
+                  <Octicons
+                    name="key"
+                    size={28}
+                    color="rgba(34, 130, 255, 0.7)"
+                  />
                 }
               />
             </View>
             <View style={loginStyles.midBotContainer}>
               <View style={loginStyles.checkContainer}>
                 <Checkbox />
-                <Text>Salvar login</Text>
+                <Text style={loginStyles.midBotText}>Salvar login</Text>
               </View>
               <Pressable onPress={() => handleNavigate("recover")}>
-                <Text>Esqueceu sua senha?</Text>
+                <Text style={loginStyles.midBotText}>Esqueceu sua senha?</Text>
               </Pressable>
             </View>
           </View>
-          <View style={loginStyles.separatorContainer}>
-            <View style={loginStyles.separator}></View>
-            <Text style={loginStyles.separatorText}>ou</Text>
-            <View style={loginStyles.separator}></View>
-          </View>
-          <View style={loginStyles.bottomContainer}>
+          <View style={loginStyles.bottomContent}>
             <View style={loginStyles.socialContainer}>
-              <Image source={Google} style={loginStyles.socialImage} />
+              <View style={loginStyles.socialImageContainer}>
+                <Image source={Google} style={loginStyles.socialImage} />
+              </View>
+              <View style={loginStyles.socialImageContainer}>
+                <Image source={Facebook} style={loginStyles.socialImage} />
+              </View>
             </View>
-            <View style={loginStyles.socialContainer}>
-              <Image source={Facebook} style={loginStyles.socialImage} />
+            <View style={loginStyles.buttonContainer}>
+              <AppButton
+                label={"Entrar"}
+                destination={() => handleNavigate("login")}
+              />
+              <AppButton
+                label={"Registrar"}
+                destination={() => handleNavigate("register")}
+                isPrimary={false}
+                backgroundColor="transparent"
+              />
             </View>
-          </View>
-          <View style={loginStyles.buttonContainer}>
-            <AppButton
-              label={"Entrar"}
-              destination={() => handleNavigate("login")}
-            />
-            <AppButton
-              label={"Registrar"}
-              destination={() => handleNavigate("register")}
-              isPrimary={false}
-              backgroundColor="transparent"
-            />
           </View>
         </View>
       </TouchableWithoutFeedback>
