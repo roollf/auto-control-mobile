@@ -8,6 +8,7 @@ const whereAmI = {
 const loginStyles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white",
     // alignItems: "center",
     // justifyContent: "center",
   },
@@ -100,6 +101,7 @@ const registerStyles = StyleSheet.create({
   container: {
     // ...whereAmI,
     flex: 1,
+    backgroundColor: "white",
   },
   upperContent: {
     // ...whereAmI,
@@ -140,6 +142,7 @@ const registerStyles = StyleSheet.create({
 const recoverStyles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white",
   },
   upperContent: {
     flex: 1,

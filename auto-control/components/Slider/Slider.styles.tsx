@@ -6,9 +6,6 @@ const styles = StyleSheet.create({
     display: "flex",
     height: "100%",
     alignItems: "center",
-    backgroundColor: "grey",
-    // paddingTop: 20,
-    // gap: 60,
   },
   list: {
     alignItems: "center",
@@ -28,6 +25,7 @@ const styles = StyleSheet.create({
   },
   headerTextContainer: {
     paddingRight: 20,
+    paddingTop: 20,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
