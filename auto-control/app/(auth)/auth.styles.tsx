@@ -6,17 +6,41 @@ const whereAmI = {
 };
 
 const loginStyles = StyleSheet.create({
-  mainContainer: {
-    width: "100%",
-    flex: 1,
-    backgroundColor: "white",
-  },
   container: {
-    paddingHorizontal: 20,
     flex: 1,
-    display: "flex",
+    // alignItems: "center",
+    // justifyContent: "center",
+  },
+  upperContent: {
+    ...whereAmI,
+  },
+  header: {},
+  headerTitle: {
+    fontSize: 40,
+    fontWeight: "700",
+  },
+  middleContent: {
+    ...whereAmI,
+    gap: 20,
+  },
+  midUpContent: {
+    ...whereAmI,
     alignItems: "center",
-    justifyContent: "center",
+    gap: 10,
+  },
+  inputContainer: {
+    // ...whereAmI,
+    alignItems: "center",
+    gap: 10,
+  },
+  midBotContainer: {
+    // ...whereAmI,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+  checkContainer: {
+    flexDirection: "row",
+    gap: 10,
   },
   separator: {
     width: "40%",
@@ -37,50 +61,10 @@ const loginStyles = StyleSheet.create({
     height: 6,
     width: "10%",
   },
-  innerContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    height: "40%",
-  },
-  middleContainer: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    height: "50%",
-  },
-  userTokenImageContainer: {
-    marginBottom: 20,
-    alignSelf: "center",
-    justifyContent: "center",
-    alignItems: "center",
-  },
+  userTokenImageContainer: {},
   userTokenImage: {
     width: 30,
     height: 30,
-  },
-  loginTitle: {
-    fontWeight: "semibold",
-    fontSize: 24,
-    textAlign: "center",
-  },
-  loginSubtitle: {
-    opacity: 0.4,
-    textAlign: "center",
-    color: "#000000",
-    marginTop: 20,
-  },
-  forgotRememberContainer: {
-    display: "flex",
-    flexDirection: "row",
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 20,
-    opacity: 0.5,
   },
   separatorContainer: {
     width: "100%",
@@ -128,33 +112,6 @@ const loginStyles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 16,
     gap: 12,
-  },
-  inputsContainer: {
-    marginTop: 20,
-    width: "100%",
-    gap: 20,
-  },
-  saveLoginContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 10,
-  },
-  welcomeText: {
-    fontSize: 40,
-    fontWeight: "semibold",
-    textAlign: "left",
-    alignSelf: "flex-start",
-    marginBottom: 40,
-    height: 50,
-  },
-  welcomeTextContainer: {
-    paddingTop: 40,
-    width: "100%",
-    height: "auto",
-    display: "flex",
-    alignItems: "flex-end",
   },
 });
 
