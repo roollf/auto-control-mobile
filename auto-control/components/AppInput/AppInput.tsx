@@ -1,19 +1,32 @@
+// Import React
+import React from "react"
+
 // React and React Native Imports
-import { Text, TextInput, View } from "react-native";
+import { Text, TextInput, View, TextInputProps } from "react-native"
 
 // Project Resources
-import styles from "./AppInput.styles";
+import styles from "./AppInput.styles"
 
-// Type Imports
-import AppInputProps from "./AppInput.types";
+interface AppInputProps extends TextInputProps {
+  placeholder: string
+  icon?: React.ReactNode
+}
 
-export default function AppInput({ placeholder, icon }: AppInputProps) {
+export default function AppInput({
+  placeholder,
+  icon,
+  ...props
+}: AppInputProps) {
   return (
     <View style={styles.container}>
-      <View style={styles.iconContainer}>{icon}</View>
+      {icon && <View style={styles.iconContainer}>{icon}</View>}
       <View style={styles.inputContainer}>
-        <TextInput style={{ paddingLeft: 10 }} placeholder={placeholder} />
+        <TextInput
+          style={{ paddingLeft: 10 }}
+          placeholder={placeholder}
+          {...props}
+        />
       </View>
     </View>
-  );
+  )
 }

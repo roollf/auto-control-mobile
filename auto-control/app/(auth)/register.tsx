@@ -1,9 +1,9 @@
 // import from react and hooks
-import React from "react";
+import React from "react"
 
 // import from react native and expo
-import { View, Text } from "react-native";
-import { router } from "expo-router";
+import { View, Text } from "react-native"
+import { router } from "expo-router"
 
 // import from custom hooks
 
@@ -14,30 +14,34 @@ import { router } from "expo-router";
 // import from third party libraries
 
 // import from custom components
-import { registerStyles } from "./auth.styles";
-import AppInput from "@/components/AppInput/AppInput";
-import AppButton from "@/components/appButton/appButton";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
-import { Octicons } from "@expo/vector-icons";
+import { registerStyles } from "./auth.styles"
+import AppInput from "@/components/AppInput/AppInput"
+import AppButton from "@/components/appButton/appButton"
+import { FontAwesome5 } from "@expo/vector-icons"
+import { FontAwesome } from "@expo/vector-icons"
+import { Entypo } from "@expo/vector-icons"
+import { Octicons } from "@expo/vector-icons"
 
 // import from images and svgs
-import User from "../../assets/images/user.svg";
+import User from "../../assets/images/user.svg"
 
 // color scheme and variables
 
 export default function CreateAccount() {
   const handleSubmit = () => {
     // lógica para realizar o POST do cadastro do usuário e navegar para a tela de login ou para a home logado.
-  };
+  }
+
+  const iconSize = 20
 
   return (
     <View style={registerStyles.container}>
       <View style={registerStyles.upperContent}>
         <View style={registerStyles.headerContainer}>
-          <Text style={registerStyles.headerTitle}>
-            Crie sua conta Autocontrol
+          <Text style={registerStyles.headerTitle}>Registrar Conta 📝</Text>
+          <Text style={registerStyles.headerSubtitle}>
+            Registre-se agora e comece a utilizar tudo que o AutoControl tem a
+            oferecer!
           </Text>
         </View>
       </View>
@@ -48,7 +52,7 @@ export default function CreateAccount() {
             icon={
               <FontAwesome5
                 name="user-circle"
-                size={28}
+                size={iconSize}
                 color="rgba(34, 130, 255, 0.7)"
               />
             }
@@ -56,7 +60,11 @@ export default function CreateAccount() {
           <AppInput
             placeholder="Email"
             icon={
-              <Entypo name="email" size={28} color="rgba(34, 130, 255, 0.7)" />
+              <Entypo
+                name="email"
+                size={iconSize}
+                color="rgba(34, 130, 255, 0.7)"
+              />
             }
           />
           <AppInput
@@ -64,7 +72,7 @@ export default function CreateAccount() {
             icon={
               <FontAwesome
                 name="drivers-license"
-                size={28}
+                size={iconSize}
                 color="rgba(34, 130, 255, 0.7)"
               />
             }
@@ -72,7 +80,11 @@ export default function CreateAccount() {
           <AppInput
             placeholder="Senha"
             icon={
-              <Octicons name="key" size={28} color="rgba(34, 130, 255, 0.7)" />
+              <Octicons
+                name="key"
+                size={iconSize}
+                color="rgba(34, 130, 255, 0.7)"
+              />
             }
           />
         </View>
@@ -87,11 +99,11 @@ export default function CreateAccount() {
             destination={() => {
               router.canGoBack()
                 ? router.back()
-                : router.replace("/(auth)/login");
+                : router.replace("/(auth)/login")
             }}
           />
         </View>
       </View>
     </View>
-  );
+  )
 }

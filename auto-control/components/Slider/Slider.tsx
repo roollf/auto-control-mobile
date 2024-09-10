@@ -1,59 +1,59 @@
 // React and React Native Imports
-import React, { useRef, useState } from "react";
-import { FlatList, Pressable, View, Text } from "react-native";
-import { Image } from "expo-image";
-import { router } from "expo-router";
+import React, { useRef, useState } from "react"
+import { FlatList, Pressable, View, Text } from "react-native"
+import { Image } from "expo-image"
+import { router } from "expo-router"
 
 // Project Resources
-import RightArrow from "../../assets/images/right-arrow.svg";
-import { Slides } from "@/constants/OnboardingSlides";
-import styles from "./Slider.styles";
+import RightArrow from "../../assets/images/right-arrow.svg"
+import { Slides } from "@/constants/OnboardingSlides"
+import styles from "./Slider.styles"
 
 // Custom Components
-import SliderItem from "../SliderItem/SliderItem";
-import OnboardingButton from "../OnboardingButton/OnboardingButton";
-import Pagination from "../Pagination/Pagination";
-import Login from "../../app/(auth)/login";
-import BottomSheetComponent from "@/components/BottomSheet/BottomSheetComponent";
+import SliderItem from "../SliderItem/SliderItem"
+import OnboardingButton from "../OnboardingButton/OnboardingButton"
+import Pagination from "../Pagination/Pagination"
+import Login from "../../app/(auth)/login"
+import Register from "../../app/(auth)/register"
+import BottomSheetComponent from "@/components/BottomSheet/BottomSheetComponent"
 
 // Type Imports
-import SliderProps from "./Slider.types";
-import SliderItemProps from "../SliderItem/SliderItem.types";
+import SliderProps from "./Slider.types"
+import SliderItemProps from "../SliderItem/SliderItem.types"
 
-type PageType = SliderProps["page"];
+type PageType = SliderProps["page"]
 
 const Slider = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [pageToDisplay, setPageToDisplay] = useState<PageType | null>(null);
-  const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [pageToDisplay, setPageToDisplay] = useState<PageType | null>(null)
+  const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false)
 
-  const flatListRef = useRef<FlatList>(null);
+  const flatListRef = useRef<FlatList>(null)
 
   const handleNextPress = () => {
-    const nextIndex = currentIndex + 1;
+    const nextIndex = currentIndex + 1
     if (nextIndex < Slides.length) {
-      flatListRef.current?.scrollToIndex({ index: nextIndex, animated: true });
-      setCurrentIndex(nextIndex);
+      flatListRef.current?.scrollToIndex({ index: nextIndex, animated: true })
+      setCurrentIndex(nextIndex)
     }
-  };
+  }
 
-  const lastIndex = Slides.length - 1;
+  const lastIndex = Slides.length - 1
 
   const handleGoToLastSlide = () => {
-    flatListRef.current?.scrollToIndex({ index: lastIndex, animated: true });
-    setCurrentIndex(lastIndex);
-  };
+    flatListRef.current?.scrollToIndex({ index: lastIndex, animated: true })
+    setCurrentIndex(lastIndex)
+  }
 
-  // revisit higher order functions to fix a proper handler for the pressable onPress
   const handleExpandBottomSheet = (page: PageType) => {
-    setPageToDisplay(page);
-    setIsBottomSheetVisible(true);
-  };
+    setPageToDisplay(page)
+    setIsBottomSheetVisible(true)
+  }
 
   const handleOnClose = () => {
-    setPageToDisplay(null);
-    setIsBottomSheetVisible(false);
-  };
+    setPageToDisplay(null)
+    setIsBottomSheetVisible(false)
+  }
 
   return (
     <>
@@ -85,21 +85,15 @@ const Slider = () => {
         {currentIndex !== Slides.length - 1 ? (
           <>
             <OnboardingButton text="Próximo" onPress={handleNextPress} />
-            <View style={{ paddingBottom: 20 }} />
+            <View style={{ paddingBottom: 100 }} />
           </>
         ) : (
           <View style={styles.authContainer}>
             <OnboardingButton
               text="Criar conta"
-              onPress={() => {
-                router.replace("/(auth)/register");
-              }}
+              onPress={() => handleExpandBottomSheet(<Register />)}
             />
-            <Pressable
-              onPress={() => {
-                router.replace("/(auth)/login");
-              }}
-            >
+            <Pressable onPress={() => handleExpandBottomSheet(<Login />)}>
               <Text style={styles.authLoginText}>Login</Text>
             </Pressable>
           </View>
@@ -111,7 +105,7 @@ const Slider = () => {
         page={pageToDisplay}
       />
     </>
-  );
-};
+  )
+}
 
-export default Slider;
+export default Slider

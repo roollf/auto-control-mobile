@@ -1,9 +1,9 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from "react-native"
 
 const whereAmI = {
   borderColor: "red",
   borderWidth: 1,
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -11,27 +11,25 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     height: 40,
-    width: 300,
+    width: "100%",
+    borderWidth: 1,
+    borderColor: "lightgray",
+    borderRadius: 8,
   },
   iconContainer: {
-    flex: 1,
-    height: "100%",
+    flex: 0.5,
     justifyContent: "center",
     alignItems: "center",
     borderColor: "grey",
-    borderWidth: 1,
-    borderTopLeftRadius: 5,
-    borderBottomLeftRadius: 5,
+    resizeMode: "contain",
+    paddingLeft: 10,
   },
   inputContainer: {
     flex: 5,
     height: "100%",
     justifyContent: "center",
     borderColor: "grey",
-    borderWidth: 1,
-    borderTopRightRadius: 5,
-    borderBottomRightRadius: 5,
   },
-});
+})
 
-export default styles;
+export default styles

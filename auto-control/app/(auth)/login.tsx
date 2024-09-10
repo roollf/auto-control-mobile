@@ -1,131 +1,120 @@
-// import from react and hooks
+// React and React Native imports
+import { useState } from "react"
+import { Text, View, Keyboard, TouchableWithoutFeedback } from "react-native"
 
-// import from react native and expo
-import {
-  View,
-  Text,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Image,
-  Pressable,
-} from "react-native";
-import { router } from "expo-router";
-import Checkbox from "expo-checkbox";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { Octicons } from "@expo/vector-icons";
+// Third party Libraries
+import { Image } from "expo-image"
+import Checkbox from "expo-checkbox"
+import { Formik } from "formik"
 
+// Project Resources
+import AppInput from "../../components/AppInput/AppInput"
+import AppButton from "../../components/appButton/appButton"
+import Google from "../../assets/images/google.png"
+import Facebook from "../../assets/images/facebook.png"
+import { loginStyles } from "./auth.styles"
+import { Entypo } from "@expo/vector-icons"
+import { Octicons } from "@expo/vector-icons"
+import { validationSchema } from "@/utils/formValidation"
+import { login } from "@/api/services"
+import { LoginUserData } from "@/types/user/user.type"
 
-// import from custom hooks
-
-// import from context
-import { useSession } from "@/contexts/ctx";
-
-// import from services
-
-// import from third party libraries
-
-// import from custom components
-import { loginStyles } from "./auth.styles";
-import AppInput from "@/components/AppInput/AppInput";
-import AppButton from "@/components/appButton/appButton";
-
-// import from images and svgs
-import Google from "../../assets/images/google.png";
-import Facebook from "../../assets/images/facebook.png";
-
-// color scheme and variables
+const iconSize = 20
 
 export default function Login() {
-  const { signIn } = useSession();
+  const [formData, setFormData] = useState<LoginUserData>({
+    username: "",
+    password: "",
+  })
 
-  const handleNavigate = (route: "login" | "register" | "recover") => {
-    const action: Record<typeof route, () => void> = {
-      login: () => {
-        signIn();
-        router.replace("/(app)/home");
-      },
-      register: () => router.navigate("/register"),
-      recover: () => router.navigate("/recover"),
-    };
+  const handleInputChange = (field: string, value: string) => {
+    console.log(field, value)
+    setFormData({ ...formData, [field]: value })
+  }
 
-    action[route]();
-  };
+  const handleFormSubmit = () => {
+    login(formData.username, formData.password)
+  }
 
   return (
-    <>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={loginStyles.container}>
-          <View style={loginStyles.upperContent}>
-            <View style={loginStyles.header}>
-              <Text style={loginStyles.headerTitle}>Seja bem-vindo</Text>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={loginStyles.container}>
+        <View style={loginStyles.innerContainer}>
+          <View style={loginStyles.middleContainer}>
+            <View style={loginStyles.loginTextContainer}>
+              <Text style={loginStyles.loginTitle}>Faça seu Login 🚗</Text>
+              <Text style={loginStyles.loginSubtitle}>
+                <Text style={{ opacity: 0.4 }}>
+                  Controle as despesas de seus veículos com o
+                </Text>{" "}
+                <Text style={{ fontWeight: "bold", opacity: 0.4 }}>
+                  AutoControl
+                </Text>{" "}
+              </Text>
             </View>
           </View>
-          <View style={loginStyles.middleContent}>
-            <View style={loginStyles.midUpContent}>
-              <FontAwesome5 name="user-circle" size={52} color={"#2282FF"} />
-              <Text style={loginStyles.midUpTitle}>
-                Faça seu Login ou Registre-se
-              </Text>
-              <Text style={loginStyles.midUpSubtitle}>
-                Controle as despesas de seus veículos com AutoControl
-              </Text>
-            </View>
-            <View style={loginStyles.inputContainer}>
-              <AppInput
-                placeholder="E-mail"
-                icon={
-                  <FontAwesome5
-                    name="user-circle"
-                    size={28}
-                    color="rgba(34, 130, 255, 0.7)"
-                  />
-                }
-              />
-              <AppInput
-                placeholder="Senha"
-                icon={
-                  <Octicons
-                    name="key"
-                    size={28}
-                    color="rgba(34, 130, 255, 0.7)"
-                  />
-                }
-              />
-            </View>
-            <View style={loginStyles.midBotContainer}>
-              <View style={loginStyles.checkContainer}>
-                <Checkbox />
-                <Text style={loginStyles.midBotText}>Salvar login</Text>
+          <View style={loginStyles.inputsContainer}>
+            <Formik
+              initialValues={{ username: "", password: "" }}
+              validationSchema={validationSchema}
+              onSubmit={handleFormSubmit}
+            >
+              <View style={{ gap: 20 }}>
+                <AppInput
+                  autoCapitalize="none"
+                  onChangeText={(text) => handleInputChange("username", text)}
+                  placeholder="Usuário"
+                  icon={
+                    <Entypo
+                      name="email"
+                      size={iconSize}
+                      color="rgba(34, 130, 255, 0.7)"
+                    />
+                  }
+                />
+                <AppInput
+                  onChangeText={(text) => handleInputChange("password", text)}
+                  placeholder="Senha"
+                  icon={
+                    <Octicons
+                      name="key"
+                      size={iconSize}
+                      color="rgba(34, 130, 255, 0.7)"
+                    />
+                  }
+                />
               </View>
-              <Pressable onPress={() => handleNavigate("recover")}>
-                <Text style={loginStyles.midBotText}>Esqueceu sua senha?</Text>
-              </Pressable>
-            </View>
+            </Formik>
           </View>
-          <View style={loginStyles.bottomContent}>
+          <View style={loginStyles.forgotRememberContainer}>
+            <View style={loginStyles.saveLoginContainer}>
+              <Checkbox />
+              <Text>Salvar login</Text>
+            </View>
+            <Text>Esqueceu sua senha?</Text>
+          </View>
+          <View style={loginStyles.separatorContainer}>
+            <View style={loginStyles.separator}></View>
+            <Text style={loginStyles.separatorText}>ou</Text>
+            <View style={loginStyles.separator}></View>
+          </View>
+          <View style={loginStyles.bottomContainer}>
             <View style={loginStyles.socialContainer}>
-              <View style={loginStyles.socialImageContainer}>
-                <Image source={Google} style={loginStyles.socialImage} />
-              </View>
-              <View style={loginStyles.socialImageContainer}>
-                <Image source={Facebook} style={loginStyles.socialImage} />
-              </View>
+              <Image source={Google} style={loginStyles.socialImage} />
             </View>
-            <View style={loginStyles.buttonContainer}>
-              <AppButton
-                label={"Entrar"}
-                destination={() => handleNavigate("login")}
-              />
-              <AppButton
-                label={"Registrar"}
-                destination={() => handleNavigate("register")}
-                isPrimary={false}
-                backgroundColor="transparent"
-              />
+            <View style={loginStyles.socialContainer}>
+              <Image source={Facebook} style={loginStyles.socialImage} />
             </View>
+          </View>
+          <View style={loginStyles.buttonContainer}>
+            <AppButton
+              label={"Entrar"}
+              onPress={handleFormSubmit}
+              destination={() => console.log("enviado")}
+            />
           </View>
         </View>
-      </TouchableWithoutFeedback>
-    </>
-  );
+      </View>
+    </TouchableWithoutFeedback>
+  )
 }

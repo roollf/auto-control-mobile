@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from "react-native"
 
 const styles = StyleSheet.create({
   container: {
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     gap: 20,
-    paddingBottom: 20,
+    paddingBottom: 60,
   },
   authLoginText: {
     color: "white",
@@ -42,6 +42,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
-});
+})
 
-export default styles;
+export default styles

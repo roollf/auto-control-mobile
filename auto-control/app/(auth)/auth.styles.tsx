@@ -1,85 +1,109 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from "react-native"
 
 const whereAmI = {
   borderColor: "red",
   borderWidth: 1,
-};
+}
 
 const loginStyles = StyleSheet.create({
-  container: {
+  mainContainer: {
+    width: "100%",
     flex: 1,
     backgroundColor: "white",
-    // alignItems: "center",
-    // justifyContent: "center",
   },
-  upperContent: {
-    // ...whereAmI,
-  },
-  header: {
-    alignItems: "center",
-  },
-  headerTitle: {
-    fontSize: 40,
-    fontWeight: "700",
-  },
-  middleContent: {
-    // ...whereAmI,
-    justifyContent: "center",
-    gap: 20,
-    flex: 2,
-  },
-  midUpContent: {
-    // ...whereAmI,
-    alignItems: "center",
-    gap: 10,
-  },
-  midUpTitle: {
-    fontSize: 24,
-    fontWeight: "500",
-  },
-  midUpSubtitle: {
-    fontSize: 14,
-    fontWeight: "300",
-  },
-  inputContainer: {
-    // ...whereAmI,
-    alignItems: "center",
-    gap: 10,
-  },
-  midBotContainer: {
-    // ...whereAmI,
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-  },
-  midBotText: {
-    fontSize: 14,
-    fontWeight: "300",
-  },
-  checkContainer: {
-    flexDirection: "row",
-    gap: 10,
-  },
-  checkText: {
-    fontSize: 14,
-    fontWeight: "300",
-  },
-  bottomContent: {
-    // ...whereAmI,
-    justifyContent: "center",
+  container: {
+    paddingHorizontal: 20,
     flex: 1,
-    gap: 30,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  separator: {
+    width: "40%",
+    backgroundColor: "black",
+    opacity: 0.4,
+    height: 1,
+    marginTop: 40,
+  },
+  reference: {
+    backgroundColor: "gray",
+    borderRadius: 10,
+    height: 6,
+    width: "10%",
+  },
+  referenceFilled: {
+    backgroundColor: "white",
+    borderRadius: 10,
+    height: 6,
+    width: "10%",
+  },
+  innerContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: "40%",
+  },
+  middleContainer: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    height: "60%",
+  },
+  loginTextContainer: {
+    width: "80%",
+    display: "flex",
+    flexDirection: "column",
+  },
+  loginTitle: {
+    fontWeight: "bold",
+    fontSize: 36,
+    textAlign: "left",
+  },
+  loginSubtitle: {
+    textAlign: "left",
+    color: "#000000",
+    marginTop: 20,
+  },
+  forgotRememberContainer: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 20,
+    opacity: 0.5,
+  },
+  separatorContainer: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    opacity: 0.3,
+  },
+  separatorText: {
+    paddingTop: 34,
+    opacity: 0.4,
+  },
+  bottomContainer: {
+    width: "100%",
+    height: 50,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 40,
+    marginTop: 40,
   },
   socialContainer: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    gap: 40,
-  },
-  socialImageContainer: {
     alignSelf: "center",
     backgroundColor: "white",
     borderRadius: 100,
     width: 50,
     height: 50,
+    display: "flex",
     justifyContent: "center",
     alignItems: "center",
     paddingLeft: 2,
@@ -91,44 +115,82 @@ const loginStyles = StyleSheet.create({
     height: 30,
   },
   buttonContainer: {
-    // ...whereAmI,
+    width: "100%",
+    display: "flex",
     alignItems: "center",
-    gap: 12,
+    marginTop: 40,
   },
-});
+  inputsContainer: {
+    width: "100%",
+    display: "flex",
+    gap: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  saveLoginContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 10,
+  },
+  welcomeText: {
+    fontSize: 40,
+    fontWeight: "semibold",
+    textAlign: "left",
+    alignSelf: "flex-start",
+    marginBottom: 40,
+    height: 50,
+  },
+  welcomeTextContainer: {
+    paddingTop: 40,
+    width: "100%",
+    height: "auto",
+    display: "flex",
+    alignItems: "flex-end",
+  },
+})
 
 const registerStyles = StyleSheet.create({
   container: {
     // ...whereAmI,
     flex: 1,
+    gap: 20,
     backgroundColor: "white",
+    justifyContent: "center",
+    paddingHorizontal: 20,
   },
   upperContent: {
-    // ...whereAmI,
-    flex: 1,
+    width: "80%",
     alignItems: "center",
     justifyContent: "center",
   },
-  headerContainer: {},
+  headerContainer: {
+    width: "100%",
+  },
   headerTitle: {
-    fontSize: 24,
+    fontSize: 36,
     fontWeight: "bold",
+  },
+  headerSubtitle: {
+    fontSize: 14,
+    fontWeight: "light",
+    opacity: 0.4,
   },
   middleContent: {
     // ...whereAmI,
-    flex: 2,
     alignItems: "center",
     justifyContent: "center",
+    width: "100%",
   },
   inputContainer: {
     // ...whereAmI,
     alignItems: "center",
-    width: "80%",
+    width: "100%",
     gap: 20,
   },
   bottomContent: {
     // ...whereAmI,
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -137,7 +199,7 @@ const registerStyles = StyleSheet.create({
     alignItems: "center",
     gap: 16,
   },
-});
+})
 
 const recoverStyles = StyleSheet.create({
   container: {
@@ -182,6 +244,6 @@ const recoverStyles = StyleSheet.create({
     alignItems: "center",
     gap: 20,
   },
-});
+})
 
-export { loginStyles, registerStyles, recoverStyles };
+export { loginStyles, registerStyles, recoverStyles }
