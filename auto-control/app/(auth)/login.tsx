@@ -5,6 +5,7 @@ import { Text, View, Keyboard, TouchableWithoutFeedback } from "react-native"
 // Third party Libraries
 import { Image } from "expo-image"
 import Checkbox from "expo-checkbox"
+import { router } from "expo-router"
 import { Formik } from "formik"
 
 // Project Resources
@@ -12,28 +13,33 @@ import AppInput from "../../components/AppInput/AppInput"
 import AppButton from "../../components/appButton/appButton"
 import Google from "../../assets/images/google.png"
 import Facebook from "../../assets/images/facebook.png"
-import { loginStyles } from "./auth.styles"
 import { Entypo } from "@expo/vector-icons"
 import { Octicons } from "@expo/vector-icons"
 import { validationSchema } from "@/utils/formValidation"
-import { login } from "@/api/services"
 import { LoginUserData } from "@/types/user/user.type"
+import { useSession } from "@/contexts/ctx"
+import { loginStyles } from "./auth.styles"
 
 const iconSize = 20
 
 export default function Login() {
+  const { signIn, isLoading } = useSession()
   const [formData, setFormData] = useState<LoginUserData>({
     username: "",
     password: "",
   })
 
   const handleInputChange = (field: string, value: string) => {
-    console.log(field, value)
     setFormData({ ...formData, [field]: value })
   }
 
-  const handleFormSubmit = () => {
-    login(formData.username, formData.password)
+  const handleFormSubmit = async () => {
+    try {
+      await signIn(formData)
+      router.replace("./home")
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (

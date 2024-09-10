@@ -1,7 +1,10 @@
-export interface RegisterUserData {
+export interface UserData {
   name: string
   email: string
-  cnh?: string
+  cnh: string
+}
+
+export interface RegisterUserData extends UserData {
   password: string
 }
 
