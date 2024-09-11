@@ -176,6 +176,7 @@ const registerStyles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "light",
     opacity: 0.4,
+    marginVertical: 20,
   },
   middleContent: {
     // ...whereAmI,

@@ -20,4 +20,18 @@ export const Slides = [
     description: "Tenha relatórios detalhados sobre os gastos de seus veículos",
     image: require("../assets/images/schedule-animation.json"),
   },
-];
+  {
+    id: 4,
+    name: "slide4",
+    title: "Notificações",
+    description: "Receba notificações sobre os gastos de seus veículos",
+    image: require("../assets/images/notification-animation.json"),
+  },
+  {
+    id: 5,
+    name: "slide5",
+    title: "Descubra o Autocontrol",
+    description: "Freie seus gastos e acelere suas economias!",
+    image: require("../assets/images/car-perpetual.json"),
+  },
+]

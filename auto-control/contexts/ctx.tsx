@@ -31,7 +31,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
 
   const signIn = async ({ username, password }: LoginUserData) => {
     try {
-      const success = await login(username, password)
+      const success = await login({ username, password })
       if (success) {
         console.log("Login successful, setting session")
         setSession(username)
