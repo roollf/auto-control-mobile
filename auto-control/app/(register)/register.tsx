@@ -26,11 +26,17 @@ import { register } from "@/api/services/authService"
 import { validationSchema } from "@/utils/formValidation"
 import { RegisterUserData } from "@/types/user/user.type"
 
+interface CreateAccountProps {
+  onRegisterSuccess: () => void
+}
+
 // import from images and svgs
 
 // color scheme and variables
 
-export default function CreateAccount() {
+export default function CreateAccount({
+  onRegisterSuccess,
+}: CreateAccountProps) {
   const [formData, setFormData] = useState<RegisterUserData>({
     name: "",
     email: "",
@@ -45,7 +51,7 @@ export default function CreateAccount() {
   const handleFormSubmit = async () => {
     try {
       await register(formData)
-      router.replace("./(register)/register-confirmation")
+      onRegisterSuccess()
     } catch (error) {
       console.log(error)
     }
