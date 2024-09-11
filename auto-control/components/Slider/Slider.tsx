@@ -14,7 +14,8 @@ import SliderItem from "../SliderItem/SliderItem"
 import OnboardingButton from "../OnboardingButton/OnboardingButton"
 import Pagination from "../Pagination/Pagination"
 import Login from "../../app/(auth)/login"
-import Register from "../../app/(auth)/register"
+import Register from "../../app/(register)/register"
+// import RegisterLayout from "../../app/(register)/_layout"
 import BottomSheetComponent from "@/components/BottomSheet/BottomSheetComponent"
 
 // Type Imports

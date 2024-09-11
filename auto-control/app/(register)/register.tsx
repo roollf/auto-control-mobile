@@ -15,7 +15,7 @@ import { router } from "expo-router"
 import { Formik } from "formik"
 
 // import from custom components
-import { registerStyles } from "./auth.styles"
+import { registerStyles } from "../(auth)/auth.styles"
 import AppInput from "@/components/AppInput/AppInput"
 import AppButton from "@/components/appButton/appButton"
 import { FontAwesome5 } from "@expo/vector-icons"
@@ -45,7 +45,7 @@ export default function CreateAccount() {
   const handleFormSubmit = async () => {
     try {
       await register(formData)
-      router.replace("./(auth)/register-confirmation")
+      router.replace("./(register)/register-confirmation")
     } catch (error) {
       console.log(error)
     }
@@ -86,6 +86,7 @@ export default function CreateAccount() {
               <AppInput
                 onChangeText={(text) => handleInputChange("email", text)}
                 placeholder="Email"
+                autoCapitalize="none"
                 icon={
                   <Entypo
                     name="email"
