@@ -1,36 +1,35 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from "react-native"
+
+const whereAmI = {
+  borderColor: "red",
+  borderWidth: 1,
+}
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
+    // ...whereAmI,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-start",
-  },
-  input: {
-    // backgroundColor: "#f1f1f1",
-    backgroundColor: "green",
-    borderTopRightRadius: 5,
-    borderBottomRightRadius: 5,
-    width: "90%",
     height: 40,
-    paddingLeft: 10,
+    width: "100%",
+    borderWidth: 1,
+    borderColor: "lightgray",
+    borderRadius: 8,
   },
   iconContainer: {
-    backgroundColor: "blue",
-    width: "10%",
-    height: 40,
-    borderTopLeftRadius: 5,
-    borderBottomLeftRadius: 5,
-    display: "flex",
+    flex: 0.5,
     justifyContent: "center",
     alignItems: "center",
+    borderColor: "grey",
+    resizeMode: "contain",
+    paddingLeft: 10,
   },
-  icon: {
-    width: 20,
-    height: 20,
-    opacity: 0.5,
+  inputContainer: {
+    flex: 5,
+    height: "100%",
+    justifyContent: "center",
+    borderColor: "grey",
   },
-});
+})
 
-export default styles;
+export default styles

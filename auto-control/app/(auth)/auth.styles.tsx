@@ -1,6 +1,11 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from "react-native"
 
-const styles = StyleSheet.create({
+const whereAmI = {
+  borderColor: "red",
+  borderWidth: 1,
+}
+
+const loginStyles = StyleSheet.create({
   mainContainer: {
     width: "100%",
     flex: 1,
@@ -45,39 +50,20 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    paddingHorizontal: 60,
-    height: "50%",
+    height: "60%",
   },
-  userTokenImageContainer: {
-    marginBottom: 20,
-    alignSelf: "center",
-    backgroundColor: "#2282FF",
-    borderRadius: 100,
-    width: 50,
-    height: 50,
+  loginTextContainer: {
+    width: "80%",
     display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingLeft: 2,
-    borderColor: "white",
-    borderWidth: 2,
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 3.84,
-  },
-  userTokenImage: {
-    width: 30,
-    height: 30,
+    flexDirection: "column",
   },
   loginTitle: {
-    fontWeight: "semibold",
-    fontSize: 24,
-    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 36,
+    textAlign: "left",
   },
   loginSubtitle: {
-    opacity: 0.4,
-    textAlign: "center",
+    textAlign: "left",
     color: "#000000",
     marginTop: 20,
   },
@@ -130,16 +116,16 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: "100%",
-    height: "40%",
     display: "flex",
-    justifyContent: "flex-end",
-    marginBottom: 40,
+    alignItems: "center",
+    marginTop: 40,
   },
   inputsContainer: {
-    marginTop: 20,
     width: "100%",
     display: "flex",
     gap: 20,
+    justifyContent: "center",
+    alignItems: "center",
   },
   saveLoginContainer: {
     display: "flex",
@@ -163,6 +149,102 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "flex-end",
   },
-});
+})
 
-export default styles;
+const registerStyles = StyleSheet.create({
+  container: {
+    // ...whereAmI,
+    flex: 1,
+    gap: 20,
+    backgroundColor: "white",
+    justifyContent: "center",
+    paddingHorizontal: 20,
+  },
+  upperContent: {
+    width: "80%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  headerContainer: {
+    width: "100%",
+  },
+  headerTitle: {
+    fontSize: 36,
+    fontWeight: "bold",
+  },
+  headerSubtitle: {
+    fontSize: 14,
+    fontWeight: "light",
+    opacity: 0.4,
+    marginVertical: 20,
+  },
+  middleContent: {
+    // ...whereAmI,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+  },
+  inputContainer: {
+    // ...whereAmI,
+    alignItems: "center",
+    width: "100%",
+    gap: 20,
+  },
+  bottomContent: {
+    // ...whereAmI,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonContainer: {
+    // ...whereAmI,
+    alignItems: "center",
+    gap: 16,
+  },
+})
+
+const recoverStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  upperContent: {
+    flex: 1,
+    alignItems: "center",
+  },
+  headerContainer: {
+    alignItems: "center",
+  },
+  headerTitle: {
+    fontSize: 32,
+    fontWeight: "bold",
+  },
+  headerSubTitle: {
+    fontSize: 14,
+    fontWeight: "light",
+  },
+  middleContent: {
+    flex: 2,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  inputContainer: {
+    alignItems: "center",
+    width: "80%",
+    gap: 20,
+  },
+  inputTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  bottomContent: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonContainer: {
+    alignItems: "center",
+    gap: 20,
+  },
+})
+
+export { loginStyles, registerStyles, recoverStyles }

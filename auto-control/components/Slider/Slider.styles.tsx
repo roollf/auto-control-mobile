@@ -1,16 +1,14 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from "react-native"
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     display: "flex",
+    height: "100%",
     alignItems: "center",
-    // paddingTop: 20,
-    // gap: 60,
   },
   list: {
     alignItems: "center",
-    justifyContent: "space-around",
   },
   authContainer: {
     display: "flex",
@@ -18,6 +16,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     gap: 20,
+    paddingBottom: 60,
   },
   authLoginText: {
     color: "white",
@@ -26,6 +25,7 @@ const styles = StyleSheet.create({
   },
   headerTextContainer: {
     paddingRight: 20,
+    paddingTop: 20,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
@@ -42,6 +42,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
-});
+})
 
-export default styles;
+export default styles

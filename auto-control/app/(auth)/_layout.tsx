@@ -1,18 +1,11 @@
-import { Redirect, Stack } from "expo-router";
-import { useSession } from "../../contexts/ctx";
-import { Text } from "react-native";
+import { Stack } from "expo-router";
 
 export default function Layout() {
   return (
     <Stack>
-      <Stack.Screen
-        name="index"
-        options={{ headerShown: true, headerTitle: "Authorization" }}
-      />
-      <Stack.Screen
-        name="(stack)"
-        options={{ headerShown: true, headerTitle: "Stack" }}
-      />
+      <Stack.Screen name="login" options={{ headerShown: false }} />
+      <Stack.Screen name="register" options={{ headerShown: false }} />
+      <Stack.Screen name="recover" options={{ headerShown: false }} />
     </Stack>
   );
 }
