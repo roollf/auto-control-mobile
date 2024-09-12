@@ -1,28 +1,44 @@
+import { handleApiError } from "../../utils/errorHandler"
 import { apiClient } from "./apiClient"
 import { storageService } from "./storageService"
+import { LoginUserData, RegisterUserData } from "@/types/user/user.type"
 
-export const login = async (email: string, password: string) => {
-  const response = await apiClient.post("/auth/login", { email, password })
-  const { token } = response.data
+const loginEndpoint = "/login/"
+const registerEndpoint = "/api/v1/app-users/register-user/"
 
-  await storageService.saveItem("authToken", token)
+export const login = async ({ username, password }: LoginUserData) => {
+  try {
+    const response = await apiClient.post(loginEndpoint, {
+      username,
+      password,
+    })
+    const { token } = response.data
 
-  return response.data
+    await storageService.saveItem("authToken", token)
+
+    return true
+  } catch (error) {
+    handleApiError(error)
+    return false
+  }
 }
 
-export const logout = async () => {
-  await storageService.removeItem("authToken")
-}
-
-export const refreshToken = async () => {
-  const response = await apiClient.post("/auth/refresh-token")
-  const { token } = response.data
-
-  await storageService.saveItem("authToken", token)
-
-  return response.data
-}
-
-export const requestPasswordReset = async (email: string) => {
-  return await apiClient.post("/auth/reset-password", { email })
+export const register = async ({
+  name,
+  password,
+  email,
+  cnh,
+}: RegisterUserData) => {
+  try {
+    await apiClient.post(registerEndpoint, {
+      name,
+      password,
+      email,
+      cnh,
+    })
+    return true
+  } catch (error) {
+    handleApiError(error)
+    return false
+  }
 }

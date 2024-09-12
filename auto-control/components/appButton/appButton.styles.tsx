@@ -1,14 +1,14 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from "react-native"
 
 interface StyleProps {
-  isPrimary: boolean | undefined;
-  backgroundColor?: string;
+  isPrimary: boolean | undefined
+  backgroundColor?: string
 }
 
 const whereAmI = {
   borderColor: "red",
   borderWidth: 1,
-};
+}
 
 const buttonStyles = ({ isPrimary, backgroundColor }: StyleProps) =>
   StyleSheet.create({
@@ -20,7 +20,7 @@ const buttonStyles = ({ isPrimary, backgroundColor }: StyleProps) =>
     buttonContainer: {
       // ...whereAmI,
       flex: 1,
-      borderRadius: 20,
+      borderRadius: 8,
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: isPrimary ? "#2282FF" : backgroundColor,
@@ -30,6 +30,6 @@ const buttonStyles = ({ isPrimary, backgroundColor }: StyleProps) =>
       fontSize: isPrimary ? 16 : 14,
       color: isPrimary ? "white" : "grey",
     },
-  });
+  })
 
-export default buttonStyles;
+export default buttonStyles
