@@ -14,7 +14,8 @@ import SliderItem from "../SliderItem/SliderItem"
 import OnboardingButton from "../OnboardingButton/OnboardingButton"
 import Pagination from "../Pagination/Pagination"
 import Login from "../../app/(auth)/login"
-import Register from "../../app/(auth)/register"
+import Register from "../../app/(register)/register"
+import RegisterConfirmation from "../../app/(register)/register-confirmation"
 import BottomSheetComponent from "@/components/BottomSheet/BottomSheetComponent"
 
 // Type Imports
@@ -55,6 +56,10 @@ const Slider = () => {
     setIsBottomSheetVisible(false)
   }
 
+  const handleAccountCreatedNavigation = () => {
+    setPageToDisplay(<RegisterConfirmation />)
+  }
+
   return (
     <>
       <View style={styles.container}>
@@ -91,7 +96,13 @@ const Slider = () => {
           <View style={styles.authContainer}>
             <OnboardingButton
               text="Criar conta"
-              onPress={() => handleExpandBottomSheet(<Register />)}
+              onPress={() =>
+                handleExpandBottomSheet(
+                  <Register
+                    onRegisterSuccess={handleAccountCreatedNavigation}
+                  />
+                )
+              }
             />
             <Pressable onPress={() => handleExpandBottomSheet(<Login />)}>
               <Text style={styles.authLoginText}>Login</Text>
