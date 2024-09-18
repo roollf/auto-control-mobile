@@ -1,14 +1,16 @@
-export interface UserData {
+interface UserData {
   name: string
   email: string
   cnh: string
 }
 
-export interface RegisterUserData extends UserData {
+interface RegisterUserData extends UserData {
   password: string
 }
 
-export interface LoginUserData {
+interface LoginUserData {
   username: string
   password: string
 }
+
+export { UserData, RegisterUserData, LoginUserData }
