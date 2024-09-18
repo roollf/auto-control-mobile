@@ -4,35 +4,41 @@ import React, { useState } from "react"
 // import from react native and expo
 import { View, Text } from "react-native"
 import { router } from "expo-router"
+import { FontAwesome } from "@expo/vector-icons"
+import { FontAwesome5 } from "@expo/vector-icons"
+import { Entypo } from "@expo/vector-icons"
+import { Octicons } from "@expo/vector-icons"
 
 // import from custom hooks
 
 // import from context
 
 // import from services
+import { register } from "@/api/services/authService"
 
 // import from third party libraries
 import { Formik } from "formik"
 
 // import from custom components
-import { registerStyles } from "../(auth)/auth.styles"
 import AppInput from "@/components/AppInput/AppInput"
 import AppButton from "@/components/appButton/appButton"
-import { FontAwesome5 } from "@expo/vector-icons"
-import { FontAwesome } from "@expo/vector-icons"
-import { Entypo } from "@expo/vector-icons"
-import { Octicons } from "@expo/vector-icons"
-import { register } from "@/api/services/authService"
-import { validationSchema } from "@/utils/formValidation"
-import { RegisterUserData } from "@/types/user/user.type"
 
-interface CreateAccountProps {
-  onRegisterSuccess: () => void
-}
+// import from types, utils and constants
+import { RegisterUserData } from "@/types/user/user.type"
+import { validationSchema } from "@/utils/formValidation"
+
+// import from styles
+import { registerStyles } from "./register.styles"
+
+// import from routes
 
 // import from images and svgs
 
 // color scheme and variables
+
+interface CreateAccountProps {
+  onRegisterSuccess: () => void
+}
 
 export default function CreateAccount({
   onRegisterSuccess,
@@ -57,7 +63,10 @@ export default function CreateAccount({
     }
   }
 
-  const iconSize = 20
+  const iconProps: { iconSize: number; iconColor: string } = {
+    iconSize: 20,
+    iconColor: "rgba(34, 130, 255, 0.7)",
+  }
 
   return (
     <View style={registerStyles.container}>
@@ -84,8 +93,8 @@ export default function CreateAccount({
                 icon={
                   <FontAwesome5
                     name="user-circle"
-                    size={iconSize}
-                    color="rgba(34, 130, 255, 0.7)"
+                    size={iconProps.iconSize}
+                    color={iconProps.iconColor}
                   />
                 }
               />
@@ -96,8 +105,8 @@ export default function CreateAccount({
                 icon={
                   <Entypo
                     name="email"
-                    size={iconSize}
-                    color="rgba(34, 130, 255, 0.7)"
+                    size={iconProps.iconSize}
+                    color={iconProps.iconColor}
                   />
                 }
               />
@@ -107,8 +116,8 @@ export default function CreateAccount({
                 icon={
                   <FontAwesome
                     name="drivers-license"
-                    size={iconSize}
-                    color="rgba(34, 130, 255, 0.7)"
+                    size={iconProps.iconSize}
+                    color={iconProps.iconColor}
                   />
                 }
               />
@@ -118,8 +127,8 @@ export default function CreateAccount({
                 icon={
                   <Octicons
                     name="key"
-                    size={iconSize}
-                    color="rgba(34, 130, 255, 0.7)"
+                    size={iconProps.iconSize}
+                    color={iconProps.iconColor}
                   />
                 }
               />

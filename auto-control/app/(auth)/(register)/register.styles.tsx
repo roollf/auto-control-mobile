@@ -56,47 +56,26 @@ export const registerStyles = StyleSheet.create({
   },
 })
 
-export const recoverStyles = StyleSheet.create({
+export const registerConfirmationStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-  },
-  upperContent: {
-    flex: 1,
-    alignItems: "center",
-  },
-  headerContainer: {
-    alignItems: "center",
-  },
-  headerTitle: {
-    fontSize: 32,
-    fontWeight: "bold",
-  },
-  headerSubTitle: {
-    fontSize: 14,
-    fontWeight: "light",
-  },
-  middleContent: {
-    flex: 2,
-    alignItems: "center",
     justifyContent: "center",
-  },
-  inputContainer: {
     alignItems: "center",
-    width: "80%",
-    gap: 20,
   },
-  inputTitle: {
-    fontSize: 16,
+  upperContent: {},
+  upLottieView: {
+    width: 300,
+    height: 300,
+  },
+  middleContent: {},
+  midLabel: {
+    fontSize: 30,
     fontWeight: "bold",
+    textAlign: "center",
   },
-  bottomContent: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+  midSubLabel: {
+    marginVertical: 40,
+    opacity: 0.4,
   },
-  buttonContainer: {
-    alignItems: "center",
-    gap: 20,
-  },
+  bottomContent: {},
 })
