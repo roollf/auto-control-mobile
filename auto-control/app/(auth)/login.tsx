@@ -23,7 +23,7 @@ import { loginStyles } from "./auth.styles"
 const iconSize = 20
 
 export default function Login() {
-  const { signIn, isLoading } = useSession()
+  const { signIn } = useSession()
   const [formData, setFormData] = useState<LoginUserData>({
     username: "",
     password: "",
