@@ -1,26 +1,42 @@
-// React and React Native Imports
+// import from react and hooks
 import React, { useRef, useState } from "react"
-import { FlatList, Pressable, View, Text } from "react-native"
+
+// import from react native and expo
+// import { router } from "expo-router"
 import { Image } from "expo-image"
-import { router } from "expo-router"
+import { FlatList, Pressable, View, Text } from "react-native"
 
-// Project Resources
-import RightArrow from "../../assets/images/right-arrow.svg"
-import { Slides } from "@/constants/OnboardingSlides"
-import styles from "./Slider.styles"
+// import from custom hooks
 
-// Custom Components
+// import from context
+
+// import from services
+
+// import from third party libraries
+
+// import from custom components
 import SliderItem from "../SliderItem/SliderItem"
 import OnboardingButton from "../OnboardingButton/OnboardingButton"
 import Pagination from "../Pagination/Pagination"
-import Login from "../../app/(auth)/login"
-import Register from "../../app/(register)/register"
-import RegisterConfirmation from "../../app/(register)/register-confirmation"
 import BottomSheetComponent from "@/components/BottomSheet/BottomSheetComponent"
 
-// Type Imports
+// import from types, utils and constants
 import SliderProps from "./Slider.types"
 import SliderItemProps from "../SliderItem/SliderItem.types"
+import { Slides } from "@/constants/OnboardingSlides"
+
+// import from styles
+import styles from "./Slider.styles"
+
+// import from routes
+import Login from "../../app/(auth)/login"
+import Register from "../../app/(auth)/(register)/register"
+import RegisterConfirmation from "../../app/(auth)/(register)/register-confirmation"
+
+// import from images and svgs
+import RightArrow from "../../assets/images/right-arrow.svg"
+
+// color scheme and variables
 
 type PageType = SliderProps["page"]
 
