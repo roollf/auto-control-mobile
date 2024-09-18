@@ -1,13 +1,13 @@
 // React and React Native Imports
 import React, { useRef, useState } from "react"
-import { FlatList, Pressable, View, Text } from "react-native"
+import { FlatList, Pressable, View, Text, Dimensions } from "react-native"
 import { Image } from "expo-image"
 import { router } from "expo-router"
 
 // Project Resources
 import RightArrow from "../../assets/images/right-arrow.svg"
 import { Slides } from "@/constants/OnboardingSlides"
-import styles from "./Slider.styles"
+import styles, { ITEM_WIDTH } from "./Slider.styles"
 
 // Custom Components
 import SliderItem from "../SliderItem/SliderItem"
@@ -79,6 +79,8 @@ const Slider = () => {
           pagingEnabled
           ref={flatListRef}
           scrollEnabled={false}
+          snapToInterval={ITEM_WIDTH}
+          decelerationRate="fast"
           snapToAlignment="center"
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.list}
@@ -90,7 +92,7 @@ const Slider = () => {
         {currentIndex !== Slides.length - 1 ? (
           <>
             <OnboardingButton text="Próximo" onPress={handleNextPress} />
-            <View style={{ paddingBottom: 100 }} />
+            <View style={styles.separator} />
           </>
         ) : (
           <View style={styles.authContainer}>

@@ -1,4 +1,9 @@
-import { StyleSheet } from "react-native"
+import { StyleSheet, Dimensions } from "react-native"
+
+export const { width: screenWidth, height: screenHeight } =
+  Dimensions.get("window")
+export const ITEM_WIDTH = screenWidth * 0.8 // Each item takes 80% of the screen width
+export const SPACER_WIDTH = (screenWidth - ITEM_WIDTH) / 2 // Calculate padding on each side
 
 const styles = StyleSheet.create({
   container: {
@@ -41,6 +46,9 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     alignItems: "center",
+  },
+  separator: {
+    paddingBottom: screenHeight <= 640 ? 50 : 100,
   },
 })
 
