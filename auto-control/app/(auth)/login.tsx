@@ -35,7 +35,7 @@ export default function Login() {
 
   const handleFormSubmit = async () => {
     try {
-      await signIn(formData)
+      // await signIn(formData)
       router.replace("./home")
     } catch (error) {
       console.log(error)
