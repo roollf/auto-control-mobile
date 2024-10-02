@@ -1,15 +1,15 @@
 //React and React Native imports
-import React from "react";
-import { View, Text } from "react-native";
+import React from "react"
+import { View, Text } from "react-native"
 
 //Third party Libraries
-import LottieView from "lottie-react-native";
+import LottieView from "lottie-react-native"
 
 //Project Resources
-import styles from "./SliderItem.styles";
+import styles from "./SliderItem.styles"
 
 //Types Imports
-import SliderItemProps from "./SliderItem.types";
+import SliderItemProps from "./SliderItem.types"
 
 const SliderItem = ({ item }: SliderItemProps) => {
   return (
@@ -22,7 +22,7 @@ const SliderItem = ({ item }: SliderItemProps) => {
         <Text style={styles.description}>{item.description}</Text>
       </View>
     </View>
-  );
-};
+  )
+}
 
-export default SliderItem;
+export default SliderItem

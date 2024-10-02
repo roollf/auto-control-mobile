@@ -10,7 +10,7 @@ const AuthContext = createContext<{
   session?: string | null
   isLoading: boolean
 }>({
-  signIn: async () => null,
+  signIn: async () => {},
   signOut: () => null,
   session: null,
   isLoading: false,
