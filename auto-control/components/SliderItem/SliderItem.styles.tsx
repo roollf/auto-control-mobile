@@ -1,9 +1,11 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native"
+import { ITEM_WIDTH } from "../Slider/Slider.styles"
 
 const styles = StyleSheet.create({
   container: {
-    marginLeft: 15,
-    marginRight: 15,
+    width: ITEM_WIDTH,
+    marginLeft: 40,
+    marginRight: 40,
   },
   imageContainer: {
     alignItems: "center",
@@ -14,8 +16,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   image: {
-    width: 400,
-    height: 400,
+    width: Platform.OS === "ios" ? "100%" : "100%",
+    height: 300,
     maxWidth: "100%",
     maxHeight: "100%",
   },
@@ -32,6 +34,6 @@ const styles = StyleSheet.create({
     maxWidth: "80%",
     marginTop: 10,
   },
-});
+})
 
-export default styles;
+export default styles

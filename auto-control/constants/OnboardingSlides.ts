@@ -4,7 +4,7 @@ export const Slides = [
     name: "slide1",
     title: "Fique tranquilo",
     description: "Não tenha surpresas com os gastos de seus veículos",
-    image: require("../assets/images/relax-animation.json"),
+    image: require("../assets/images/tranquility-animation.json"),
   },
   {
     id: 2,

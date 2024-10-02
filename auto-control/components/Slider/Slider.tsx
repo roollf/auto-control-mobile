@@ -1,20 +1,13 @@
 // import from react and hooks
 import React, { useRef, useState } from "react"
-
-// import from react native and expo
-// import { router } from "expo-router"
+import { FlatList, Pressable, View, Text, Dimensions } from "react-native"
 import { Image } from "expo-image"
-import { FlatList, Pressable, View, Text } from "react-native"
+import { router } from "expo-router"
 
-// import from custom hooks
+// Project Resources
+import { ITEM_WIDTH } from "./Slider.styles"
 
-// import from context
-
-// import from services
-
-// import from third party libraries
-
-// import from custom components
+// Custom Components
 import SliderItem from "../SliderItem/SliderItem"
 import OnboardingButton from "../OnboardingButton/OnboardingButton"
 import Pagination from "../Pagination/Pagination"
@@ -95,6 +88,8 @@ const Slider = () => {
           pagingEnabled
           ref={flatListRef}
           scrollEnabled={false}
+          snapToInterval={ITEM_WIDTH}
+          decelerationRate="fast"
           snapToAlignment="center"
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.list}
@@ -106,7 +101,7 @@ const Slider = () => {
         {currentIndex !== Slides.length - 1 ? (
           <>
             <OnboardingButton text="Próximo" onPress={handleNextPress} />
-            <View style={{ paddingBottom: 100 }} />
+            <View style={styles.separator} />
           </>
         ) : (
           <View style={styles.authContainer}>

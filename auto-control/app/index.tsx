@@ -32,7 +32,10 @@ export default function Landing() {
     <>
       <GestureHandlerRootView>
         <View style={landingStyles.container}>
-          <LinearGradient colors={["#2282FF", "#326AEE"]}>
+          <LinearGradient
+            colors={["#2282FF", "#326aee"]}
+            style={landingStyles.linearGradientContainer}
+          >
             <Slider />
           </LinearGradient>
         </View>
