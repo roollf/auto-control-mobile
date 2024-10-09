@@ -13,20 +13,20 @@ export default function TabLayout() {
   const [userInfo, setUserInfo] = useState(null)
   const { session, isLoading } = useSession()
 
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const data = await getUser(session?.id)
-        setUserInfo(data)
-      } catch (error) {
-        console.error("Failed to fetch user info:", error)
-      }
-    }
+  // useEffect(() => {
+  //   const fetchUserInfo = async () => {
+  //     try {
+  //       const data = await getUser(session?.id)
+  //       setUserInfo(data)
+  //     } catch (error) {
+  //       console.error("Failed to fetch user info:", error)
+  //     }
+  //   }
 
-    if (session) {
-      fetchUserInfo()
-    }
-  }, [session])
+  //   if (session) {
+  //     fetchUserInfo()
+  //   }
+  // }, [session])
 
   if (isLoading) {
     return <Text>Loading...</Text>
@@ -38,7 +38,12 @@ export default function TabLayout() {
   // }
 
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: "blue" }}>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: "#FC6736",
+        tabBarShowLabel: false,
+      }}
+    >
       <Tabs.Screen
         name="home"
         options={{

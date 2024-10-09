@@ -3,14 +3,18 @@ import { StyleSheet, Dimensions } from "react-native"
 const appStyles = StyleSheet.create({
   container: {
     flex: 1,
+    zIndex: 1,
     display: "flex",
     flexDirection: "column",
+    position: "relative",
+    backgroundColor: "white",
   },
   upperContent: {
     position: "relative",
     display: "flex",
-    height: 180,
-    backgroundColor: "white",
+    paddingHorizontal: 30,
+    paddingTop: 80,
+    zIndex: 1,
   },
   userIcon: {
     width: 50,
@@ -34,6 +38,8 @@ const appStyles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 40,
     height: "100%",
+    zIndex: 1,
+    position: "relative",
   },
 
   userGreeting: {
