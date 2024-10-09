@@ -7,13 +7,13 @@ import { SessionProvider } from "../contexts/ctx"
 export default function RootLayout() {
   return (
     <SessionProvider>
-      <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-        <StatusBar style="dark" />
-        <Stack
-          screenOptions={{ headerShown: false }}
-          initialRouteName="dashboard"
-        />
-      </SafeAreaView>
+      {/* <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}> */}
+      <StatusBar style="light" />
+      <Stack
+        screenOptions={{ headerShown: false }}
+        initialRouteName="dashboard"
+      />
+      {/* </SafeAreaView> */}
     </SessionProvider>
   )
 }

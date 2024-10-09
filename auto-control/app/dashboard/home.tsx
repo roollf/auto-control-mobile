@@ -180,7 +180,7 @@ export default function Home() {
             style={{
               backgroundColor: "white",
               position: "absolute",
-              bottom: -120,
+              bottom: -100,
               alignSelf: "center",
               width: "90%",
               borderRadius: 8,
@@ -221,11 +221,11 @@ export default function Home() {
       </View>
       <FlatList
         style={{
-          backgroundColor: "yellow",
-          paddingTop: 90,
+          marginTop: 120,
           display: "flex",
           zIndex: 1,
           position: "relative",
+          paddingHorizontal: 20,
         }}
         data={data}
         keyExtractor={(item, index) => index.toString()}
