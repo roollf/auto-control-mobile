@@ -1,7 +1,7 @@
 import { Text } from "react-native"
 import { Tabs } from "expo-router"
 
-import { useSession } from "../../../contexts/ctx"
+import { useSession } from "@/contexts/ctx"
 
 import { FontAwesome } from "@expo/vector-icons"
 

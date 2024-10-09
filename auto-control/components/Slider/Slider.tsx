@@ -22,9 +22,9 @@ import { Slides } from "@/constants/OnboardingSlides"
 import styles from "./Slider.styles"
 
 // import from routes
-import Login from "../../app/(auth)/login"
-import Register from "../../app/(auth)/(register)/register"
-import RegisterConfirmation from "../../app/(auth)/(register)/register-confirmation"
+import Login from "@/app/auth/login"
+import Register from "@/app/auth/(register)/register"
+import RegisterConfirmation from "@/app/auth/(register)/register-confirmation"
 
 // import from images and svgs
 import RightArrow from "../../assets/images/right-arrow.svg"

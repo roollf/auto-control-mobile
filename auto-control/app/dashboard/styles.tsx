@@ -3,9 +3,12 @@ import { StyleSheet, Dimensions } from "react-native"
 const appStyles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "red",
+    display: "flex",
+    flexDirection: "column",
   },
   upperContent: {
-    flex: 1,
+    height: 150,
     backgroundColor: "white",
   },
   userIcon: {
@@ -27,10 +30,9 @@ const appStyles = StyleSheet.create({
     gap: 10,
     justifyContent: "space-between",
     padding: 10,
-    height: 180,
     paddingHorizontal: 20,
     paddingVertical: 30,
-    flex: 1,
+    height: "100%",
   },
 
   userGreeting: {

@@ -1,6 +1,6 @@
 import { FlatList, ScrollView, Text, View } from "react-native"
 
-import { useSession } from "../../../contexts/ctx"
+import { useSession } from "@/contexts/ctx"
 import { DashboardChart } from "@/components/DashboardChart/DashboardChart"
 import DashboardList from "@/components/DashboardList/DashboardList"
 import { SafeAreaView } from "react-native-safe-area-context"
@@ -20,7 +20,7 @@ export default function Home() {
   const data = [
     {
       categoria: "Manutenção",
-      descricao: "Troca óleo",
+      descricao: "Troce óleo",
       valor: 100.0,
       data: "2024-12-01",
     },
@@ -192,6 +192,7 @@ export default function Home() {
               elevation: 5,
               borderWidth: 1,
               borderColor: "rgba(0,0,0,0.1)",
+              zIndex: 10,
             }}
           >
             <Text style={{ fontWeight: "bold", opacity: 0.5 }}>
@@ -217,18 +218,19 @@ export default function Home() {
             <Text style={{ fontSize: 24 }}>R$ 9.812,12</Text>
           </View>
         </LinearGradient>
-        <View style={{ paddingTop: 140, paddingHorizontal: 40 }}>
-          <Text style={{ fontSize: 20, fontWeight: "bold", opacity: 0.7 }}>
-            Transações recentes
-          </Text>
-          <FlatList
-            style={{ height: 600 }}
-            data={data}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderItem}
-          />
-        </View>
       </View>
+      <FlatList
+        style={{
+          backgroundColor: "yellow",
+          paddingTop: 90,
+          display: "flex",
+          zIndex: 1,
+          position: "relative",
+        }}
+        data={data}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={renderItem}
+      />
     </View>
   )
 }
