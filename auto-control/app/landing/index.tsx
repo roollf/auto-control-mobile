@@ -19,7 +19,7 @@ import Slider from "@/components/Slider/Slider"
 // import from types, utils and constants
 
 // import from styles
-import landingStyles from "./lading.styles"
+import landingStyles from "./landing.styles"
 
 // import from routes
 

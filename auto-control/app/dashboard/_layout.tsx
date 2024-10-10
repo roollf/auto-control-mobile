@@ -28,9 +28,9 @@ export default function TabLayout() {
   //   }
   // }, [session])
 
-  if (isLoading) {
-    return <Text>Loading...</Text>
-  }
+  // if (isLoading) {
+  //   return <Text>Loading...</Text>
+  // }
 
   // if (!session) {
   //   console.log("No session, redirecting to login page...")

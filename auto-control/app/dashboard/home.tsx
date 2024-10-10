@@ -256,7 +256,7 @@ export default function Home() {
           style={{
             height: 40,
             width: 40,
-            backgroundColor: "#f2f2f2",
+            backgroundColor: "#d8e7f8",
             borderRadius: 8,
             display: "flex",
             justifyContent: "center",
