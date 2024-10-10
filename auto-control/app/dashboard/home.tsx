@@ -1,239 +1,12 @@
-import { FlatList, ScrollView, Text, View, SectionList } from "react-native"
+import { FlatList, Text, View } from "react-native"
 
-import { useSession } from "@/contexts/ctx"
-import { DashboardChart } from "@/components/DashboardChart/DashboardChart"
-import DashboardList from "@/components/DashboardList/DashboardList"
-import { SafeAreaView } from "react-native-safe-area-context"
-import { Image } from "expo-image"
 import Ionicons from "@expo/vector-icons/Ionicons"
 
-import styles from "./styles"
-
-import User from "@/assets/images/user.svg"
-import Bell from "@/assets/images/bell.svg"
-import Calendar from "@/assets/images/calendar.svg"
-
-import { LinearGradient } from "expo-linear-gradient"
+import styles from "../(test)/styles"
+import { transformDate, transformToCurrency } from "@/utils/utils"
+import { dadosHoje } from "@/utils/mock"
 
 export default function Home() {
-  const { signOut } = useSession()
-
-  const dadosHoje = [
-    {
-      categoria: "Manutenção",
-      descricao: "Troce óleo",
-      valor: 100.0,
-      data: "2024-12-01",
-    },
-    {
-      categoria: "Abastecimento",
-      descricao: "Gasolina comum",
-      valor: 100.0,
-      data: "2024-12-01",
-    },
-    {
-      categoria: "Abastecimento",
-      descricao: "Diesel S10",
-      valor: 100.0,
-      data: "2024-12-01",
-    },
-    {
-      categoria: "Taxas",
-      descricao: "IPVA 2024",
-      valor: 100.0,
-      data: "2024-12-01",
-    },
-    {
-      categoria: "Abastecimento",
-      descricao: "Etanol",
-      valor: 100.0,
-      data: "2024-12-01",
-    },
-    {
-      categoria: "Seguro",
-      descricao: "Seguro anual",
-      valor: 100.0,
-      data: "2024-12-01",
-    },
-    {
-      categoria: "Abastecimento",
-      descricao: "Etanol",
-      valor: 100.0,
-      data: "2024-12-01",
-    },
-    {
-      categoria: "Seguro",
-      descricao: "Seguro anual",
-      valor: 100.0,
-      data: "2024-12-01",
-    },
-    {
-      categoria: "Abastecimento",
-      descricao: "Diesel S10",
-      valor: 100.0,
-      data: "2024-12-01",
-    },
-    {
-      categoria: "Taxas",
-      descricao: "IPVA 2024",
-      valor: 120.0,
-      data: "2024-12-01",
-    },
-    {
-      categoria: "Seguro",
-      descricao: "Seguro anual",
-      valor: 100.0,
-      data: "2024-12-01",
-    },
-    {
-      categoria: "Abastecimento",
-      descricao: "Diesel S10",
-      valor: 100.0,
-      data: "2024-12-01",
-    },
-    {
-      categoria: "Taxas",
-      descricao: "IPVA 2024",
-      valor: 120.0,
-      data: "2024-12-01",
-    },
-  ]
-
-  const dadosOtem = [
-    {
-      categoria: "Manutenção",
-      descricao: "Troce óleo",
-      valor: 100.0,
-      data: "2024-11-30",
-    },
-    {
-      categoria: "Abastecimento",
-      descricao: "Gasolina comum",
-      valor: 100.0,
-      data: "2024-11-30",
-    },
-    {
-      categoria: "Abastecimento",
-      descricao: "Diesel S10",
-      valor: 100.0,
-      data: "2024-11-30",
-    },
-    {
-      categoria: "Taxas",
-      descricao: "IPVA 2024",
-      valor: 100.0,
-      data: "2024-11-30",
-    },
-    {
-      categoria: "Abastecimento",
-      descricao: "Etanol",
-      valor: 100.0,
-      data: "2024-11-30",
-    },
-    {
-      categoria: "Seguro",
-      descricao: "Seguro anual",
-      valor: 100.0,
-      data: "2024-11-30",
-    },
-  ]
-
-  const dadosSeteDias = [
-    {
-      categoria: "Manutenção",
-      descricao: "Troce óleo",
-      valor: 100.0,
-      data: "2024-11-29",
-    },
-    {
-      categoria: "Abastecimento",
-      descricao: "Gasolina comum",
-      valor: 100.0,
-      data: "2024-11-28",
-    },
-    {
-      categoria: "Abastecimento",
-      descricao: "Diesel S10",
-      valor: 100.0,
-      data: "2024-11-28",
-    },
-    {
-      categoria: "Taxas",
-      descricao: "IPVA 2024",
-      valor: 100.0,
-      data: "2024-11-28",
-    },
-    {
-      categoria: "Abastecimento",
-      descricao: "Etanol",
-      valor: 100.0,
-      data: "2024-11-25",
-    },
-    {
-      categoria: "Seguro",
-      descricao: "Seguro anual",
-      valor: 100.0,
-      data: "2024-11-25",
-    },
-    {
-      categoria: "Abastecimento",
-      descricao: "Diesel S10",
-      valor: 100.0,
-      data: "2024-11-24",
-    },
-    {
-      categoria: "Taxas",
-      descricao: "IPVA 2024",
-      valor: 120.0,
-      data: "2024-11-23",
-    },
-    {
-      categoria: "Seguro",
-      descricao: "Seguro anual",
-      valor: 100.0,
-      data: "2024-11-23",
-    },
-    {
-      categoria: "Abastecimento",
-      descricao: "Diesel S10",
-      valor: 100.0,
-      data: "2024-11-22",
-    },
-    {
-      categoria: "Taxas",
-      descricao: "IPVA 2024",
-      valor: 120.0,
-      data: "2024-11-21",
-    },
-  ]
-
-  const dashboardExpenses = [
-    {
-      title: "Hoje",
-      data: dadosHoje,
-    },
-    {
-      title: "Ontem",
-      data: dadosOtem,
-    },
-    {
-      title: "Últimos 7 dias",
-      data: dadosSeteDias,
-    },
-  ]
-
-  const transformToCurrency = (value: number) => {
-    return value.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    })
-  }
-
-  const transformDate = (date: string) => {
-    const dateObj = new Date(date)
-    return `${dateObj.getDate()}/${dateObj.getMonth()}/${dateObj.getFullYear()}`
-  }
-
   const renderItem = ({ item }) => (
     <View
       style={{
@@ -349,14 +122,9 @@ export default function Home() {
             padding: 20,
           }}
         >
-          <Ionicons
-            name="calendar"
-            size={32}
-            color="white"
-            style={{ opacity: 0.8 }}
-          />
-          <View style={{ opacity: 0.8 }}>
-            <Text style={{ fontWeight: "bold", opacity: 0.8, color: "white" }}>
+          <Ionicons name="calendar" size={32} color="white" />
+          <View>
+            <Text style={{ fontWeight: "bold", color: "white" }}>
               Próxima despesa
             </Text>
             <Text style={{ fontWeight: "bold", fontSize: 20, color: "white" }}>
@@ -376,14 +144,9 @@ export default function Home() {
             padding: 20,
           }}
         >
-          <Ionicons
-            name="wallet"
-            size={32}
-            color="white"
-            style={{ opacity: 0.8 }}
-          />
-          <View style={{ opacity: 0.8 }}>
-            <Text style={{ fontWeight: "bold", opacity: 0.8, color: "white" }}>
+          <Ionicons name="wallet" size={32} color="white" />
+          <View>
+            <Text style={{ fontWeight: "bold", color: "white" }}>
               Economias
             </Text>
             <Text style={{ fontWeight: "bold", fontSize: 20, color: "white" }}>
