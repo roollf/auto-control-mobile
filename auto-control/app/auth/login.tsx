@@ -18,7 +18,7 @@ import { Octicons } from "@expo/vector-icons"
 import { validationSchema } from "@/utils/formValidation"
 import { LoginUserData } from "@/types/user/user.type"
 import { useSession } from "@/contexts/ctx"
-import { loginStyles } from "./auth.styles"
+import { loginStyles } from "../../styles/auth.styles"
 
 const iconSize = 20
 
@@ -34,9 +34,10 @@ export default function Login() {
   }
 
   const handleFormSubmit = async () => {
+    console.log("clicked")
     try {
-      // await signIn(formData)
-      router.replace("./home")
+      await signIn(formData)
+      router.replace("/dashboard/home")
     } catch (error) {
       console.log(error)
     }
@@ -79,6 +80,7 @@ export default function Login() {
                   }
                 />
                 <AppInput
+                  secureTextEntry
                   onChangeText={(text) => handleInputChange("password", text)}
                   placeholder="Senha"
                   icon={

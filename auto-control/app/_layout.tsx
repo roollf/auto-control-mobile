@@ -8,10 +8,7 @@ export default function RootLayout() {
   return (
     <SessionProvider>
       <StatusBar style="light" />
-      <Stack
-        screenOptions={{ headerShown: false }}
-        initialRouteName="dashboard"
-      />
+      <Stack screenOptions={{ headerShown: false }} />
     </SessionProvider>
   )
 }

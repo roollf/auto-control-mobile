@@ -1,9 +1,9 @@
-import { Text, View } from "react-native";
-import { recoverStyles } from "./auth.styles";
-import AppInput from "@/components/AppInput/AppInput";
-import AppButton from "@/components/appButton/appButton";
-import { router } from "expo-router";
-import { Entypo } from "@expo/vector-icons";
+import { Text, View } from "react-native"
+import { recoverStyles } from "../../styles/auth.styles"
+import AppInput from "@/components/AppInput/AppInput"
+import AppButton from "@/components/appButton/appButton"
+import { router } from "expo-router"
+import { Entypo } from "@expo/vector-icons"
 
 export default function Recover() {
   return (
@@ -37,11 +37,11 @@ export default function Recover() {
             isPrimary={false}
             backgroundColor="transparent"
             destination={() => {
-              router.back();
+              router.back()
             }}
           />
         </View>
       </View>
     </View>
-  );
+  )
 }

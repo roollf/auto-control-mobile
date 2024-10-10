@@ -18,7 +18,7 @@ import AppButton from "@/components/appButton/appButton"
 // import from types, utils and constants
 
 // import from styles
-import { registerConfirmationStyles } from "./register.styles"
+import { registerConfirmationStyles } from "../../../styles/register.styles"
 
 // import from routes
 

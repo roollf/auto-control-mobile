@@ -19,7 +19,7 @@ import Slider from "@/components/Slider/Slider"
 // import from types, utils and constants
 
 // import from styles
-import landingStyles from "./lading.styles"
+import landingStyles from "../../styles/landing.styles"
 
 // import from routes
 
@@ -27,7 +27,7 @@ import landingStyles from "./lading.styles"
 
 // color scheme and variables
 
-export default function Landing() {
+export default function Onboarding() {
   return (
     <GestureHandlerRootView>
       <View style={landingStyles.container}>

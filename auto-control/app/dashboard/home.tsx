@@ -2,7 +2,7 @@ import { FlatList, Text, View } from "react-native"
 
 import Ionicons from "@expo/vector-icons/Ionicons"
 
-import styles from "../(test)/styles"
+import styles from "../../styles/styles"
 import { transformDate, transformToCurrency } from "@/utils/utils"
 import { dadosHoje } from "@/utils/mock"
 
@@ -81,16 +81,16 @@ export default function Home() {
           <Text style={{ fontSize: 40, fontWeight: "bold" }}>
             Olá, Fernando!
           </Text>
-          <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: 10,
+            }}
+          >
             <Ionicons
               name="notifications"
-              size={26}
-              color="black"
-              style={{ opacity: 0.8 }}
-            />
-            <Ionicons
-              name="cog"
-              size={26}
+              size={32}
               color="black"
               style={{ opacity: 0.8 }}
             />
