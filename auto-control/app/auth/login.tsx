@@ -21,10 +21,12 @@ import { useSession } from "@/contexts/ctx"
 import { loginStyles } from "../../styles/auth.styles"
 
 const iconSize = 20
+const passwordInput = true
 
 export default function Login() {
   const { signIn } = useSession()
   const [showPassword, setShowPassword] = useState(false)
+  const [rememberMe, setRememberMe] = useState(false)
   const [formData, setFormData] = useState<LoginUserData>({
     username: "",
     password: "",
@@ -48,7 +50,11 @@ export default function Login() {
     setShowPassword(!showPassword)
   }
 
-  const passwordInput = true
+  const handleRememberMe = () => {
+    setRememberMe(!rememberMe)
+  }
+
+  console.log("REMEMBER ME: ", rememberMe)
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -106,7 +112,7 @@ export default function Login() {
           </View>
           <View style={loginStyles.forgotRememberContainer}>
             <View style={loginStyles.saveLoginContainer}>
-              <Checkbox />
+              <Checkbox value={rememberMe} onValueChange={handleRememberMe} />
               <Text>Salvar login</Text>
             </View>
             <Text>Esqueceu sua senha?</Text>
