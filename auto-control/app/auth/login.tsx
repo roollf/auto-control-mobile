@@ -25,7 +25,7 @@ const passwordInput = true
 
 export default function Login() {
   const { signIn } = useSession()
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(true)
   const [rememberMe, setRememberMe] = useState(false)
   const [formData, setFormData] = useState<LoginUserData>({
     username: "",
@@ -49,12 +49,11 @@ export default function Login() {
   const handleShowPassword = () => {
     setShowPassword(!showPassword)
   }
+  console.log("showPassword: ", showPassword)
 
   const handleRememberMe = () => {
     setRememberMe(!rememberMe)
   }
-
-  console.log("REMEMBER ME: ", rememberMe)
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -96,7 +95,7 @@ export default function Login() {
                   showPassword={showPassword}
                   handleShowPassword={handleShowPassword}
                   passwordInput={passwordInput}
-                  secureTextEntry
+                  secureTextEntry={showPassword}
                   onChangeText={(text) => handleInputChange("password", text)}
                   placeholder="Senha"
                   icon={

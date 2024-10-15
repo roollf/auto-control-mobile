@@ -5,8 +5,22 @@ import Ionicons from "@expo/vector-icons/Ionicons"
 import styles from "../../styles/styles"
 import { transformDate, transformToCurrency } from "@/utils/utils"
 import { dadosHoje } from "@/utils/mock"
+import { storageService } from "@/api/services"
+import { useState } from "react"
+import { useAuth } from "../contexts/authContext"
+import { getUserExpenses } from "@/api/services/expenseService"
 
 export default function Home() {
+  const [userExpenses, setUserExpenses] = useState([])
+
+  const { authToken } = useAuth()
+
+  // useEffect(()=>{
+  //   if(authToken){
+  //     getUserExpenses
+  //   }
+  // },[])
+
   const renderItem = ({ item }) => (
     <View
       style={{
@@ -97,7 +111,7 @@ export default function Home() {
           </View>
         </View>
         <Text style={{ fontSize: 18, fontWeight: "semibold", opacity: 0.5 }}>
-          Despesas do mês
+          {storageService.getItem("authToken").toString()}
         </Text>
         <Text style={{ fontSize: 38, fontWeight: "bold" }}>R$1.432,11</Text>
       </View>

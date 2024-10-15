@@ -12,6 +12,7 @@ export const login = async ({ username, password }: LoginUserData) => {
       username,
       password,
     })
+
     const { token } = response.data
 
     await storageService.saveItem("authToken", token)
