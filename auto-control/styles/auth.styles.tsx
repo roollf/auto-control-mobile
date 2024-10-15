@@ -53,7 +53,7 @@ const loginStyles = StyleSheet.create({
     height: "60%",
   },
   loginTextContainer: {
-    width: "80%",
+    width: "85%",
     display: "flex",
     flexDirection: "column",
   },

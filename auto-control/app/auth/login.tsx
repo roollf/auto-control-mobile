@@ -24,6 +24,7 @@ const iconSize = 20
 
 export default function Login() {
   const { signIn } = useSession()
+  const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState<LoginUserData>({
     username: "",
     password: "",
@@ -42,6 +43,12 @@ export default function Login() {
       console.log(error)
     }
   }
+
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword)
+  }
+
+  const passwordInput = true
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -80,6 +87,9 @@ export default function Login() {
                   }
                 />
                 <AppInput
+                  showPassword={showPassword}
+                  handleShowPassword={handleShowPassword}
+                  passwordInput={passwordInput}
                   secureTextEntry
                   onChangeText={(text) => handleInputChange("password", text)}
                   placeholder="Senha"
