@@ -3,7 +3,7 @@ import { FlatList, Text, View } from "react-native"
 import Ionicons from "@expo/vector-icons/Ionicons"
 
 import styles from "../../styles/styles"
-import { transformDate, transformToCurrency } from "@/utils/utils"
+import { Utils } from "@/utils/utils"
 import { useEffect, useState } from "react"
 import { expenseService } from "@/api/services/expenseService"
 import { ExpenseData } from "@/types/expense/expense.type"
@@ -88,10 +88,10 @@ export default function Home() {
       </View>
       <View style={{ gap: 8 }}>
         <Text style={{ fontWeight: "bold", fontSize: 16 }}>
-          {transformToCurrency(item.value)}
+          {Utils.transformToCurrency(parseFloat(item.value))}
         </Text>
         <Text style={{ fontSize: 12, opacity: 0.5, alignSelf: "flex-end" }}>
-          {transformDate(item.date)}
+          {Utils.transformDate(item.date)}
         </Text>
       </View>
     </View>
