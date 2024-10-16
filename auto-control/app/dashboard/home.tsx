@@ -6,20 +6,36 @@ import styles from "../../styles/styles"
 import { transformDate, transformToCurrency } from "@/utils/utils"
 import { dadosHoje } from "@/utils/mock"
 import { storageService } from "@/api/services"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useAuth } from "../contexts/authContext"
 import { getUserExpenses } from "@/api/services/expenseService"
+import { ExpenseData } from "@/types/expense/expense.type"
+import { Image } from "expo-image"
+import Document from "@/assets/images/signdocument.png"
 
 export default function Home() {
-  const [userExpenses, setUserExpenses] = useState([])
+  const [userExpenses, setUserExpenses] = useState<ExpenseData[]>([])
 
-  const { authToken } = useAuth()
+  const { authToken, user } = useAuth()
 
-  // useEffect(()=>{
-  //   if(authToken){
-  //     getUserExpenses
-  //   }
-  // },[])
+  useEffect(() => {
+    if (authToken && user.user_id !== null) {
+      const fetchExpenses = async () => {
+        const response = await getUserExpenses(
+          user.user_id as number,
+          authToken
+        )
+        setUserExpenses(response.data)
+      }
+      fetchExpenses()
+    }
+  }, [])
+
+  const monthToDateExpenses = () => {
+    return 0
+  }
+
+  console.log("user: ", user)
 
   const renderItem = ({ item }) => (
     <View
@@ -93,7 +109,7 @@ export default function Home() {
           }}
         >
           <Text style={{ fontSize: 40, fontWeight: "bold" }}>
-            Olá, Fernando!
+            Olá, {user.user_name}!
           </Text>
           <View
             style={{
@@ -111,9 +127,11 @@ export default function Home() {
           </View>
         </View>
         <Text style={{ fontSize: 18, fontWeight: "semibold", opacity: 0.5 }}>
-          {storageService.getItem("authToken").toString()}
+          Despesas do mês
         </Text>
-        <Text style={{ fontSize: 38, fontWeight: "bold" }}>R$1.432,11</Text>
+        <Text style={{ fontSize: 38, fontWeight: "bold" }}>
+          R${userExpenses.length == 0 ? "---" : monthToDateExpenses}
+        </Text>
       </View>
       <View
         style={{
@@ -174,17 +192,42 @@ export default function Home() {
           Últimas despesas
         </Text>
       </View>
-      <FlatList
-        style={{
-          display: "flex",
-          zIndex: 1,
-          position: "relative",
-          paddingHorizontal: 20,
-        }}
-        data={dadosHoje}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-      />
+      {userExpenses.length > 0 ? (
+        <FlatList
+          style={{
+            display: "flex",
+            zIndex: 1,
+            position: "relative",
+            paddingHorizontal: 20,
+          }}
+          data={userExpenses}
+          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+        />
+      ) : (
+        <View
+          style={{
+            height: "30%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 20,
+            opacity: 0.5,
+            marginTop: 20,
+          }}
+        >
+          <Image
+            source={Document}
+            alt="document"
+            style={{ width: 96, height: 96 }}
+          />
+          <Text style={{ fontWeight: 500, textAlign: "center", width: "50%" }}>
+            Você ainda não possui despesas registradas, registre uma despesa no
+            botão + abaixo
+          </Text>
+        </View>
+      )}
     </View>
   )
 }

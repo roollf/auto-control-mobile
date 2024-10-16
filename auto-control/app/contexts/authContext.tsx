@@ -9,19 +9,19 @@ interface AuthContextType {
     user_name: string | null
     user_cnh: string | null
   }
+
   setAuthData: (data: {
     token: string
-    user_id: number
-    email: string
-    user_name: string
-    user_cnh: string
+    user_id: number | null
+    email: string | null
+    user_name: string | null
+    user_cnh: string | null
   }) => void
   logout: () => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-// AuthProvider component to wrap the app
 export const AuthProvider = ({ children }) => {
   const [authToken, setAuthToken] = useState<string | null>(null)
   const [user, setUser] = useState<{
@@ -36,7 +36,6 @@ export const AuthProvider = ({ children }) => {
     user_cnh: null,
   })
 
-  // Load token and user data from AsyncStorage when the app starts
   useEffect(() => {
     const loadAuthData = async () => {
       const storedToken = await AsyncStorage.getItem("authToken")
@@ -55,20 +54,21 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   const setAuthData = async (data: {
-    token: string
-    user_id: number
-    email: string
-    user_name: string
-    user_cnh: string
+    token: string | null
+    user_id: number | null
+    email: string | null
+    user_name: string | null
+    user_cnh: string | null
   }) => {
-    const { token, user_id, email, user_name, user_cnh } = data
+    const { user_id, user_name, user_cnh, email, token } = data
     setAuthToken(token)
-    setUser({ user_id, email, user_name, user_cnh })
-
-    await AsyncStorage.setItem("authToken", token)
+    setUser({ user_id, user_name, user_cnh, email })
+    if (token !== null) {
+      await AsyncStorage.setItem("authToken", token)
+    }
     await AsyncStorage.setItem(
       "user",
-      JSON.stringify({ user_id, email, user_name, user_cnh })
+      JSON.stringify({ user_id, user_name, user_cnh, email })
     )
   }
 

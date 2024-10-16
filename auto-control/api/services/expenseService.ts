@@ -5,7 +5,7 @@ import { ExpenseData } from "@/types/expense/expense.type"
 
 export const getUserExpenses = async (
   userId: number,
-  userToken: number
+  userToken: string
 ): Promise<AxiosResponse<ExpenseData[]>> => {
   return await apiClient.get(`/app-expenses/expenses?user${userId}`, {
     headers: {

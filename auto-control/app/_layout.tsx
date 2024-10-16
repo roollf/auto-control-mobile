@@ -3,12 +3,15 @@ import { StatusBar } from "expo-status-bar"
 import { Stack } from "expo-router"
 
 import { SessionProvider } from "../contexts/ctx"
+import { AuthProvider } from "./contexts/authContext"
 
 export default function RootLayout() {
   return (
     <SessionProvider>
-      <StatusBar style="light" />
-      <Stack screenOptions={{ headerShown: false }} />
+      <AuthProvider>
+        <StatusBar style="light" />
+        <Stack screenOptions={{ headerShown: false }} />
+      </AuthProvider>
     </SessionProvider>
   )
 }
