@@ -4,20 +4,31 @@ import Ionicons from "@expo/vector-icons/Ionicons"
 
 import styles from "../../styles/styles"
 import { transformDate, transformToCurrency } from "@/utils/utils"
-import { dadosHoje } from "@/utils/mock"
-import { storageService } from "@/api/services"
 import { useEffect, useState } from "react"
-import { getUserExpenses } from "@/api/services/expenseService"
+import { expenseService } from "@/api/services/expenseService"
 import { ExpenseData } from "@/types/expense/expense.type"
 import { Image } from "expo-image"
 import Document from "@/assets/images/signdocument.png"
-import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useSession } from "@/contexts/ctx"
 
 export default function Home() {
   const [userExpenses, setUserExpenses] = useState<ExpenseData[]>([])
 
   const { session } = useSession()
+
+  useEffect(() => {
+    if (session?.user_id && session?.token) {
+      expenseService
+        .getUserExpenses(session.user_id, session.token)
+        .then((response) => {
+          console.log(response, "RESPONSE")
+          setUserExpenses(response)
+        })
+        .catch((error) => {
+          console.error("Failed to fetch expenses:", error)
+        })
+    }
+  }, [session])
 
   console.log(session)
 
@@ -55,30 +66,32 @@ export default function Home() {
           }}
         >
           <Text>
-            {item.categoria == "Seguro"
+            {item.type_name == "Seguro"
               ? "🔐"
-              : item.categoria === "Abastecimento"
+              : item.type_name === "Abastecimento"
               ? "⛽️"
-              : item.categoria === "Taxas"
+              : item.type_name === "Taxas"
               ? "🏦"
-              : item.categoria === "Manutenção"
+              : item.type_name === "Manutenção"
               ? "🛠️"
+              : item.type_name === "Multa"
+              ? "👮"
               : ""}
           </Text>
         </View>
         <View style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           <Text style={{ fontWeight: "bold", fontSize: 16 }}>
-            {item.categoria}
+            {item.type_name}
           </Text>
-          <Text style={{ fontSize: 12, opacity: 0.5 }}>{item.descricao}</Text>
+          <Text style={{ fontSize: 12, opacity: 0.5 }}>{item.description}</Text>
         </View>
       </View>
       <View style={{ gap: 8 }}>
         <Text style={{ fontWeight: "bold", fontSize: 16 }}>
-          {transformToCurrency(item.valor)}
+          {transformToCurrency(item.value)}
         </Text>
         <Text style={{ fontSize: 12, opacity: 0.5, alignSelf: "flex-end" }}>
-          {transformDate(item.data)}
+          {transformDate(item.date)}
         </Text>
       </View>
     </View>
