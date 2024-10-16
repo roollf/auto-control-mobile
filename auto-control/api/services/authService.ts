@@ -1,12 +1,10 @@
 import { handleApiError } from "../../utils/errorHandler"
 import { apiClient } from "./apiClient"
-import { storageService } from "./storageService"
 import {
   LoginResponse,
   LoginUserData,
   RegisterUserData,
 } from "@/types/user/user.type"
-import AsyncStorage from "@react-native-async-storage/async-storage"
 
 const loginEndpoint = "/login/"
 const registerEndpoint = "/api/v1/app-users/register-user/"
@@ -20,7 +18,6 @@ export const login = async ({
       username,
       password,
     })
-
     return response.data
   } catch (error) {
     console.error("API login failed", error)

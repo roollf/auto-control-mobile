@@ -71,8 +71,7 @@ export function SessionProvider({ children }: React.PropsWithChildren<{}>) {
           user_name: response.user_name,
           user_cnh: response.user_cnh,
         }
-
-        await storageService.saveItem("user", JSON.stringify(loginData))
+        // await storageService.saveItem("user", JSON.stringify(loginData))
         setSession(loginData)
         return loginData
       }
