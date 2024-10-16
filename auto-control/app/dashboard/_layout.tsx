@@ -1,13 +1,9 @@
-import { Text, View } from "react-native"
+import { View } from "react-native"
 import { Tabs, useNavigation } from "expo-router"
 import { FontAwesome } from "@expo/vector-icons"
-import { useEffect } from "react"
 
 export default function TabLayout() {
   const navigation = useNavigation()
-  useEffect(() => {
-    console.log(navigation.getState().routes) // This logs all generated routes
-  }, [])
 
   return (
     <Tabs

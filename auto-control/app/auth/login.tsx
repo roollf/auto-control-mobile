@@ -37,7 +37,6 @@ export default function Login() {
   }
 
   const handleFormSubmit = async () => {
-    console.log("clicked")
     try {
       await signIn(formData)
       router.replace("/dashboard/home")
@@ -49,7 +48,6 @@ export default function Login() {
   const handleShowPassword = () => {
     setShowPassword(!showPassword)
   }
-  console.log("showPassword: ", showPassword)
 
   const handleRememberMe = () => {
     setRememberMe(!rememberMe)

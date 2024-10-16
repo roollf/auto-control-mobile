@@ -7,35 +7,23 @@ import { transformDate, transformToCurrency } from "@/utils/utils"
 import { dadosHoje } from "@/utils/mock"
 import { storageService } from "@/api/services"
 import { useEffect, useState } from "react"
-import { useAuth } from "../contexts/authContext"
 import { getUserExpenses } from "@/api/services/expenseService"
 import { ExpenseData } from "@/types/expense/expense.type"
 import { Image } from "expo-image"
 import Document from "@/assets/images/signdocument.png"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import { useSession } from "@/contexts/ctx"
 
 export default function Home() {
   const [userExpenses, setUserExpenses] = useState<ExpenseData[]>([])
 
-  const { authToken, user } = useAuth()
+  const { session } = useSession()
 
-  useEffect(() => {
-    if (authToken && user.user_id !== null) {
-      const fetchExpenses = async () => {
-        const response = await getUserExpenses(
-          user.user_id as number,
-          authToken
-        )
-        setUserExpenses(response.data)
-      }
-      fetchExpenses()
-    }
-  }, [])
+  console.log(session)
 
   const monthToDateExpenses = () => {
     return 0
   }
-
-  console.log("user: ", user)
 
   const renderItem = ({ item }) => (
     <View
@@ -109,7 +97,7 @@ export default function Home() {
           }}
         >
           <Text style={{ fontSize: 40, fontWeight: "bold" }}>
-            Olá, {user.user_name}!
+            Olá, {session?.user_name}!
           </Text>
           <View
             style={{

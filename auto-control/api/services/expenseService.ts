@@ -7,9 +7,9 @@ export const getUserExpenses = async (
   userId: number,
   userToken: string
 ): Promise<AxiosResponse<ExpenseData[]>> => {
-  return await apiClient.get(`/app-expenses/expenses?user${userId}`, {
+  return await apiClient.get(`/api/v1/app-expenses/expenses?user${userId}`, {
     headers: {
-      Authorization: `Bearer ${userToken}`,
+      Authorization: `Token ${userToken}`,
     },
   })
 }
