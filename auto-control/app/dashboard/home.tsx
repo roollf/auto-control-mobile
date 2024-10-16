@@ -4,17 +4,33 @@ import Ionicons from "@expo/vector-icons/Ionicons"
 
 import styles from "../../styles/styles"
 import { Utils } from "@/utils/utils"
-import { useEffect, useState } from "react"
-import { ExpenseService, expenseService } from "@/api/services/expenseService"
+import { useCallback, useEffect, useState } from "react"
+import { ExpenseService } from "@/api/services/expenseService"
 import { ExpenseData } from "@/types/expense/expense.type"
 import { Image } from "expo-image"
 import Document from "@/assets/images/signdocument.png"
 import { useSession } from "@/contexts/ctx"
+import { useFocusEffect } from "expo-router"
 
 export default function Home() {
   const [userExpenses, setUserExpenses] = useState<ExpenseData[]>([])
 
   const { session } = useSession()
+
+  useFocusEffect(
+    useCallback(() => {
+      if (session?.user_id && session?.token) {
+        ExpenseService.getUserExpenses(session.user_id, session.token)
+          .then((response) => {
+            console.log(response, "RESPONSE")
+            setUserExpenses(response)
+          })
+          .catch((error) => {
+            console.error("Failed to fetch expenses:", error)
+          })
+      }
+    }, [])
+  )
 
   useEffect(() => {
     if (session?.user_id && session?.token) {

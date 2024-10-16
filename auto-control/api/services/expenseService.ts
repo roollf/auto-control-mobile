@@ -48,31 +48,44 @@ export const ExpenseService = {
     vehicleId: number,
     typeId: number,
     description: string,
-    formattedDate: string,
+    formattedDate: string, // Make sure this is correctly formatted
     value: number,
     expenseName: string,
     userToken: string
   ): Promise<ExpenseData> {
     try {
+      // Log the request body before sending
+      console.log("Sending the following data:", {
+        name: expenseName,
+        value: value,
+        date: formattedDate, // Should be in YYYY-MM-DD format
+        vehicle: vehicleId,
+        description: description,
+        type: typeId,
+      })
+
       const response: AxiosResponse<ExpenseData> = await apiClient.post(
-        `/app-expenses/expenses/`,
+        `api/v1/app-expenses/expenses/`,
         {
-          name: expenseName,
-          value: value,
-          date: formattedDate,
-          vehicle: vehicleId,
-          description: description,
-          type: typeId,
+          name: expenseName, // Correct "name" key
+          value: value, // Expense value
+          date: formattedDate, // "date" field in YYYY-MM-DD format
+          vehicle: vehicleId, // Vehicle ID
+          description: description, // Description of the expense
+          type: typeId, // Type of expense
         },
         {
           headers: {
-            Authorization: `Bearer ${userToken}`,
+            Authorization: `Token ${userToken}`, // Bearer token
           },
         }
       )
       return response.data
     } catch (error) {
-      console.error("Error creating user expense: ", error)
+      console.error(
+        "Error creating user expense: ",
+        error.response?.data || error.message
+      )
       throw error
     }
   },

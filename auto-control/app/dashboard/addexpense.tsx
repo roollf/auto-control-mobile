@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Alert, Platform, Pressable, Text, TextInput, View } from "react-native"
 import { Picker } from "@react-native-picker/picker"
 import { ExpenseService } from "@/api/services/expenseService"
@@ -6,11 +6,11 @@ import DateTimePicker from "@react-native-community/datetimepicker"
 import { Image } from "expo-image"
 import calendar from "@/assets/images/calendar.svg"
 import { useSession } from "@/contexts/ctx"
-import { ExpenseData } from "@/types/expense/expense.type"
+import { router, useFocusEffect } from "expo-router"
 
 export default function AddExpense() {
   const [vehicleName, setVehicleName] = useState("")
-  const [vehicleId, setVehicleId] = useState<number>(0)
+  const [vehicleId, setVehicleId] = useState<number>(1)
   const [typeId, setTypeId] = useState(1)
   const [typeName, setTypeName] = useState("Multa 👮")
   const [selectVehicle, setSelectedVehicle] = useState()
@@ -20,49 +20,92 @@ export default function AddExpense() {
   const [description, setDescription] = useState("")
   const [expenseName, setExpenseName] = useState("")
   const [value, setValue] = useState(0)
-  const [formattedDate, setFormattedDate] = useState(
-    date.toLocaleDateString("pt-BR")
-  )
+  const [formattedDate, setFormattedDate] = useState(formatDateToYYYYMMDD(date))
+
+  const { session } = useSession() // Extract session context onc
+
+  function formatDateToYYYYMMDD(date: Date): string {
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, "0") // Add 1 to month since getMonth() is 0-indexed
+    const day = String(date.getDate()).padStart(2, "0") // Pad with zero if day is a single digit
+
+    return `${year}-${month}-${day}`
+  }
 
   const onChangeDate = (event: any, selectedDate: Date | undefined) => {
     const currentDate = selectedDate || date
     setShow(Platform.OS === "ios")
     setDate(currentDate)
-    setFormattedDate(currentDate.toLocaleDateString("pt-BR"))
+    setFormattedDate(formatDateToYYYYMMDD(currentDate))
   }
 
   const showDatepicker = () => {
     setShow(true)
   }
 
+  // Clear the form when the component (tab) is focused
+  useFocusEffect(
+    useCallback(() => {
+      clearForm() // Clear the form when the user navigates to the "Add Expense" tab
+    }, [])
+  )
+
   const handleSubmit = async () => {
-    const { session } = useSession()
     if (session?.token) {
-      const userToken = session.token
+      const { token: userToken } = session
+
+      // Log the details before making the request
+      console.log({
+        vehicleId,
+        typeId,
+        description,
+        formattedDate, // Ensure it's formatted as YYYY-MM-DD
+        value,
+        expenseName,
+        userToken,
+      })
+
       try {
-        const expenseData: ExpenseData =
-          await ExpenseService.createVehicleExpense(
-            vehicleId,
-            typeId,
-            description,
-            formattedDate,
-            value,
-            expenseName,
-            userToken
-          )
+        const expenseData = await ExpenseService.createVehicleExpense(
+          vehicleId, // Vehicle ID
+          typeId, // Type of expense
+          description, // Description
+          formattedDate, // Ensure this is in "YYYY-MM-DD"
+          value, // Expense value
+          expenseName, // Name of the expense
+          userToken // Bearer token
+        )
         Alert.alert("Expense created successfully", `ID: ${expenseData.id}`)
+
+        // Navigate to the home screen after submitting
+        router.replace("/dashboard/home")
+
+        // Clear the form after successful submission
+        clearForm()
       } catch (error) {
-        console.error("Error creating expense", error)
+        console.error(
+          "Error creating expense:",
+          error.response?.data || error.message
+        )
         Alert.alert("Error", "Failed to create expense")
       }
     }
   }
 
-  const { session } = useSession()
+  const clearForm = () => {
+    setVehicleId(1)
+    setTypeId(1)
+    setDescription("")
+    setFormattedDate(formatDateToYYYYMMDD(new Date())) // Reset to current date
+    setValue(0)
+    setExpenseName("")
+  }
 
   useEffect(() => {
     if (session?.user_id && session?.token) {
-      ExpenseService.getUserVehicles(session.user_id, session.token)
+      const { user_id, token } = session
+
+      ExpenseService.getUserVehicles(user_id, token)
         .then((response) => {
           console.log("RESPONSE VEHICLES", response)
           if (response[0]?.name && response[0]?.id) {
@@ -71,10 +114,10 @@ export default function AddExpense() {
           }
         })
         .catch((error) => {
-          console.error("Failed to get user vehicles")
+          console.error("Failed to get user vehicles", error)
         })
     }
-  }, [])
+  }, [session])
 
   return (
     <View
@@ -92,18 +135,7 @@ export default function AddExpense() {
         <View style={{ marginBottom: 40 }}>
           <Text style={{ fontSize: 40, fontWeight: "bold" }}>Nova despesa</Text>
         </View>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 16 }}>Selecione o veículo</Text>
-          <Text style={{ paddingBottom: 14, fontSize: 26, marginLeft: 16 }}>
-            🚗
-          </Text>
-        </View>
+        {/* Vehicle Picker */}
         <View style={{ backgroundColor: "#eaeff4", borderRadius: 8 }}>
           <Picker
             selectedValue={selectVehicle}
@@ -114,10 +146,12 @@ export default function AddExpense() {
             <Picker.Item label={vehicleName} value={vehicleId} />
           </Picker>
         </View>
+        {/* Expense Name */}
         <View style={{ marginTop: 12, gap: 8 }}>
           <Text>Título da despesa</Text>
           <TextInput
             placeholder="Título"
+            value={expenseName} // Controlled input
             onChangeText={(text) => setExpenseName(text)}
             style={{
               backgroundColor: "#eaeff4",
@@ -127,6 +161,7 @@ export default function AddExpense() {
             }}
           />
         </View>
+        {/* Expense Type Picker */}
         <View style={{ marginTop: 12, gap: 8 }}>
           <Text>Tipo de despesa</Text>
         </View>
@@ -138,6 +173,7 @@ export default function AddExpense() {
             <Picker.Item label={typeName} value={typeId} />
           </Picker>
         </View>
+        {/* Date Picker */}
         <View style={{ marginTop: 12, gap: 8 }}>
           <Text>Data</Text>
           <Pressable
@@ -172,9 +208,11 @@ export default function AddExpense() {
             />
           )}
         </View>
+        {/* Description */}
         <View style={{ marginTop: 12, gap: 8 }}>
           <Text>Descrição da despesa</Text>
           <TextInput
+            value={description} // Controlled input
             onChangeText={(text) => setDescription(text)}
             placeholder="Descrição"
             style={{
@@ -185,9 +223,11 @@ export default function AddExpense() {
             }}
           />
         </View>
+        {/* Value */}
         <View style={{ marginTop: 12, gap: 8 }}>
           <Text>Valor</Text>
           <TextInput
+            value={value.toString()} // Convert number to string
             onChangeText={(text) => setValue(Number(text))}
             inputMode="numeric"
             placeholder="Valor R$"
@@ -199,6 +239,7 @@ export default function AddExpense() {
             }}
           />
         </View>
+        {/* Submit Button */}
         <View
           style={{
             width: "100%",
@@ -221,13 +262,8 @@ export default function AddExpense() {
             }}
             onPress={handleSubmit}
           >
-            {/* <Image
-              source={download}
-              alt="calendar"
-              style={{ width: 24, height: 24 }}
-            /> */}
             <Text style={{ fontSize: 24, color: "white", fontWeight: "bold" }}>
-              Registrars
+              Registrar
             </Text>
           </Pressable>
         </View>

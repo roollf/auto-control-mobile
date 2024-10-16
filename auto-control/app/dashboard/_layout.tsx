@@ -35,12 +35,11 @@ export default function TabLayout() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                width: 60,
-                height: 60,
-                transform: [{ translateY: -20 }],
+                width: 40,
+                height: 40,
               }}
             >
-              <FontAwesome size={28} name="plus" color="white" />
+              <FontAwesome size={18} name="plus" color="white" />
             </View>
           ),
           headerShown: false,
