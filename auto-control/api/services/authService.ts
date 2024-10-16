@@ -1,25 +1,27 @@
 import { handleApiError } from "../../utils/errorHandler"
 import { apiClient } from "./apiClient"
-import { storageService } from "./storageService"
-import { LoginUserData, RegisterUserData } from "@/types/user/user.type"
+import {
+  LoginResponse,
+  LoginUserData,
+  RegisterUserData,
+} from "@/types/user/user.type"
 
 const loginEndpoint = "/login/"
 const registerEndpoint = "/api/v1/app-users/register-user/"
 
-export const login = async ({ username, password }: LoginUserData) => {
+export const login = async ({
+  username,
+  password,
+}: LoginUserData): Promise<LoginResponse> => {
   try {
-    const response = await apiClient.post(loginEndpoint, {
+    const response = await apiClient.post<LoginResponse>(loginEndpoint, {
       username,
       password,
     })
-    const { token } = response.data
-
-    await storageService.saveItem("authToken", token)
-
-    return true
+    return response.data
   } catch (error) {
-    handleApiError(error)
-    return false
+    console.error("API login failed", error)
+    throw error
   }
 }
 

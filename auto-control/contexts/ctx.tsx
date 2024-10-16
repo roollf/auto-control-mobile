@@ -1,16 +1,25 @@
-import { useContext, createContext, type PropsWithChildren } from "react"
-import { useStorageState } from "../hooks/useStorageState"
-
+import { useContext, createContext, useState, useEffect } from "react"
 import { login } from "../api/services/authService"
-import { LoginUserData } from "@/types/user/user.type"
+import { LoginResponse, LoginUserData } from "@/types/user/user.type"
+import { router } from "expo-router"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import { storageService } from "@/api/services"
 
 const AuthContext = createContext<{
-  signIn: ({ username, password }: LoginUserData) => Promise<void>
+  signIn: ({ username, password }: LoginUserData) => Promise<LoginResponse>
   signOut: () => void
-  session?: string | null
+  session?: LoginResponse | null
   isLoading: boolean
 }>({
-  signIn: async () => {},
+  signIn: async () => {
+    return {
+      token: "",
+      user_id: 0,
+      email: "",
+      user_name: "",
+      user_cnh: "",
+    }
+  },
   signOut: () => null,
   session: null,
   isLoading: false,
@@ -26,25 +35,63 @@ export function useSession() {
   return value
 }
 
-export function SessionProvider({ children }: PropsWithChildren) {
-  const [[isLoading, session], setSession] = useStorageState("session")
+export function SessionProvider({ children }: React.PropsWithChildren<{}>) {
+  const [isLoading, setLoading] = useState<boolean>(true)
+  const [session, setSession] = useState<LoginResponse | null>(null)
 
-  const signIn = async ({ username, password }: LoginUserData) => {
+  useEffect(() => {
+    const loadSession = async () => {
+      try {
+        const jsonValue = await AsyncStorage.getItem("user")
+        if (jsonValue) {
+          setSession(JSON.parse(jsonValue))
+        }
+      } catch (e) {
+        console.error("Failed to load session", e)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadSession()
+  }, [])
+
+  const signIn = async ({
+    username,
+    password,
+  }: LoginUserData): Promise<LoginResponse> => {
     try {
-      const success = await login({ username, password })
-      if (success) {
-        console.log("Login successful, setting session")
-        setSession(username)
+      const response = await login({ username, password })
+
+      if (response) {
+        const loginData: LoginResponse = {
+          token: response.token,
+          user_id: response.user_id,
+          email: response.email,
+          user_name: response.user_name,
+          user_cnh: response.user_cnh,
+        }
+        // await storageService.saveItem("user", JSON.stringify(loginData))
+        setSession(loginData)
+        return loginData
       }
     } catch (error) {
       console.error("Login failed", error)
       throw new Error("Login failed. Please check your credentials.")
+    }
+    return {
+      token: "",
+      user_id: 0,
+      email: "",
+      user_name: "",
+      user_cnh: "",
     }
   }
 
   const signOut = () => {
     console.log("Sign-out executed")
     setSession(null)
+    router.replace("/landing/onboarding")
   }
 
   return (

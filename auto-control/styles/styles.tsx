@@ -3,10 +3,18 @@ import { StyleSheet, Dimensions } from "react-native"
 const appStyles = StyleSheet.create({
   container: {
     flex: 1,
+    zIndex: 1,
+    display: "flex",
+    flexDirection: "column",
+    position: "relative",
+    backgroundColor: "white",
   },
   upperContent: {
-    flex: 1,
-    backgroundColor: "white",
+    position: "relative",
+    display: "flex",
+    paddingHorizontal: 30,
+    paddingTop: 80,
+    zIndex: 1,
   },
   userIcon: {
     width: 50,
@@ -27,10 +35,11 @@ const appStyles = StyleSheet.create({
     gap: 10,
     justifyContent: "space-between",
     padding: 10,
-    height: 180,
     paddingHorizontal: 20,
-    paddingVertical: 30,
-    flex: 1,
+    paddingTop: 40,
+    height: "100%",
+    zIndex: 1,
+    position: "relative",
   },
 
   userGreeting: {

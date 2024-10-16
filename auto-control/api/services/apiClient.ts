@@ -6,6 +6,7 @@ class ApiClient {
   private static instance: ApiClient
   public client = axios.create({
     baseURL: API_URL,
+    headers: { "Content-Type": "application/json" },
   })
 
   private constructor() {}

@@ -1,6 +1,6 @@
 import { Button, Text, TextInput, View } from "react-native"
 
-import { useSession } from "../../../contexts/ctx"
+import { useSession } from "@/contexts/ctx"
 
 import { FontAwesome5 } from "@expo/vector-icons"
 import { useEffect, useState } from "react"

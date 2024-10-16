@@ -18,12 +18,15 @@ import { Octicons } from "@expo/vector-icons"
 import { validationSchema } from "@/utils/formValidation"
 import { LoginUserData } from "@/types/user/user.type"
 import { useSession } from "@/contexts/ctx"
-import { loginStyles } from "./auth.styles"
+import { loginStyles } from "../../styles/auth.styles"
 
 const iconSize = 20
+const passwordInput = true
 
 export default function Login() {
   const { signIn } = useSession()
+  const [showPassword, setShowPassword] = useState(true)
+  const [rememberMe, setRememberMe] = useState(false)
   const [formData, setFormData] = useState<LoginUserData>({
     username: "",
     password: "",
@@ -35,11 +38,19 @@ export default function Login() {
 
   const handleFormSubmit = async () => {
     try {
-      // await signIn(formData)
-      router.replace("./home")
+      await signIn(formData)
+      router.replace("/dashboard/home")
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword)
+  }
+
+  const handleRememberMe = () => {
+    setRememberMe(!rememberMe)
   }
 
   return (
@@ -79,6 +90,10 @@ export default function Login() {
                   }
                 />
                 <AppInput
+                  showPassword={showPassword}
+                  handleShowPassword={handleShowPassword}
+                  passwordInput={passwordInput}
+                  secureTextEntry={showPassword}
                   onChangeText={(text) => handleInputChange("password", text)}
                   placeholder="Senha"
                   icon={
@@ -94,7 +109,7 @@ export default function Login() {
           </View>
           <View style={loginStyles.forgotRememberContainer}>
             <View style={loginStyles.saveLoginContainer}>
-              <Checkbox />
+              <Checkbox value={rememberMe} onValueChange={handleRememberMe} />
               <Text>Salvar login</Text>
             </View>
             <Text>Esqueceu sua senha?</Text>

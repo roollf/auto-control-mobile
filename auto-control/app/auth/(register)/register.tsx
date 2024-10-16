@@ -28,7 +28,7 @@ import { RegisterUserData } from "@/types/user/user.type"
 import { validationSchema } from "@/utils/formValidation"
 
 // import from styles
-import { registerStyles } from "./register.styles"
+import { registerStyles } from "../../../styles/register.styles"
 
 // import from routes
 

@@ -2,8 +2,6 @@ import { StyleSheet, Dimensions } from "react-native"
 
 const height = Dimensions.get("window").height
 
-console.log(height, "height")
-
 const whereAmI = {
   borderColor: "red",
   borderWidth: 1,

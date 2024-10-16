@@ -1,45 +1,12 @@
-// import from react and hooks
+import { Redirect } from "expo-router"
+import { useSession } from "@/contexts/ctx" // Example of using authentication context
 
-// import from react native and expo
-import { GestureHandlerRootView } from "react-native-gesture-handler"
-import { View } from "react-native"
+export default function Index() {
+  const { session } = useSession()
 
-// import from custom hooks
+  if (!session) {
+    return <Redirect href="/landing" />
+  }
 
-// import from context
-
-// import from services
-
-// import from third party libraries
-import { LinearGradient } from "expo-linear-gradient"
-
-// import from custom components
-import Slider from "@/components/Slider/Slider"
-
-// import from types, utils and constants
-
-// import from styles
-import landingStyles from "./lading.styles"
-
-// import from routes
-
-// import from images and svgs
-
-// color scheme and variables
-
-export default function Landing() {
-  return (
-    <>
-      <GestureHandlerRootView>
-        <View style={landingStyles.container}>
-          <LinearGradient
-            colors={["#2282FF", "#326aee"]}
-            style={landingStyles.linearGradientContainer}
-          >
-            <Slider />
-          </LinearGradient>
-        </View>
-      </GestureHandlerRootView>
-    </>
-  )
+  return <Redirect href="/dashboard/home" />
 }
