@@ -24,9 +24,8 @@ const iconSize = 20
 const passwordInput = true
 
 export default function Login() {
-  const { signIn } = useSession()
+  const { signIn, rememberMe, setRememberMe } = useSession()
   const [showPassword, setShowPassword] = useState(true)
-  const [rememberMe, setRememberMe] = useState(false)
   const [formData, setFormData] = useState<LoginUserData>({
     username: "",
     password: "",
@@ -47,10 +46,6 @@ export default function Login() {
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword)
-  }
-
-  const handleRememberMe = () => {
-    setRememberMe(!rememberMe)
   }
 
   return (
@@ -109,7 +104,7 @@ export default function Login() {
           </View>
           <View style={loginStyles.forgotRememberContainer}>
             <View style={loginStyles.saveLoginContainer}>
-              <Checkbox value={rememberMe} onValueChange={handleRememberMe} />
+              <Checkbox value={rememberMe} onValueChange={setRememberMe} />
               <Text>Salvar login</Text>
             </View>
             <Text>Esqueceu sua senha?</Text>

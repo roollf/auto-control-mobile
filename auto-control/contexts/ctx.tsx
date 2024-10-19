@@ -10,6 +10,8 @@ const AuthContext = createContext<{
   signOut: () => void
   session?: LoginResponse | null
   isLoading: boolean
+  rememberMe?: boolean
+  setRememberMe?: (value: boolean) => void
 }>({
   signIn: async () => {
     return {
@@ -38,6 +40,7 @@ export function useSession() {
 export function SessionProvider({ children }: React.PropsWithChildren<{}>) {
   const [isLoading, setLoading] = useState<boolean>(true)
   const [session, setSession] = useState<LoginResponse | null>(null)
+  const [rememberMe, setRememberMe] = useState<boolean>(false)
 
   useEffect(() => {
     const loadSession = async () => {
@@ -71,7 +74,9 @@ export function SessionProvider({ children }: React.PropsWithChildren<{}>) {
           user_name: response.user_name,
           user_cnh: response.user_cnh,
         }
-        // await storageService.saveItem("user", JSON.stringify(loginData))
+        if (rememberMe) {
+          await storageService.saveItem("user", JSON.stringify(loginData))
+        }
         setSession(loginData)
         return loginData
       }
@@ -90,6 +95,7 @@ export function SessionProvider({ children }: React.PropsWithChildren<{}>) {
 
   const signOut = () => {
     console.log("Sign-out executed")
+    storageService.removeItem("user")
     setSession(null)
     router.replace("/landing/onboarding")
   }
@@ -101,6 +107,8 @@ export function SessionProvider({ children }: React.PropsWithChildren<{}>) {
         signOut,
         session,
         isLoading,
+        rememberMe,
+        setRememberMe,
       }}
     >
       {children}
