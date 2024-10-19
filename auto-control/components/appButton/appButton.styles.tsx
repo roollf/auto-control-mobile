@@ -14,13 +14,13 @@ const buttonStyles = ({ isPrimary, backgroundColor }: StyleProps) =>
   StyleSheet.create({
     container: {
       // ...whereAmI,
-      height: isPrimary ? 40 : 20,
+      height: isPrimary ? 60 : 20,
       width: isPrimary ? 250 : 150,
     },
     buttonContainer: {
       // ...whereAmI,
       flex: 1,
-      borderRadius: 8,
+      borderRadius: 40,
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: isPrimary ? "#2282FF" : backgroundColor,

@@ -38,10 +38,12 @@ import { registerStyles } from "../../../styles/register.styles"
 
 interface CreateAccountProps {
   onRegisterSuccess: () => void
+  handleOnClose: () => void
 }
 
 export default function CreateAccount({
   onRegisterSuccess,
+  handleOnClose,
 }: CreateAccountProps) {
   const [formData, setFormData] = useState<RegisterUserData>({
     name: "",
@@ -143,11 +145,7 @@ export default function CreateAccount({
             label="Voltar"
             isPrimary={false}
             backgroundColor="transparent"
-            destination={() => {
-              router.canGoBack()
-                ? router.back()
-                : router.replace("/(auth)/login")
-            }}
+            onPress={handleOnClose}
           />
         </View>
       </View>

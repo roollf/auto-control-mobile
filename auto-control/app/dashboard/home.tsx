@@ -11,47 +11,101 @@ import { Image } from "expo-image"
 import Document from "@/assets/images/signdocument.png"
 import { useSession } from "@/contexts/ctx"
 import { useFocusEffect } from "expo-router"
+import { DashboardChart } from "@/components/DashboardChart/DashboardChart"
 
 export default function Home() {
   const [userExpenses, setUserExpenses] = useState<ExpenseData[]>([])
   const [myToken, setMyToken] = useState<string>("")
+  const [isLoading, setIsLoading] = useState(true)
 
   const { session } = useSession()
 
-  useFocusEffect(
-    useCallback(() => {
-      if (session?.user_id && session?.token) {
-        ExpenseService.getUserExpenses(session.user_id, session.token)
-          .then((response) => {
-            console.log(response, "RESPONSE")
-            setUserExpenses(response)
-          })
-          .catch((error) => {
-            console.error("Failed to fetch expenses:", error)
-          })
-      }
-    }, [])
-  )
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     if (session?.user_id && session?.token) {
+  //       ExpenseService.getUserExpenses(session.user_id, session.token)
+  //         .then((response) => {
+  //           setUserExpenses(response)
+  //         })
+  //         .catch((error) => {
+  //           console.error("Failed to fetch expenses:", error)
+  //         })
+  //     }
+  //   }, [])
+  // )
 
   useEffect(() => {
     if (session?.user_id && session?.token) {
       setMyToken(session.token)
       ExpenseService.getUserExpenses(session.user_id, session.token)
         .then((response) => {
-          console.log(response, "RESPONSE")
-          setUserExpenses(response)
+          setUserExpenses(sortExpensesByDate(response))
+          setIsLoading(false)
         })
         .catch((error) => {
           console.error("Failed to fetch expenses:", error)
+          setIsLoading(false)
         })
     }
   }, [session])
 
-  console.log(session)
+  function sortExpensesByDate(expenses: ExpenseData[]) {
+    return expenses.sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime()
+    })
+  }
 
-  // const monthToDateExpenses = () => {
-  //   return 0
-  // }
+  function currentMonthExpensesSum(expenses: ExpenseData[]) {
+    const currentMonth = new Date().getMonth()
+    return expenses
+      .filter((expense) => new Date(expense.date).getMonth() === currentMonth)
+      .reduce((acc, expense) => acc + parseFloat(expense.value), 0)
+  }
+
+  function totalValuePerType(expenses: ExpenseData[]) {
+    const result = expenses.reduce((acc, expense) => {
+      if (acc[expense.type_name]) {
+        acc[expense.type_name] += parseFloat(expense.value)
+      } else {
+        acc[expense.type_name] = parseFloat(expense.value)
+      }
+      return acc
+    }, {})
+
+    // Now transform the result into an array of objects for the chart
+    const formattedResult = Object.keys(result).map((type) => {
+      let color = ""
+      let gradientCenterColor = ""
+
+      // Assign colors based on the type
+      switch (type) {
+        case "Multa":
+          color = "#FFA500"
+          gradientCenterColor = "#FF4500"
+          break
+        case "Manutenção":
+          color = "#00FF00"
+          gradientCenterColor = "#008000"
+          break
+        // Add more types as needed
+        default:
+          color = "#CCCCCC"
+          gradientCenterColor = "#AAAAAA"
+      }
+
+      return {
+        type: type,
+        value: result[type], // The total value for this type
+        color: color,
+        gradientCenterColor: gradientCenterColor,
+      }
+    })
+    console.log("Formatted Result for Chart: ", formattedResult)
+
+    return formattedResult
+  }
+
+  const chartData = totalValuePerType(userExpenses)
 
   const renderItem = ({ item }) => (
     <View
@@ -148,8 +202,10 @@ export default function Home() {
           Despesas do mês
         </Text>
         <Text style={{ fontSize: 38, fontWeight: "bold" }}>
-          {myToken}
-          {/* R${userExpenses.length == 0 ? "---" : "0"} */}
+          R$
+          {userExpenses.length == 0
+            ? "0"
+            : `${currentMonthExpensesSum(userExpenses)}`}
         </Text>
       </View>
       <View
@@ -166,19 +222,20 @@ export default function Home() {
             height: 175,
             width: 175,
             borderRadius: 28,
-            backgroundColor: "#234e86",
+            borderWidth: 1,
+            borderColor: "rgba(35, 78, 134, 0.1)",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
             padding: 20,
           }}
         >
-          <Ionicons name="calendar" size={32} color="white" />
+          <Ionicons name="calendar" size={32} color="#234e86" />
           <View>
-            <Text style={{ fontWeight: "bold", color: "white" }}>
+            <Text style={{ fontWeight: "bold", color: "black" }}>
               Próxima despesa
             </Text>
-            <Text style={{ fontWeight: "bold", fontSize: 20, color: "white" }}>
+            <Text style={{ fontWeight: "bold", fontSize: 20, color: "black" }}>
               03/12/2024
             </Text>
           </View>
@@ -187,23 +244,19 @@ export default function Home() {
           style={{
             height: 175,
             width: 175,
-            borderRadius: 28,
-            backgroundColor: "#234e86",
             display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            padding: 20,
+            justifyContent: "center",
+            alignItems: "center",
+            overflow: "hidden",
           }}
         >
-          <Ionicons name="wallet" size={32} color="white" />
-          <View>
-            <Text style={{ fontWeight: "bold", color: "white" }}>
-              Economias
-            </Text>
-            <Text style={{ fontWeight: "bold", fontSize: 20, color: "white" }}>
-              R$ 132,33
-            </Text>
-          </View>
+          {isLoading ? (
+            <View>
+              <Text>Loading Chart</Text>
+            </View>
+          ) : (
+            <DashboardChart data={chartData} />
+          )}
         </View>
       </View>
       <View style={{ paddingHorizontal: 30, marginBottom: 16 }}>

@@ -2,7 +2,7 @@ import { PressableProps } from "react-native"
 
 interface BaseButtonProps extends PressableProps {
   label: string
-  destination: () => void
+  destination?: () => void
 }
 
 interface PrimaryButtonProps extends BaseButtonProps {

@@ -110,6 +110,7 @@ const Slider = () => {
               onPress={() =>
                 handleExpandBottomSheet(
                   <Register
+                    handleOnClose={handleOnClose}
                     onRegisterSuccess={handleAccountCreatedNavigation}
                   />
                 )

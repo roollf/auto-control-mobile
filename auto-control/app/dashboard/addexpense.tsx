@@ -13,9 +13,9 @@ interface Vehicle {
 }
 
 export default function AddExpense() {
-  const [vehicleId, setVehicleId] = useState<number>(1)
+  const [vehicleId, setVehicleId] = useState<number>(0)
   const [vehicles, setVehicles] = useState<Vehicle[]>([])
-  const [typeId, setTypeId] = useState(1)
+  const [typeId, setTypeId] = useState(0)
   const [expenseTypes, setExpenseTypes] = useState<ExpenseType[]>([])
   const [date, setDate] = useState(new Date())
   const [show, setShow] = useState(false)
@@ -35,8 +35,8 @@ export default function AddExpense() {
   }
 
   const clearForm = () => {
-    setVehicleId(1)
-    setTypeId(1)
+    setVehicleId(0)
+    setTypeId(0)
     setDescription("")
     setFormattedDate(formatDateToYYYYMMDD(new Date()))
     setValue(0)
@@ -48,10 +48,6 @@ export default function AddExpense() {
     setShow(Platform.OS === "ios")
     setDate(currentDate)
     setFormattedDate(formatDateToYYYYMMDD(currentDate))
-  }
-
-  const showDatepicker = () => {
-    setShow(true)
   }
 
   const handleSubmit = async () => {
@@ -195,29 +191,27 @@ export default function AddExpense() {
               Array.isArray(expenseTypes)
                 ? expenseTypes.map((expenseType) => {
                     let emoji = ""
-
-                    // Add emojis based on the expenseType name
                     switch (expenseType.name) {
                       case "Multa":
-                        emoji = "👮" // Traffic fine
+                        emoji = "👮"
                         break
                       case "Imposto":
-                        emoji = "💸" // Tax
+                        emoji = "💸"
                         break
                       case "Manutenção":
-                        emoji = "🔧" // Maintenance
+                        emoji = "🔧"
                         break
                       case "Abastecimento":
-                        emoji = "⛽" // Refueling
+                        emoji = "⛽"
                         break
                       case "Revisão":
-                        emoji = "🛠️" // Revision
+                        emoji = "🛠️"
                         break
                       default:
-                        emoji = "💼" // Default for other types
+                        emoji = "💼"
                     }
                     return {
-                      label: `${emoji} ${expenseType.name}`, // Add emoji before the name
+                      label: `${emoji} ${expenseType.name}`,
                       value: expenseType.id,
                     }
                   })
@@ -293,10 +287,10 @@ export default function AddExpense() {
         >
           <Pressable
             style={{
-              width: "40%",
+              width: "70%",
               height: 55,
               backgroundColor: "#abd871",
-              borderRadius: 8,
+              borderRadius: 40,
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-around",
