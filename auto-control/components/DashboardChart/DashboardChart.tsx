@@ -10,6 +10,11 @@ export const DashboardChart = ({ data }) => {
       radius={70}
       innerRadius={40}
       innerCircleColor={"white"}
+      textSize={20}
+      showTextBackground
+      textBackgroundRadius={1}
+      showText
+      textColor="black"
     />
   )
 }

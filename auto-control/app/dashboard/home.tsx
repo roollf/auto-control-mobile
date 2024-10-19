@@ -76,18 +76,35 @@ export default function Home() {
     const formattedResult = Object.keys(result).map((type) => {
       let color = ""
       let gradientCenterColor = ""
+      let text = ""
 
       // Assign colors based on the type
       switch (type) {
         case "Multa":
           color = "#FFA500"
           gradientCenterColor = "#FF4500"
+          text = "👮"
           break
         case "Manutenção":
           color = "#00FF00"
           gradientCenterColor = "#008000"
+          text = "🔧"
           break
-        // Add more types as needed
+        case "Imposto":
+          color = "#FF0000"
+          gradientCenterColor = "#8B0000"
+          text = "💸"
+          break
+        case "Revisão":
+          color = "#0000FF"
+          gradientCenterColor = "#00008B"
+          text = "🛠️"
+          break
+        case "Abastecimento":
+          color = "#FF69B4"
+          gradientCenterColor = "#FF1493"
+          text = "⛽️"
+          break
         default:
           color = "#CCCCCC"
           gradientCenterColor = "#AAAAAA"
@@ -95,8 +112,9 @@ export default function Home() {
 
       return {
         type: type,
-        value: result[type], // The total value for this type
+        value: result[type],
         color: color,
+        text: text,
         gradientCenterColor: gradientCenterColor,
       }
     })

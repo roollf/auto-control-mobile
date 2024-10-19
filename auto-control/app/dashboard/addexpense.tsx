@@ -16,6 +16,7 @@ import { useSession } from "@/contexts/ctx"
 import { router, useFocusEffect } from "expo-router"
 import RNPickerSelect from "react-native-picker-select"
 import { ExpenseType } from "@/types/expense/expense.type"
+import CurrencyInput from "react-native-currency-input"
 
 interface Vehicle {
   id: number
@@ -136,6 +137,7 @@ export default function AddExpense() {
           flexDirection: "column",
           paddingHorizontal: 20,
           justifyContent: "center",
+          backgroundColor: "white",
         }}
       >
         <View>
@@ -317,16 +319,21 @@ export default function AddExpense() {
           </View>
           <View style={{ marginTop: 12, gap: 8 }}>
             <Text>Valor</Text>
-            <TextInput
-              onChangeText={(text) => setValue(Number(text))}
-              inputMode="numeric"
-              placeholder="R$"
+            <CurrencyInput
               style={{
                 backgroundColor: "#eaeff4",
                 height: 40,
                 borderRadius: 8,
                 padding: 8,
               }}
+              value={value}
+              onChangeValue={setValue}
+              prefix="R$ "
+              delimiter="."
+              separator=","
+              precision={2}
+              minValue={0}
+              maxValue={100000}
             />
           </View>
           <View
