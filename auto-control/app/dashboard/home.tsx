@@ -20,19 +20,19 @@ export default function Home() {
 
   const { session } = useSession()
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     if (session?.user_id && session?.token) {
-  //       ExpenseService.getUserExpenses(session.user_id, session.token)
-  //         .then((response) => {
-  //           setUserExpenses(response)
-  //         })
-  //         .catch((error) => {
-  //           console.error("Failed to fetch expenses:", error)
-  //         })
-  //     }
-  //   }, [])
-  // )
+  useFocusEffect(
+    useCallback(() => {
+      if (session?.user_id && session?.token) {
+        ExpenseService.getUserExpenses(session.user_id, session.token)
+          .then((response) => {
+            setUserExpenses(sortExpensesByDate(response))
+          })
+          .catch((error) => {
+            console.error("Failed to fetch expenses:", error)
+          })
+      }
+    }, [])
+  )
 
   useEffect(() => {
     if (session?.user_id && session?.token) {

@@ -1,5 +1,5 @@
 import { View } from "react-native"
-import { Tabs, useNavigation } from "expo-router"
+import { Stack, Tabs, useNavigation } from "expo-router"
 import { FontAwesome } from "@expo/vector-icons"
 
 export default function TabLayout() {

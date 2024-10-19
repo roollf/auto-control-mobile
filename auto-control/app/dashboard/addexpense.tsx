@@ -1,5 +1,15 @@
 import { useCallback, useEffect, useState } from "react"
-import { Alert, Platform, Pressable, Text, TextInput, View } from "react-native"
+import {
+  Alert,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  Text,
+  TextInput,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native"
 import { ExpenseService } from "@/api/services/expenseService"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { useSession } from "@/contexts/ctx"
@@ -18,7 +28,7 @@ export default function AddExpense() {
   const [typeId, setTypeId] = useState(0)
   const [expenseTypes, setExpenseTypes] = useState<ExpenseType[]>([])
   const [date, setDate] = useState(new Date())
-  const [show, setShow] = useState(false)
+  const [showDatePicker, setShowDatePicker] = useState(false)
   const [description, setDescription] = useState("")
   const [expenseName, setExpenseName] = useState("")
   const [value, setValue] = useState(0)
@@ -45,7 +55,7 @@ export default function AddExpense() {
 
   const onChangeDate = (event: any, selectedDate: Date | undefined) => {
     const currentDate = selectedDate || date
-    setShow(Platform.OS === "ios")
+    setShowDatePicker(false)
     setDate(currentDate)
     setFormattedDate(formatDateToYYYYMMDD(currentDate))
   }
@@ -117,194 +127,239 @@ export default function AddExpense() {
   }, [session])
 
   return (
-    <View
-      style={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        paddingHorizontal: 20,
-        paddingTop: 100,
-        backgroundColor: "white",
-      }}
-    >
-      <View>
-        <View style={{ marginBottom: 40 }}>
-          <Text style={{ fontSize: 40, fontWeight: "bold" }}>Nova despesa</Text>
-        </View>
-        <Text>Selecione seu veículo</Text>
-        <View
-          style={{
-            backgroundColor: "#eaeff4",
-            borderRadius: 8,
-            marginTop: 12,
-            height: 40,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: 8,
-          }}
-        >
-          <RNPickerSelect
-            onValueChange={(value) => setVehicleId(value)}
-            items={
-              Array.isArray(vehicles)
-                ? vehicles.map((vehicle) => ({
-                    label: vehicle.name,
-                    value: vehicle.id,
-                  }))
-                : []
-            }
-          />
-        </View>
-        <View style={{ marginTop: 12, gap: 8 }}>
-          <Text>Título da despesa</Text>
-          <TextInput
-            maxLength={50}
-            placeholder="Título"
-            value={expenseName}
-            onChangeText={(text) => setExpenseName(text)}
-            style={{
-              backgroundColor: "#eaeff4",
-              height: 40,
-              borderRadius: 8,
-              padding: 8,
-            }}
-          />
-        </View>
-        <Text>Tipo de despesa</Text>
-        <View
-          style={{
-            backgroundColor: "#eaeff4",
-            borderRadius: 8,
-            marginTop: 12,
-            height: 40,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: 8,
-          }}
-        >
-          <RNPickerSelect
-            onValueChange={(value) => setTypeId(value)}
-            items={
-              Array.isArray(expenseTypes)
-                ? expenseTypes.map((expenseType) => {
-                    let emoji = ""
-                    switch (expenseType.name) {
-                      case "Multa":
-                        emoji = "👮"
-                        break
-                      case "Imposto":
-                        emoji = "💸"
-                        break
-                      case "Manutenção":
-                        emoji = "🔧"
-                        break
-                      case "Abastecimento":
-                        emoji = "⛽"
-                        break
-                      case "Revisão":
-                        emoji = "🛠️"
-                        break
-                      default:
-                        emoji = "💼"
-                    }
-                    return {
-                      label: `${emoji} ${expenseType.name}`,
-                      value: expenseType.id,
-                    }
-                  })
-                : []
-            }
-          />
-        </View>
-        <View style={{ backgroundColor: "#eaeff4", borderRadius: 8 }}></View>
-        <View
-          style={{
-            marginTop: 12,
-            gap: 8,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-start",
-          }}
-        >
-          <Text>Data</Text>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <KeyboardAvoidingView
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          paddingHorizontal: 20,
+          justifyContent: "center",
+        }}
+      >
+        <View>
+          <View style={{ marginBottom: 40 }}>
+            <Text style={{ fontSize: 40, fontWeight: "bold" }}>
+              Nova despesa 📝
+            </Text>
+          </View>
+          <Text>Selecione seu veículo</Text>
           <View
             style={{
+              backgroundColor: "#eaeff4",
+              borderRadius: 8,
+              marginTop: 12,
+              height: 40,
               display: "flex",
-              flexDirection: "row",
-              width: 135,
-              paddingLeft: 0,
+              justifyContent: "center",
+              alignItems: "center",
+              padding: 8,
             }}
           >
-            <DateTimePicker
-              style={{ marginLeft: -17 }}
-              locale="pt-BR"
-              value={date}
-              mode="date"
-              display="default"
-              onChange={onChangeDate}
+            <RNPickerSelect
+              style={{ inputAndroid: { fontSize: 16 } }}
+              placeholder={{
+                label: "Selecione um veículo",
+                value: 0,
+                color: "gray",
+              }}
+              onValueChange={(value) => setVehicleId(value)}
+              items={
+                Array.isArray(vehicles)
+                  ? vehicles.map((vehicle) => ({
+                      label: vehicle.name,
+                      value: vehicle.id,
+                    }))
+                  : []
+              }
             />
           </View>
-        </View>
-        <View style={{ marginTop: 12, gap: 8 }}>
-          <Text>Descrição da despesa</Text>
-          <TextInput
-            value={description}
-            onChangeText={(text) => setDescription(text)}
-            placeholder="Descrição"
+          <View style={{ marginTop: 12, gap: 8 }}>
+            <Text>Título da despesa</Text>
+            <TextInput
+              maxLength={50}
+              placeholder="Título"
+              value={expenseName}
+              onChangeText={(text) => setExpenseName(text)}
+              style={{
+                backgroundColor: "#eaeff4",
+                height: 40,
+                borderRadius: 8,
+                padding: 8,
+              }}
+            />
+          </View>
+          <Text>Tipo de despesa</Text>
+          <View
             style={{
               backgroundColor: "#eaeff4",
-              height: 40,
               borderRadius: 8,
-              padding: 8,
-            }}
-          />
-        </View>
-        <View style={{ marginTop: 12, gap: 8 }}>
-          <Text>Valor</Text>
-          <TextInput
-            onChangeText={(text) => setValue(Number(text))}
-            inputMode="numeric"
-            placeholder="Valor R$"
-            style={{
-              backgroundColor: "#eaeff4",
+              marginTop: 12,
               height: 40,
-              borderRadius: 8,
-              padding: 8,
-            }}
-          />
-        </View>
-        <View
-          style={{
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: 60,
-          }}
-        >
-          <Pressable
-            style={{
-              width: "70%",
-              height: 55,
-              backgroundColor: "#abd871",
-              borderRadius: 40,
               display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-around",
+              justifyContent: "center",
               alignItems: "center",
-              paddingHorizontal: 8,
+              padding: 8,
             }}
-            onPress={handleSubmit}
           >
-            <Text style={{ fontSize: 24, color: "white", fontWeight: "bold" }}>
-              Registrar
-            </Text>
-          </Pressable>
+            <RNPickerSelect
+              placeholder={{
+                label: "Selecione um tipo de despesa",
+                value: 0,
+                color: "gray",
+              }}
+              onValueChange={(value) => setTypeId(value)}
+              items={
+                Array.isArray(expenseTypes)
+                  ? expenseTypes.map((expenseType) => {
+                      let emoji = ""
+                      switch (expenseType.name) {
+                        case "Multa":
+                          emoji = "👮"
+                          break
+                        case "Imposto":
+                          emoji = "💸"
+                          break
+                        case "Manutenção":
+                          emoji = "🔧"
+                          break
+                        case "Abastecimento":
+                          emoji = "⛽"
+                          break
+                        case "Revisão":
+                          emoji = "🛠️"
+                          break
+                        default:
+                          emoji = "💼"
+                      }
+                      return {
+                        label: `${emoji} ${expenseType.name}`,
+                        value: expenseType.id,
+                      }
+                    })
+                  : []
+              }
+            />
+          </View>
+          <View style={{ backgroundColor: "#eaeff4", borderRadius: 8 }}></View>
+          {Platform.OS === "android" ? (
+            <>
+              <View
+                style={{
+                  marginTop: 12,
+                  gap: 8,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "flex-start",
+                }}
+              >
+                <Text>Data</Text>
+                <Pressable
+                  onPress={() => setShowDatePicker(true)}
+                  style={{
+                    backgroundColor: "#eaeff4",
+                    borderRadius: 8,
+                    padding: 8,
+                  }}
+                >
+                  <Text>{formattedDate}</Text>
+                </Pressable>
+              </View>
+              {showDatePicker && (
+                <DateTimePicker
+                  value={date}
+                  mode="date"
+                  display="default"
+                  onChange={onChangeDate}
+                  locale="pt-BR"
+                />
+              )}
+            </>
+          ) : (
+            <>
+              <View
+                style={{
+                  marginTop: 12,
+                  gap: 8,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "flex-start",
+                }}
+              >
+                <Text>Data</Text>
+                <DateTimePicker
+                  value={date}
+                  mode="date"
+                  display="default"
+                  onChange={onChangeDate}
+                  locale="pt-BR"
+                />
+              </View>
+            </>
+          )}
+
+          <View style={{ marginTop: 12, gap: 8 }}>
+            <Text>Descrição da despesa</Text>
+            <TextInput
+              value={description}
+              onChangeText={(text) => setDescription(text)}
+              placeholder="Descrição"
+              style={{
+                backgroundColor: "#eaeff4",
+                height: 40,
+                borderRadius: 8,
+                padding: 8,
+              }}
+            />
+          </View>
+          <View style={{ marginTop: 12, gap: 8 }}>
+            <Text>Valor</Text>
+            <TextInput
+              onChangeText={(text) => setValue(Number(text))}
+              inputMode="numeric"
+              placeholder="R$"
+              style={{
+                backgroundColor: "#eaeff4",
+                height: 40,
+                borderRadius: 8,
+                padding: 8,
+              }}
+            />
+          </View>
+          <View
+            style={{
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 60,
+            }}
+          >
+            <Pressable
+              style={{
+                width: "70%",
+                height: 55,
+                backgroundColor: "#FC6736",
+                borderRadius: 40,
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-around",
+                alignItems: "center",
+                paddingHorizontal: 8,
+              }}
+              onPress={handleSubmit}
+            >
+              <Text
+                style={{ fontSize: 24, color: "white", fontWeight: "bold" }}
+              >
+                Registrar
+              </Text>
+            </Pressable>
+          </View>
         </View>
-      </View>
-    </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   )
 }
