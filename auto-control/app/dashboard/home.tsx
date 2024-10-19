@@ -1,4 +1,4 @@
-import { FlatList, Text, View } from "react-native"
+import { Alert, FlatList, Text, View } from "react-native"
 
 import Ionicons from "@expo/vector-icons/Ionicons"
 
@@ -14,6 +14,7 @@ import { useFocusEffect } from "expo-router"
 
 export default function Home() {
   const [userExpenses, setUserExpenses] = useState<ExpenseData[]>([])
+  const [myToken, setMyToken] = useState<string>("")
 
   const { session } = useSession()
 
@@ -34,6 +35,7 @@ export default function Home() {
 
   useEffect(() => {
     if (session?.user_id && session?.token) {
+      setMyToken(session.token)
       ExpenseService.getUserExpenses(session.user_id, session.token)
         .then((response) => {
           console.log(response, "RESPONSE")
@@ -47,9 +49,9 @@ export default function Home() {
 
   console.log(session)
 
-  const monthToDateExpenses = () => {
-    return 0
-  }
+  // const monthToDateExpenses = () => {
+  //   return 0
+  // }
 
   const renderItem = ({ item }) => (
     <View
@@ -146,7 +148,8 @@ export default function Home() {
           Despesas do mês
         </Text>
         <Text style={{ fontSize: 38, fontWeight: "bold" }}>
-          R${userExpenses.length == 0 ? "---" : monthToDateExpenses}
+          {myToken}
+          {/* R${userExpenses.length == 0 ? "---" : "0"} */}
         </Text>
       </View>
       <View

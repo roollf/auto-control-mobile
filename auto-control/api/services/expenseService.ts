@@ -3,21 +3,55 @@ import { apiClient } from "./apiClient"
 import { ExpenseData } from "@/types/expense/expense.type"
 import { VehicleData } from "@/types/vehicle/vehicle.type"
 
+//  `/api/v1/app-expenses/expenses?user=${userId}/`,
+//         {
+//           headers: {
+//             Authorization: `Token ${userToken}`,
+//           },
+//         }
+//       )
+
 export const ExpenseService = {
+  // async getUserExpenses(
+  //   userId: number,
+  //   userToken: string
+  // ): Promise<ExpenseData[]> {
+  //   const api = `/api/v1/app-expenses/expenses?user=${userId}/`
+
+  //   try {
+  //     const response: AxiosResponse<ExpenseData[]> = await apiClient.request({
+  //       method: "get",
+  //       url: api,
+  //       headers: { Authorization: "Token " + userToken },
+  //     })
+
+  //     return response.data
+  //   } catch (error) {
+  //     console.error("Error fetching user expenses: ", userId, userToken, error)
+  //     throw error
+  //   }
+  // },
+
   async getUserExpenses(
     userId: number,
     userToken: string
   ): Promise<ExpenseData[]> {
+    const api = `http://192.168.100.9:8001/api/v1/app-expenses/expenses?user=${userId}/`
+
     try {
-      const response: AxiosResponse<ExpenseData[]> = await apiClient.get(
-        `/api/v1/app-expenses/expenses?user=${userId}`,
-        {
-          headers: {
-            Authorization: `Token ${userToken}`,
-          },
-        }
-      )
-      return response.data
+      const response = await fetch(api, {
+        method: "GET",
+        headers: {
+          Authorization: `Token ${userToken}`,
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error(`Error fetching user expenses: ${response.statusText}`)
+      }
+
+      const data = await response.json()
+      return data
     } catch (error) {
       console.error("Error fetching user expenses: ", error)
       throw error

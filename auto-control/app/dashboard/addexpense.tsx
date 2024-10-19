@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from "react"
 import { Alert, Platform, Pressable, Text, TextInput, View } from "react-native"
-import { Picker } from "@react-native-picker/picker"
 import { ExpenseService } from "@/api/services/expenseService"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { Image } from "expo-image"
 import calendar from "@/assets/images/calendar.svg"
 import { useSession } from "@/contexts/ctx"
 import { router, useFocusEffect } from "expo-router"
+import RNPickerSelect from "react-native-picker-select"
 
 export default function AddExpense() {
   const [vehicleName, setVehicleName] = useState("")
@@ -22,12 +22,12 @@ export default function AddExpense() {
   const [value, setValue] = useState(0)
   const [formattedDate, setFormattedDate] = useState(formatDateToYYYYMMDD(date))
 
-  const { session } = useSession() // Extract session context onc
+  const { session } = useSession()
 
   function formatDateToYYYYMMDD(date: Date): string {
     const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, "0") // Add 1 to month since getMonth() is 0-indexed
-    const day = String(date.getDate()).padStart(2, "0") // Pad with zero if day is a single digit
+    const month = String(date.getMonth() + 1).padStart(2, "0")
+    const day = String(date.getDate()).padStart(2, "0")
 
     return `${year}-${month}-${day}`
   }
@@ -43,44 +43,29 @@ export default function AddExpense() {
     setShow(true)
   }
 
-  // Clear the form when the component (tab) is focused
   useFocusEffect(
     useCallback(() => {
-      clearForm() // Clear the form when the user navigates to the "Add Expense" tab
+      clearForm()
     }, [])
   )
 
   const handleSubmit = async () => {
     if (session?.token) {
       const { token: userToken } = session
-
-      // Log the details before making the request
-      console.log({
-        vehicleId,
-        typeId,
-        description,
-        formattedDate, // Ensure it's formatted as YYYY-MM-DD
-        value,
-        expenseName,
-        userToken,
-      })
-
       try {
         const expenseData = await ExpenseService.createVehicleExpense(
-          vehicleId, // Vehicle ID
-          typeId, // Type of expense
-          description, // Description
-          formattedDate, // Ensure this is in "YYYY-MM-DD"
-          value, // Expense value
-          expenseName, // Name of the expense
-          userToken // Bearer token
+          vehicleId,
+          typeId,
+          description,
+          formattedDate,
+          value,
+          expenseName,
+          userToken
         )
         Alert.alert("Expense created successfully", `ID: ${expenseData.id}`)
 
-        // Navigate to the home screen after submitting
         router.replace("/dashboard/home")
 
-        // Clear the form after successful submission
         clearForm()
       } catch (error) {
         console.error(
@@ -96,7 +81,7 @@ export default function AddExpense() {
     setVehicleId(1)
     setTypeId(1)
     setDescription("")
-    setFormattedDate(formatDateToYYYYMMDD(new Date())) // Reset to current date
+    setFormattedDate(formatDateToYYYYMMDD(new Date()))
     setValue(0)
     setExpenseName("")
   }
@@ -104,6 +89,7 @@ export default function AddExpense() {
   useEffect(() => {
     if (session?.user_id && session?.token) {
       const { user_id, token } = session
+      console.log(token, "token sent")
 
       ExpenseService.getUserVehicles(user_id, token)
         .then((response) => {
@@ -135,18 +121,28 @@ export default function AddExpense() {
         <View style={{ marginBottom: 40 }}>
           <Text style={{ fontSize: 40, fontWeight: "bold" }}>Nova despesa</Text>
         </View>
-        {/* Vehicle Picker */}
-        <View style={{ backgroundColor: "#eaeff4", borderRadius: 8 }}>
-          <Picker
-            selectedValue={selectVehicle}
-            onValueChange={(itemValue, itemIndex) =>
-              setSelectedVehicle(itemValue)
-            }
-          >
-            <Picker.Item label={vehicleName} value={vehicleId} />
-          </Picker>
+        <Text>Selecione seu veículo</Text>
+        <View
+          style={{
+            backgroundColor: "#eaeff4",
+            borderRadius: 8,
+            marginTop: 12,
+            height: 40,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 8,
+          }}
+        >
+          <RNPickerSelect
+            onValueChange={(value) => console.log(value)}
+            items={[
+              { label: "Football", value: "football" },
+              { label: "Baseball", value: "baseball" },
+              { label: "Hockey", value: "hockey" },
+            ]}
+          />
         </View>
-        {/* Expense Name */}
         <View style={{ marginTop: 12, gap: 8 }}>
           <Text>Título da despesa</Text>
           <TextInput
@@ -161,19 +157,10 @@ export default function AddExpense() {
             }}
           />
         </View>
-        {/* Expense Type Picker */}
         <View style={{ marginTop: 12, gap: 8 }}>
           <Text>Tipo de despesa</Text>
         </View>
-        <View style={{ backgroundColor: "#eaeff4", borderRadius: 8 }}>
-          <Picker
-            selectedValue={selectType}
-            onValueChange={(itemValue, itemIndex) => setSelectType(itemValue)}
-          >
-            <Picker.Item label={typeName} value={typeId} />
-          </Picker>
-        </View>
-        {/* Date Picker */}
+        <View style={{ backgroundColor: "#eaeff4", borderRadius: 8 }}></View>
         <View style={{ marginTop: 12, gap: 8 }}>
           <Text>Data</Text>
           <Pressable
@@ -208,11 +195,10 @@ export default function AddExpense() {
             />
           )}
         </View>
-        {/* Description */}
         <View style={{ marginTop: 12, gap: 8 }}>
           <Text>Descrição da despesa</Text>
           <TextInput
-            value={description} // Controlled input
+            value={description}
             onChangeText={(text) => setDescription(text)}
             placeholder="Descrição"
             style={{
@@ -223,7 +209,6 @@ export default function AddExpense() {
             }}
           />
         </View>
-        {/* Value */}
         <View style={{ marginTop: 12, gap: 8 }}>
           <Text>Valor</Text>
           <TextInput
@@ -239,7 +224,6 @@ export default function AddExpense() {
             }}
           />
         </View>
-        {/* Submit Button */}
         <View
           style={{
             width: "100%",
