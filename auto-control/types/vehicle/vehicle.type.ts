@@ -16,6 +16,11 @@ interface VehicleData {
   expenses?: ExpenseData[]
 }
 
+interface VehicleListType {
+  id: number
+  name: string
+}
+
 interface VehicleType {
   id?: number
   name: string
@@ -26,4 +31,4 @@ interface VehicleBrand {
   name: string
 }
 
-export { VehicleData, VehicleType, VehicleBrand }
+export { VehicleData, VehicleType, VehicleBrand, VehicleListType }

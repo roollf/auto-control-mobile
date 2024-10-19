@@ -14,7 +14,7 @@ interface ExpenseData {
 }
 
 interface ExpenseType {
-  id?: number
+  id: number
   name: string
 }
 

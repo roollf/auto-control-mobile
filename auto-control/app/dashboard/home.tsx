@@ -83,14 +83,14 @@ export default function Home() {
           }}
         >
           <Text>
-            {item.type_name == "Seguro"
-              ? "🔐"
+            {item.type_name == "Revisão"
+              ? "🛠️"
               : item.type_name === "Abastecimento"
               ? "⛽️"
-              : item.type_name === "Taxas"
-              ? "🏦"
+              : item.type_name === "Imposto"
+              ? "💸"
               : item.type_name === "Manutenção"
-              ? "🛠️"
+              ? "🔧"
               : item.type_name === "Multa"
               ? "👮"
               : ""}

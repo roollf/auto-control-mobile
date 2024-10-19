@@ -2,19 +2,21 @@ import { useCallback, useEffect, useState } from "react"
 import { Alert, Platform, Pressable, Text, TextInput, View } from "react-native"
 import { ExpenseService } from "@/api/services/expenseService"
 import DateTimePicker from "@react-native-community/datetimepicker"
-import { Image } from "expo-image"
-import calendar from "@/assets/images/calendar.svg"
 import { useSession } from "@/contexts/ctx"
 import { router, useFocusEffect } from "expo-router"
 import RNPickerSelect from "react-native-picker-select"
+import { ExpenseType } from "@/types/expense/expense.type"
+
+interface Vehicle {
+  id: number
+  name: string
+}
 
 export default function AddExpense() {
-  const [vehicleName, setVehicleName] = useState("")
   const [vehicleId, setVehicleId] = useState<number>(1)
+  const [vehicles, setVehicles] = useState<Vehicle[]>([])
   const [typeId, setTypeId] = useState(1)
-  const [typeName, setTypeName] = useState("Multa 👮")
-  const [selectVehicle, setSelectedVehicle] = useState()
-  const [selectType, setSelectType] = useState()
+  const [expenseTypes, setExpenseTypes] = useState<ExpenseType[]>([])
   const [date, setDate] = useState(new Date())
   const [show, setShow] = useState(false)
   const [description, setDescription] = useState("")
@@ -32,6 +34,15 @@ export default function AddExpense() {
     return `${year}-${month}-${day}`
   }
 
+  const clearForm = () => {
+    setVehicleId(1)
+    setTypeId(1)
+    setDescription("")
+    setFormattedDate(formatDateToYYYYMMDD(new Date()))
+    setValue(0)
+    setExpenseName("")
+  }
+
   const onChangeDate = (event: any, selectedDate: Date | undefined) => {
     const currentDate = selectedDate || date
     setShow(Platform.OS === "ios")
@@ -42,12 +53,6 @@ export default function AddExpense() {
   const showDatepicker = () => {
     setShow(true)
   }
-
-  useFocusEffect(
-    useCallback(() => {
-      clearForm()
-    }, [])
-  )
 
   const handleSubmit = async () => {
     if (session?.token) {
@@ -77,32 +82,42 @@ export default function AddExpense() {
     }
   }
 
-  const clearForm = () => {
-    setVehicleId(1)
-    setTypeId(1)
-    setDescription("")
-    setFormattedDate(formatDateToYYYYMMDD(new Date()))
-    setValue(0)
-    setExpenseName("")
-  }
+  useFocusEffect(
+    useCallback(() => {
+      clearForm()
+    }, [])
+  )
 
   useEffect(() => {
-    if (session?.user_id && session?.token) {
-      const { user_id, token } = session
-      console.log(token, "token sent")
-
-      ExpenseService.getUserVehicles(user_id, token)
-        .then((response) => {
-          console.log("RESPONSE VEHICLES", response)
-          if (response[0]?.name && response[0]?.id) {
-            setVehicleName(response[0].name)
-            setVehicleId(response[0].id)
-          }
-        })
-        .catch((error) => {
+    const fetchUserVehicles = async () => {
+      if (session?.user_id && session?.token) {
+        const { user_id, token } = session
+        try {
+          const response = await ExpenseService.getUserVehicles(user_id, token)
+          console.log("Vehicles:", response)
+          setVehicles(response)
+        } catch (error) {
           console.error("Failed to get user vehicles", error)
-        })
+        }
+      }
     }
+    fetchUserVehicles()
+  }, [session])
+
+  useEffect(() => {
+    const fetchExpenseTypes = async () => {
+      if (session?.token) {
+        const { token } = session
+        try {
+          const response = await ExpenseService.getExpenseTypes(token)
+          console.log("Expense Types:", response)
+          setExpenseTypes(response)
+        } catch (error) {
+          console.error("Failed to get expense types", error)
+        }
+      }
+    }
+    fetchExpenseTypes()
   }, [session])
 
   return (
@@ -135,19 +150,23 @@ export default function AddExpense() {
           }}
         >
           <RNPickerSelect
-            onValueChange={(value) => console.log(value)}
-            items={[
-              { label: "Football", value: "football" },
-              { label: "Baseball", value: "baseball" },
-              { label: "Hockey", value: "hockey" },
-            ]}
+            onValueChange={(value) => setVehicleId(value)}
+            items={
+              Array.isArray(vehicles)
+                ? vehicles.map((vehicle) => ({
+                    label: vehicle.name,
+                    value: vehicle.id,
+                  }))
+                : []
+            }
           />
         </View>
         <View style={{ marginTop: 12, gap: 8 }}>
           <Text>Título da despesa</Text>
           <TextInput
+            maxLength={50}
             placeholder="Título"
-            value={expenseName} // Controlled input
+            value={expenseName}
             onChangeText={(text) => setExpenseName(text)}
             style={{
               backgroundColor: "#eaeff4",
@@ -157,43 +176,84 @@ export default function AddExpense() {
             }}
           />
         </View>
-        <View style={{ marginTop: 12, gap: 8 }}>
-          <Text>Tipo de despesa</Text>
+        <Text>Tipo de despesa</Text>
+        <View
+          style={{
+            backgroundColor: "#eaeff4",
+            borderRadius: 8,
+            marginTop: 12,
+            height: 40,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 8,
+          }}
+        >
+          <RNPickerSelect
+            onValueChange={(value) => setTypeId(value)}
+            items={
+              Array.isArray(expenseTypes)
+                ? expenseTypes.map((expenseType) => {
+                    let emoji = ""
+
+                    // Add emojis based on the expenseType name
+                    switch (expenseType.name) {
+                      case "Multa":
+                        emoji = "👮" // Traffic fine
+                        break
+                      case "Imposto":
+                        emoji = "💸" // Tax
+                        break
+                      case "Manutenção":
+                        emoji = "🔧" // Maintenance
+                        break
+                      case "Abastecimento":
+                        emoji = "⛽" // Refueling
+                        break
+                      case "Revisão":
+                        emoji = "🛠️" // Revision
+                        break
+                      default:
+                        emoji = "💼" // Default for other types
+                    }
+                    return {
+                      label: `${emoji} ${expenseType.name}`, // Add emoji before the name
+                      value: expenseType.id,
+                    }
+                  })
+                : []
+            }
+          />
         </View>
         <View style={{ backgroundColor: "#eaeff4", borderRadius: 8 }}></View>
-        <View style={{ marginTop: 12, gap: 8 }}>
+        <View
+          style={{
+            marginTop: 12,
+            gap: 8,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+          }}
+        >
           <Text>Data</Text>
-          <Pressable
+          <View
             style={{
-              width: "40%",
-              height: 40,
-              backgroundColor: "#eaeff4",
-              borderRadius: 8,
               display: "flex",
               flexDirection: "row",
-              justifyContent: "space-around",
-              alignItems: "center",
-              paddingHorizontal: 14,
+              width: 135,
+              paddingLeft: 0,
             }}
-            onPress={showDatepicker}
           >
-            <Image
-              source={calendar}
-              alt="calendar"
-              style={{ width: 20, height: 20 }}
-            />
-            <Text>{date.toLocaleDateString("pt-BR")}</Text>
-          </Pressable>
-
-          {show && (
             <DateTimePicker
+              style={{ marginLeft: -17 }}
               locale="pt-BR"
               value={date}
               mode="date"
               display="default"
               onChange={onChangeDate}
             />
-          )}
+          </View>
         </View>
         <View style={{ marginTop: 12, gap: 8 }}>
           <Text>Descrição da despesa</Text>
@@ -212,7 +272,6 @@ export default function AddExpense() {
         <View style={{ marginTop: 12, gap: 8 }}>
           <Text>Valor</Text>
           <TextInput
-            value={value.toString()} // Convert number to string
             onChangeText={(text) => setValue(Number(text))}
             inputMode="numeric"
             placeholder="Valor R$"
