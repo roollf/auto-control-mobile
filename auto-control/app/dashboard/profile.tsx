@@ -39,12 +39,13 @@ export default function Profile() {
       </Text>
       <TextInput
         style={{
-          fontSize: 20,
-          color: "gray",
-          borderBottomWidth: 1,
+          backgroundColor: "#eaeff4",
+          height: 40,
+          borderRadius: 8,
+          padding: 8,
           width: "80%",
         }}
-        placeholder="Name"
+        placeholder="Nome"
         value={name}
       />
       <Text
@@ -59,9 +60,10 @@ export default function Profile() {
       </Text>
       <TextInput
         style={{
-          fontSize: 16,
-          color: "gray",
-          borderBottomWidth: 1,
+          backgroundColor: "#eaeff4",
+          height: 40,
+          borderRadius: 8,
+          padding: 8,
           width: "80%",
         }}
         placeholder="Email"
@@ -79,9 +81,10 @@ export default function Profile() {
       </Text>
       <TextInput
         style={{
-          fontSize: 16,
-          color: "gray",
-          borderBottomWidth: 1,
+          backgroundColor: "#eaeff4",
+          height: 40,
+          borderRadius: 8,
+          padding: 8,
           width: "80%",
         }}
         placeholder="CNH"
