@@ -13,7 +13,7 @@ const appStyles = StyleSheet.create({
     position: "relative",
     display: "flex",
     paddingHorizontal: 30,
-    paddingTop: 80,
+    // paddingTop: 80,
     zIndex: 1,
   },
   userIcon: {
