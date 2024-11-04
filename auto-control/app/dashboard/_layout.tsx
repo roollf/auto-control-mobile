@@ -23,7 +23,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="addexpense"
+        name="(add)"
         options={{
           title: "Expense",
           tabBarIcon: ({ color }) => (

@@ -17,41 +17,45 @@ export default function Home() {
 
   const { session } = useSession()
 
-  useFocusEffect(
-    useCallback(() => {
-      if (session?.user_id && session?.token) {
-        ExpenseService.getUserExpenses(session.user_id, session.token)
-          .then((response) => {
-            console.log(response, "RESPONSE")
-            setUserExpenses(response)
-          })
-          .catch((error) => {
-            console.error("Failed to fetch expenses:", error)
-          })
-      }
-    }, [])
-  )
+  // NOTE: acontece sempre que o usuário navega para essa tela (focus muda para essa tela) (feito para lidar com a navegação)
 
-  useEffect(() => {
-    if (session?.user_id && session?.token) {
-      ExpenseService.getUserExpenses(session.user_id, session.token)
-        .then((response) => {
-          console.log(response, "RESPONSE")
-          setUserExpenses(response)
-        })
-        .catch((error) => {
-          console.error("Failed to fetch expenses:", error)
-        })
-    }
-  }, [session])
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     if (session?.user_id && session?.token) {
+  //       ExpenseService.getUserExpenses(session.user_id, session.token)
+  //         .then((response) => {
+  //           console.log(response, "RESPONSE")
+  //           setUserExpenses(response)
+  //         })
+  //         .catch((error) => {
+  //           console.error("Failed to fetch expenses:", error)
+  //         })
+  //     }
+  //   }, [])
+  // )
 
-  console.log(session)
+  // NOTE: acontece sempre que o componente é montado (ou quando a dependência muda, nesse caso, session)
+
+  // useEffect(() => {
+  //   if (session?.user_id && session?.token) {
+  //     ExpenseService.getUserExpenses(session.user_id, session.token)
+  //       .then((response) => {
+  //         console.log(response, "RESPONSE")
+  //         setUserExpenses(response)
+  //       })
+  //       .catch((error) => {
+  //         console.error("Failed to fetch expenses:", error)
+  //       })
+  //   }
+  // }, [session])
+
+  // console.log(session)
 
   const monthToDateExpenses = () => {
     return 0
   }
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }: { item: any }) => (
     <View
       style={{
         display: "flex",

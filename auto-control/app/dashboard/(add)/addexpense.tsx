@@ -127,24 +127,26 @@ export default function AddExpense() {
         display: "flex",
         flexDirection: "column",
         paddingHorizontal: 20,
-        paddingTop: 100,
         backgroundColor: "white",
       }}
     >
       <View>
-        <View style={{ marginBottom: 40 }}>
+        <View style={{ marginBottom: 10 }}>
           <Text style={{ fontSize: 40, fontWeight: "bold" }}>Nova despesa</Text>
         </View>
         {/* Vehicle Picker */}
-        <View style={{ backgroundColor: "#eaeff4", borderRadius: 8 }}>
-          <Picker
-            selectedValue={selectVehicle}
-            onValueChange={(itemValue, itemIndex) =>
-              setSelectedVehicle(itemValue)
-            }
-          >
-            <Picker.Item label={vehicleName} value={vehicleId} />
-          </Picker>
+        <View style={{ gap: 8 }}>
+          <Text>Veículo</Text>
+          <View style={{ backgroundColor: "#eaeff4", borderRadius: 8 }}>
+            <Picker
+              selectedValue={selectVehicle}
+              onValueChange={(itemValue, itemIndex) =>
+                setSelectedVehicle(itemValue)
+              }
+            >
+              <Picker.Item label={vehicleName} value={vehicleId} />
+            </Picker>
+          </View>
         </View>
         {/* Expense Name */}
         <View style={{ marginTop: 12, gap: 8 }}>
@@ -164,14 +166,14 @@ export default function AddExpense() {
         {/* Expense Type Picker */}
         <View style={{ marginTop: 12, gap: 8 }}>
           <Text>Tipo de despesa</Text>
-        </View>
-        <View style={{ backgroundColor: "#eaeff4", borderRadius: 8 }}>
-          <Picker
-            selectedValue={selectType}
-            onValueChange={(itemValue, itemIndex) => setSelectType(itemValue)}
-          >
-            <Picker.Item label={typeName} value={typeId} />
-          </Picker>
+          <View style={{ backgroundColor: "#eaeff4", borderRadius: 8 }}>
+            <Picker
+              selectedValue={selectType}
+              onValueChange={(itemValue, itemIndex) => setSelectType(itemValue)}
+            >
+              <Picker.Item label={typeName} value={typeId} />
+            </Picker>
+          </View>
         </View>
         {/* Date Picker */}
         <View style={{ marginTop: 12, gap: 8 }}>
@@ -245,7 +247,7 @@ export default function AddExpense() {
             width: "100%",
             justifyContent: "center",
             alignItems: "center",
-            marginTop: 60,
+            marginTop: 20,
           }}
         >
           <Pressable
