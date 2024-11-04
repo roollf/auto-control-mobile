@@ -8,6 +8,7 @@ export default function RootLayout() {
   return (
     <SessionProvider>
       <StatusBar style="light" />
+      <SafeAreaView />
       <Stack screenOptions={{ headerShown: false }} />
     </SessionProvider>
   )
