@@ -2,20 +2,39 @@ import { AxiosResponse } from "axios"
 import { apiClient } from "./apiClient"
 import { UserData } from "@/types/user/user.type"
 
-export const getUser = async (
-  userId: number
-): Promise<AxiosResponse<UserData>> => {
-  return await apiClient.get(`/users/${userId}`)
-}
+export const UserService = {
+  async getUser(userId: number): Promise<UserData> {
+    try {
+      const response: AxiosResponse = await apiClient.get<UserData>(
+        `/users/${userId}`
+      )
+      return response.data
+    } catch (error) {
+      console.error("Error fetching user data: ", error)
+      throw error
+    }
+  },
 
-export const updateUser = async (
-  updatedData: Partial<UserData>,
-  userId: number
-): Promise<UserData> => {
-  const response = await apiClient.put(`/users/${userId}`, updatedData)
-  return response.data
-}
+  async updateUser(updateData: Partial<UserData>, userId: number) {
+    try {
+      const response: AxiosResponse = await apiClient.put(
+        `/users/${userId}`,
+        updateData
+      )
+      return response.data
+    } catch (error) {
+      console.error("Error updating user data: ", error)
+      throw error
+    }
+  },
 
-export const deleteUserAccount = async (userId: number) => {
-  return await apiClient.delete(`/users/${userId}`)
+  async deleteUserAccount(userId: number) {
+    try {
+      const response: AxiosResponse = await apiClient.delete(`/users/${userId}`)
+      return response.data
+    } catch (error) {
+      console.error("Error deleting user account: ", error)
+      throw error
+    }
+  },
 }
