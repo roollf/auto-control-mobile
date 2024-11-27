@@ -46,12 +46,12 @@ export default function AddExpense() {
   }
 
   const clearForm = () => {
-    setVehicleId(0)
-    setTypeId(0)
-    setDescription("")
-    setFormattedDate(formatDateToYYYYMMDD(new Date()))
-    setValue(0)
-    setExpenseName("")
+    setVehicleId(0) // Reset vehicle ID
+    setTypeId(0) // Reset expense type
+    setDescription("") // Clear description
+    setFormattedDate(formatDateToYYYYMMDD(new Date())) // Reset date
+    setValue(0) // Reset value
+    setExpenseName("") // Clear expense name
   }
 
   const onChangeDate = (event: any, selectedDate: Date | undefined) => {
@@ -74,17 +74,19 @@ export default function AddExpense() {
           expenseName,
           userToken
         )
-        Alert.alert("Expense created successfully", `ID: ${expenseData.id}`)
-
-        router.replace("/dashboard/home")
+        Alert.alert(
+          "Despesa adicionada com sucesso ✅",
+          `ID: ${expenseData.id}`
+        )
 
         clearForm()
+        router.replace("/dashboard/home")
       } catch (error) {
         console.error(
           "Error creating expense:",
           error.response?.data || error.message
         )
-        Alert.alert("Error", "Failed to create expense")
+        Alert.alert("Error", "Preencha todos os campos ❌")
       }
     }
   }
@@ -166,6 +168,7 @@ export default function AddExpense() {
                 value: 0,
                 color: "gray",
               }}
+              value={vehicleId} // Bind value to state
               onValueChange={(value) => setVehicleId(value)}
               items={
                 Array.isArray(vehicles)
@@ -206,11 +209,13 @@ export default function AddExpense() {
             }}
           >
             <RNPickerSelect
+              style={{ inputAndroid: { fontSize: 16 } }}
               placeholder={{
                 label: "Selecione um tipo de despesa",
                 value: 0,
                 color: "gray",
               }}
+              value={typeId} // Bind value to state
               onValueChange={(value) => setTypeId(value)}
               items={
                 Array.isArray(expenseTypes)

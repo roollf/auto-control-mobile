@@ -277,9 +277,28 @@ export default function Home() {
           )}
         </View>
       </View>
-      <View style={{ paddingHorizontal: 30, marginBottom: 16 }}>
+      <View
+        style={{
+          paddingHorizontal: 30,
+          marginBottom: 16,
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
         <Text style={{ fontSize: 18, fontWeight: "bold", opacity: 0.8 }}>
           Últimas despesas
+        </Text>
+        <Text
+          style={{
+            fontSize: 16,
+            color: "blue",
+            fontWeight: "bold",
+            opacity: 0.4,
+            textDecorationLine: "underline",
+          }}
+        >
+          Ver todas
         </Text>
       </View>
       {userExpenses.length > 0 ? (
