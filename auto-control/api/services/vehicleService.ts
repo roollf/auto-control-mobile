@@ -21,4 +21,22 @@ export const VehicleService = {
       }
     }
   },
+
+  async getVehicles(userToken: string) {
+    try {
+      const response: AxiosResponse = await apiClient.get(
+        "/api/v1/app-vehicles/vehicles",
+        {
+          headers: {
+            Authorization: `Token ${userToken}`,
+          },
+        }
+      )
+      return response.data
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Error getting vehicle:", error.message)
+      }
+    }
+  },
 }
