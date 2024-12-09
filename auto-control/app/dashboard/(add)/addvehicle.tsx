@@ -8,6 +8,7 @@ import {
   VehicleType,
 } from "@/types/vehicle/vehicle.type"
 import { VehicleService } from "@/api/services/vehicleService"
+import { ScrollView } from "react-native-gesture-handler"
 
 const VehicleBrandMock: VehicleBrand[] = [
   { id: 1, name: "Fiat" },
@@ -60,12 +61,16 @@ export default function AddVehicle() {
           owner: user_id,
         }
 
+        console.log("vehicleData", vehicleData)
+
         const response = await VehicleService.createVehicle(
           vehicleData,
           userToken
         )
 
-        Alert.alert("Veículo criado com sucesso!", response)
+        console.log("response", response)
+
+        Alert.alert("Veículo criado com sucesso!")
       } catch (error) {
         console.error("Error creating vehicle:", error)
         Alert.alert("Erro", "Falha ao criar veículo")
@@ -74,161 +79,169 @@ export default function AddVehicle() {
   }
 
   return (
-    <View
-      style={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        paddingHorizontal: 20,
-        backgroundColor: "white",
-      }}
-    >
-      <View>
-        {/* Novo veículo */}
-        <View style={{ marginBottom: 10 }}>
-          <Text
-            style={{
-              fontSize: 40,
-              fontWeight: "bold",
-            }}
-          >
-            Novo veículo
-          </Text>
-        </View>
-      </View>
-      <View>
-        {/* Vehicle brand picker */}
-        <View style={{ gap: 8 }}>
-          <Text>Marca do Veículo</Text>
-          <View style={{ backgroundColor: "#eaeff4", borderRadius: 8 }}>
-            <Picker
-              selectedValue={selectedVehicleBrand}
-              onValueChange={(itemValue) => setSelectedVehicleBrand(itemValue)}
+    <ScrollView>
+      <View
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          paddingHorizontal: 20,
+          backgroundColor: "white",
+        }}
+      >
+        <View>
+          {/* Novo veículo */}
+          <View style={{ marginBottom: 10 }}>
+            <Text
+              style={{
+                fontSize: 40,
+                fontWeight: "bold",
+              }}
             >
-              {VehicleBrandMock.map(
-                (vehicleBrand: VehicleBrand, index: number) => (
-                  <Picker.Item
-                    key={index}
-                    label={vehicleBrand.name}
-                    value={vehicleBrand.id}
-                  />
-                )
-              )}
-            </Picker>
-          </View>
-        </View>
-        {/* Vehicle Type */}
-        <View style={{ marginTop: 12, gap: 8 }}>
-          <Text>Modelo do Veículo</Text>
-          <View style={{ backgroundColor: "#eaeff4", borderRadius: 8 }}>
-            <Picker
-              selectedValue={selectedVhicleType}
-              onValueChange={(itemValue) => setSelectedVhicleType(itemValue)}
-            >
-              {VehicleTypeMock.map(
-                (VehicleType: VehicleType, index: number) => (
-                  <Picker.Item
-                    key={index}
-                    label={VehicleType.name}
-                    value={VehicleType.id}
-                  />
-                )
-              )}
-            </Picker>
-          </View>
-        </View>
-        {/* Vehicle Name */}
-        <View style={{ marginTop: 12, gap: 8 }}>
-          <Text>Nome do Veículo</Text>
-          <TextInput
-            placeholder="Nome"
-            value={vehicleName}
-            onChangeText={(vehicleName) => setVehicleName(vehicleName)}
-            style={{
-              backgroundColor: "#eaeff4",
-              height: 40,
-              borderRadius: 8,
-              padding: 8,
-            }}
-          />
-        </View>
-        {/* Vehicle Plate */}
-        <View style={{ marginTop: 12, gap: 8 }}>
-          <Text>Placa do Veículo</Text>
-          <TextInput
-            placeholder="Placa"
-            value={vehiclePlate}
-            onChangeText={(vehiclePlate) => setVehiclePlate(vehiclePlate)}
-            style={{
-              backgroundColor: "#eaeff4",
-              height: 40,
-              borderRadius: 8,
-              padding: 8,
-            }}
-          />
-        </View>
-        {/* Vehicle Year */}
-        <View style={{ marginTop: 12, gap: 8 }}>
-          <Text>Ano do Veículo</Text>
-          {/* TODO: adicionar date picker */}
-          <TextInput
-            placeholder="Ano"
-            value={vehicleYear?.toString()}
-            onChangeText={(vehicleYear) => setVehicleYear(Number(vehicleYear))}
-            style={{
-              backgroundColor: "#eaeff4",
-              height: 40,
-              borderRadius: 8,
-              padding: 8,
-            }}
-          />
-        </View>
-        {/* Description */}
-        <View style={{ marginTop: 12, gap: 8 }}>
-          <Text>Descrição</Text>
-          <TextInput
-            placeholder="Descrição"
-            value={vehicleDescription}
-            onChangeText={(vehicleDescription) =>
-              setVehicleDescription(vehicleDescription)
-            }
-            style={{
-              backgroundColor: "#eaeff4",
-              height: 40,
-              borderRadius: 8,
-              padding: 8,
-            }}
-          />
-        </View>
-        <View
-          style={{
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: 20,
-          }}
-        >
-          <Pressable
-            style={{
-              width: "40%",
-              height: 55,
-              backgroundColor: "#abd871",
-              borderRadius: 8,
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-around",
-              alignItems: "center",
-              paddingHorizontal: 8,
-            }}
-            onPress={handleSubmit}
-          >
-            <Text style={{ fontSize: 24, color: "white", fontWeight: "bold" }}>
-              Registrar
+              Novo veículo
             </Text>
-          </Pressable>
+          </View>
+        </View>
+        <View>
+          {/* Vehicle brand picker */}
+          <View style={{ gap: 8 }}>
+            <Text>Marca do Veículo</Text>
+            <View style={{ backgroundColor: "#eaeff4", borderRadius: 8 }}>
+              <Picker
+                selectedValue={selectedVehicleBrand}
+                onValueChange={(itemValue) =>
+                  setSelectedVehicleBrand(itemValue)
+                }
+              >
+                {VehicleBrandMock.map(
+                  (vehicleBrand: VehicleBrand, index: number) => (
+                    <Picker.Item
+                      key={index}
+                      label={vehicleBrand.name}
+                      value={vehicleBrand.id}
+                    />
+                  )
+                )}
+              </Picker>
+            </View>
+          </View>
+          {/* Vehicle Type */}
+          <View style={{ marginTop: 12, gap: 8 }}>
+            <Text>Modelo do Veículo</Text>
+            <View style={{ backgroundColor: "#eaeff4", borderRadius: 8 }}>
+              <Picker
+                selectedValue={selectedVhicleType}
+                onValueChange={(itemValue) => setSelectedVhicleType(itemValue)}
+              >
+                {VehicleTypeMock.map(
+                  (VehicleType: VehicleType, index: number) => (
+                    <Picker.Item
+                      key={index}
+                      label={VehicleType.name}
+                      value={VehicleType.id}
+                    />
+                  )
+                )}
+              </Picker>
+            </View>
+          </View>
+          {/* Vehicle Name */}
+          <View style={{ marginTop: 12, gap: 8 }}>
+            <Text>Nome do Veículo</Text>
+            <TextInput
+              placeholder="Nome"
+              value={vehicleName}
+              onChangeText={(vehicleName) => setVehicleName(vehicleName)}
+              style={{
+                backgroundColor: "#eaeff4",
+                height: 40,
+                borderRadius: 8,
+                padding: 8,
+              }}
+            />
+          </View>
+          {/* Vehicle Plate */}
+          <View style={{ marginTop: 12, gap: 8 }}>
+            <Text>Placa do Veículo</Text>
+            <TextInput
+              placeholder="Placa"
+              value={vehiclePlate}
+              onChangeText={(vehiclePlate) => setVehiclePlate(vehiclePlate)}
+              style={{
+                backgroundColor: "#eaeff4",
+                height: 40,
+                borderRadius: 8,
+                padding: 8,
+              }}
+            />
+          </View>
+          {/* Vehicle Year */}
+          <View style={{ marginTop: 12, gap: 8 }}>
+            <Text>Ano do Veículo</Text>
+            {/* TODO: adicionar date picker */}
+            <TextInput
+              placeholder="Ano"
+              value={vehicleYear?.toString()}
+              onChangeText={(vehicleYear) =>
+                setVehicleYear(Number(vehicleYear))
+              }
+              style={{
+                backgroundColor: "#eaeff4",
+                height: 40,
+                borderRadius: 8,
+                padding: 8,
+              }}
+            />
+          </View>
+          {/* Description */}
+          <View style={{ marginTop: 12, gap: 8 }}>
+            <Text>Descrição</Text>
+            <TextInput
+              placeholder="Descrição"
+              value={vehicleDescription}
+              onChangeText={(vehicleDescription) =>
+                setVehicleDescription(vehicleDescription)
+              }
+              style={{
+                backgroundColor: "#eaeff4",
+                height: 40,
+                borderRadius: 8,
+                padding: 8,
+              }}
+            />
+          </View>
+          <View
+            style={{
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 20,
+            }}
+          >
+            <Pressable
+              style={{
+                width: "40%",
+                height: 55,
+                backgroundColor: "#abd871",
+                borderRadius: 8,
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-around",
+                alignItems: "center",
+                paddingHorizontal: 8,
+              }}
+              onPress={handleSubmit}
+            >
+              <Text
+                style={{ fontSize: 24, color: "white", fontWeight: "bold" }}
+              >
+                Registrar
+              </Text>
+            </Pressable>
+          </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   )
 }

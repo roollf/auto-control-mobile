@@ -17,6 +17,8 @@ export default function Home() {
 
   const { session } = useSession()
 
+  // console.log("aqui paizão", session);
+
   // NOTE: acontece sempre que o usuário navega para essa tela (focus muda para essa tela) (feito para lidar com a navegação)
 
   // useFocusEffect(
@@ -28,7 +30,7 @@ export default function Home() {
   //           setUserExpenses(response)
   //         })
   //         .catch((error) => {
-  //           console.error("Failed to fetch expenses:", error)
+  //           console.error("Failed to render expenses:", error)
   //         })
   //     }
   //   }, [])
@@ -36,20 +38,18 @@ export default function Home() {
 
   // NOTE: acontece sempre que o componente é montado (ou quando a dependência muda, nesse caso, session)
 
-  // useEffect(() => {
-  //   if (session?.user_id && session?.token) {
-  //     ExpenseService.getUserExpenses(session.user_id, session.token)
-  //       .then((response) => {
-  //         console.log(response, "RESPONSE")
-  //         setUserExpenses(response)
-  //       })
-  //       .catch((error) => {
-  //         console.error("Failed to fetch expenses:", error)
-  //       })
-  //   }
-  // }, [session])
-
-  // console.log(session)
+  useEffect(() => {
+    if (session?.user_id && session?.token) {
+      ExpenseService.getUserExpenses(session.user_id, session.token)
+        .then((response) => {
+          console.log(response, "RESPONSE")
+          setUserExpenses(response)
+        })
+        .catch((error) => {
+          console.error("Failed to fetch expenses:", error)
+        })
+    }
+  }, [session])
 
   const monthToDateExpenses = () => {
     return 0

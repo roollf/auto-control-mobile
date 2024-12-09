@@ -24,6 +24,7 @@ import { registerConfirmationStyles } from "../../../styles/register.styles"
 
 // import from images and svgs
 import ConfirmationAnimation from "@/assets/images/confirmation-animation.json"
+import { router } from "expo-router"
 
 // color scheme and variables
 
@@ -47,7 +48,7 @@ export default function RegisterConfirmation() {
         </Text>
       </View>
       <View style={registerConfirmationStyles.bottomContent}>
-        <AppButton label="Ir para o Login" destination={() => {}} />
+        <AppButton label="Ir para o Login" destination={() => router.replace("/auth/login")} />
       </View>
     </View>
   )

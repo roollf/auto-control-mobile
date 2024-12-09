@@ -6,7 +6,7 @@ export const VehicleService = {
   async createVehicle(vehicleData: VehicleData, userToken: string) {
     try {
       const response: AxiosResponse = await apiClient.post(
-        "/api/v1/app-vehicles/vehicles",
+        "/api/v1/app-vehicles/vehicles/",
         vehicleData,
         {
           headers: {
@@ -25,7 +25,7 @@ export const VehicleService = {
   async getVehicles(userToken: string) {
     try {
       const response: AxiosResponse = await apiClient.get(
-        "/api/v1/app-vehicles/vehicles",
+        "/api/v1/app-vehicles/vehicles/",
         {
           headers: {
             Authorization: `Token ${userToken}`,

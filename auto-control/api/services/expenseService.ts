@@ -10,7 +10,7 @@ export const ExpenseService = {
   ): Promise<ExpenseData[]> {
     try {
       const response: AxiosResponse<ExpenseData[]> = await apiClient.get(
-        `/api/v1/app-expenses/expenses?user=${userId}`,
+        `/api/v1/app-expenses/expenses/?user=${userId}`,
         {
           headers: {
             Authorization: `Token ${userToken}`,
@@ -30,7 +30,7 @@ export const ExpenseService = {
   ): Promise<VehicleData[]> {
     try {
       const response: AxiosResponse<VehicleData[]> = await apiClient.get(
-        `/api/v1/app-vehicles/vehicles?owner=${userId}`,
+        `/api/v1/app-vehicles/vehicles/?owner=${userId}`,
         {
           headers: {
             Authorization: `Token ${userToken}`,

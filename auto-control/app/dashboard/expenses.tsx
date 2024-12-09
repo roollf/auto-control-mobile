@@ -2,7 +2,6 @@ import React from "react"
 import {
   View,
   Text,
-  FlatList,
   StyleSheet,
   Dimensions,
   ScrollView,
@@ -20,15 +19,40 @@ import {
 } from "date-fns"
 import { ExpenseData } from "@/types/expense/expense.type"
 import { pt } from "date-fns/locale"
+import { useSession } from "@/contexts/ctx"
+import { ExpenseService } from "@/api/services/expenseService"
 
 const screenWidth = Dimensions.get("window").width
 
-const expensesByCategory: ExpenseData[] = [
+const useExpenses = (
+  user_id: number | undefined,
+  token: string | undefined
+) => {
+  const [userExpenses, setUserExpenses] = React.useState<ExpenseData[]>([])
+
+  React.useEffect(() => {
+    if (user_id && token) {
+      const fetchData = async () => {
+        try {
+          const response = await ExpenseService.getUserExpenses(user_id, token)
+          setUserExpenses(response)
+        } catch (error) {
+          console.error("Failed to fetch expenses:", error)
+        }
+      }
+      fetchData()
+    }
+  }, [user_id, token])
+
+  return { userExpenses }
+}
+
+const expensesData: ExpenseData[] = [
   {
     id: 1,
     name: "Combustível",
     user: 1,
-    value: "R$ 250,40",
+    value: "250.40",
     date: "2024-11-01",
     vehicle: 1,
     vehicle_name: "Uno",
@@ -42,7 +66,7 @@ const expensesByCategory: ExpenseData[] = [
     id: 2,
     name: "Impostos",
     user: 1,
-    value: "R$ 860,00",
+    value: "860.00",
     date: "2024-10-01",
     vehicle: 2,
     vehicle_name: "Onix",
@@ -56,7 +80,7 @@ const expensesByCategory: ExpenseData[] = [
     id: 3,
     name: "Manutenção",
     user: 1,
-    value: "R$ 550,90",
+    value: "550.90",
     date: "2024-09-01",
     vehicle: 3,
     vehicle_name: "Sandero",
@@ -70,7 +94,7 @@ const expensesByCategory: ExpenseData[] = [
     id: 4,
     name: "Combustível",
     user: 1,
-    value: "R$ 300,00",
+    value: "300.00",
     date: "2024-08-15",
     vehicle: 4,
     vehicle_name: "Civic",
@@ -84,7 +108,7 @@ const expensesByCategory: ExpenseData[] = [
     id: 5,
     name: "Impostos",
     user: 1,
-    value: "R$ 980,00",
+    value: "980.00",
     date: "2024-07-01",
     vehicle: 5,
     vehicle_name: "Corolla",
@@ -98,7 +122,7 @@ const expensesByCategory: ExpenseData[] = [
     id: 6,
     name: "Manutenção",
     user: 1,
-    value: "R$ 400,00",
+    value: "400.00",
     date: "2024-06-12",
     vehicle: 6,
     vehicle_name: "Fit",
@@ -112,7 +136,7 @@ const expensesByCategory: ExpenseData[] = [
     id: 7,
     name: "Combustível",
     user: 1,
-    value: "R$ 250,40",
+    value: "250.40",
     date: "2024-05-01",
     vehicle: 7,
     vehicle_name: "Palio",
@@ -126,7 +150,7 @@ const expensesByCategory: ExpenseData[] = [
     id: 8,
     name: "Impostos",
     user: 1,
-    value: "R$ 600,00",
+    value: "600.00",
     date: "2024-04-01",
     vehicle: 8,
     vehicle_name: "Fiesta",
@@ -140,7 +164,7 @@ const expensesByCategory: ExpenseData[] = [
     id: 9,
     name: "Manutenção",
     user: 1,
-    value: "R$ 150,00",
+    value: "150.00",
     date: "2024-03-01",
     vehicle: 9,
     vehicle_name: "Vectra",
@@ -154,7 +178,7 @@ const expensesByCategory: ExpenseData[] = [
     id: 10,
     name: "Combustível",
     user: 1,
-    value: "R$ 350,00",
+    value: "350.00",
     date: "2024-02-01",
     vehicle: 10,
     vehicle_name: "Hilux",
@@ -168,7 +192,7 @@ const expensesByCategory: ExpenseData[] = [
     id: 11,
     name: "Impostos",
     user: 1,
-    value: "R$ 900,00",
+    value: "900.00",
     date: "2024-01-01",
     vehicle: 11,
     vehicle_name: "Tucson",
@@ -182,7 +206,7 @@ const expensesByCategory: ExpenseData[] = [
     id: 12,
     name: "Manutenção",
     user: 1,
-    value: "R$ 700,00",
+    value: "700.00",
     date: "2023-12-01",
     vehicle: 12,
     vehicle_name: "Kia Sportage",
@@ -199,7 +223,7 @@ const calculateSummary = (expenses: ExpenseData[]) => {
 
   const parsedExpenses = expenses.map((expense) => ({
     ...expense,
-    value: parseFloat(expense.value.replace("R$", "").replace(".", "")),
+    value: parseFloat(expense.value.replace(".", ",")),
     date: parseISO(expense.date),
   }))
 
@@ -234,7 +258,7 @@ const calculateSummary = (expenses: ExpenseData[]) => {
 
 const SummaryCard = () => {
   const { averageMonthly, totalLast6Months, totalLastYear } =
-    calculateSummary(expensesByCategory)
+    calculateSummary(expensesData)
 
   return (
     <View style={styles.summaryCard}>
@@ -257,6 +281,8 @@ const SummaryCard = () => {
 }
 
 const Expenses = () => {
+  const { session } = useSession()
+
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(
     null
   )
@@ -264,16 +290,18 @@ const Expenses = () => {
   const [showMoreCategories, setShowMoreCategories] = React.useState(false)
   const [showMoreLastExpenses, setShowMoreLastExpenses] = React.useState(false)
 
+  const { userExpenses } = useExpenses(session?.user_id, session?.token)
+
   const filteredExpenses = selectedCategory
-    ? expensesByCategory.filter(
+    ? expensesData.filter(
         (expense) => expense.type_name === selectedCategory
       )
-    : expensesByCategory
+    : expensesData
 
   const calculateChartData = (expenses: ExpenseData[]) => {
     const parsedExpenses = expenses.map((expense) => ({
       ...expense,
-      value: parseFloat(expense.value.replace("R$", "").replace(".", "")),
+      value: parseFloat(expense.value.replace(".", ",")),
       date: parseISO(expense.date),
     }))
 
@@ -313,8 +341,8 @@ const Expenses = () => {
     : filteredExpenses.slice(0, maxItems)
 
   const limitedLastExpenses = showMoreLastExpenses
-    ? expensesByCategory
-    : expensesByCategory.slice(0, maxItems)
+    ? expensesData
+    : expensesData.slice(0, maxItems)
 
   return (
     <ScrollView style={styles.scrollView}>
@@ -406,8 +434,14 @@ const Expenses = () => {
               ]}
             >
               <Text style={styles.categoryName}>{item.name}</Text>
-              <Text style={styles.lastExpenseDetails}>{format(parseISO(item.date), "dd 'de' MMMM 'de' yyyy", { locale: pt })}</Text>
-              <Text style={styles.categoryAmount}>{item.value}</Text>
+              <Text style={styles.lastExpenseDetails}>
+                {format(parseISO(item.date), "dd 'de' MMMM 'de' yyyy", {
+                  locale: pt,
+                })}
+              </Text>
+              <Text style={styles.categoryAmount}>{`R$ ${parseFloat(item.value)
+                .toFixed(2)
+                .replace(".", ",")}`}</Text>
             </View>
           ))}
         </ScrollView>
@@ -429,11 +463,15 @@ const Expenses = () => {
               <Text style={styles.lastExpenseName}>{item.name}</Text>
               <Text style={styles.lastExpenseDetails}>{item.description}</Text>
               <Text style={styles.lastExpenseDetails}>{item.vehicle_name}</Text>
-              <Text style={styles.lastExpenseAmount}>{item.value}</Text>
+              <Text style={styles.lastExpenseAmount}>{`R$ ${parseFloat(
+                item.value
+              )
+                .toFixed(2)
+                .replace(".", ",")}`}</Text>
             </View>
           ))}
         </ScrollView>
-        {expensesByCategory.length > maxItems && (
+        {expensesData.length > maxItems && (
           <TouchableOpacity
             style={styles.showMoreButton}
             onPress={() => setShowMoreLastExpenses(!showMoreLastExpenses)}
@@ -481,7 +519,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   categoryList: {
-    maxHeight: 278,
+    maxHeight: 279,
   },
   lastExpenseList: {
     maxHeight: 324,
