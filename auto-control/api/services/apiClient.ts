@@ -1,7 +1,7 @@
 import axios from "axios"
 
-// const API_URL = process.env.EXPO_PUBLIC_API_URL
-const API_URL = "http://192.168.0.24:8000/"
+const API_URL = "http://172.18.9.163:8001"
+// const API_URL = "http://192.168.0.24:8000/"
 
 class ApiClient {
   private static instance: ApiClient

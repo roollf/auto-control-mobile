@@ -12,52 +12,13 @@ import { VehicleService } from "@/api/services/vehicleService"
 
 import AppInput from "@/components/AppInput/AppInput"
 
-const UserMock: { id: number; name: string; email: string; cnh: string } = {
-  id: 1,
-  name: "Rolf Freitas Matela",
-  email: "rolf.matela@gmail.com",
-  cnh: "123456789",
-}
-
-const VehicleMock = [
-  {
-    id: 1,
-    brand: "Volkswagen",
-    model: "Gol",
-    year: 2019,
-    plate: "ABC-1234",
-  },
-  {
-    id: 2,
-    brand: "Chevrolet",
-    model: "Onix",
-    year: 2020,
-    plate: "DEF-5678",
-  },
-  {
-    id: 3,
-    brand: "Ford",
-    model: "Ka",
-    year: 2018,
-    plate: "GHI-9101",
-  },
-]
-
 export default function Profile() {
   const { session, signOut } = useSession()
 
   const [name, setName] = React.useState("")
   const [email, setEmail] = React.useState("")
   const [cnh, setCnh] = React.useState("")
-  const [vehicles, setVehicles] = React.useState<
-    {
-      id: number
-      brand: string
-      model: string
-      year: number
-      plate: string
-    }[]
-  >([])
+  const [vehicles, setVehicles] = React.useState([])
 
   // chamada para a API
 
@@ -69,6 +30,7 @@ export default function Profile() {
         setName(response.name)
         setEmail(response.email)
         setCnh(response.cnh)
+        // console.log("aqui paizao", response)
       } catch (error) {
         console.error("Error fetching user data: ", error)
       }
@@ -80,6 +42,7 @@ export default function Profile() {
       const { token: userToken } = session
       try {
         const response = await VehicleService.getVehicles(userToken)
+        console.log("aqui paizao", response)
         setVehicles(response)
       } catch (error) {
         console.error("Error fetching vehicle data: ", error)
@@ -88,12 +51,12 @@ export default function Profile() {
   }
 
   React.useEffect(() => {
-    // fetchUserData()
-    // fetchVehicleData()
-    setName(UserMock.name)
-    setEmail(UserMock.email)
-    setCnh(UserMock.cnh)
-    setVehicles(VehicleMock)
+    fetchUserData()
+    fetchVehicleData()
+    // setName(UserMock.name)
+    // setEmail(UserMock.email)
+    // setCnh(UserMock.cnh)
+    // setVehicles(VehicleMock)
   }, [])
 
   return (
@@ -193,7 +156,7 @@ export default function Profile() {
           padding: 10,
         }}
       >
-        {vehicles.map((vehicle, index) => (
+        {vehicles.map((vehicle) => (
           <View
             style={{
               display: "flex",
@@ -208,7 +171,7 @@ export default function Profile() {
               color="rgba(34, 130, 255, 0.7)"
             />
             <Text>
-              {vehicle.model} {vehicle.brand} - {vehicle.plate}
+              {vehicle.name} ({vehicle.year}) - {vehicle.license_plate}
             </Text>
           </View>
         ))}

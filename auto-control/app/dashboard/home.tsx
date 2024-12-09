@@ -21,20 +21,24 @@ export default function Home() {
 
   // NOTE: acontece sempre que o usuário navega para essa tela (focus muda para essa tela) (feito para lidar com a navegação)
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     if (session?.user_id && session?.token) {
-  //       ExpenseService.getUserExpenses(session.user_id, session.token)
-  //         .then((response) => {
-  //           console.log(response, "RESPONSE")
-  //           setUserExpenses(response)
-  //         })
-  //         .catch((error) => {
-  //           console.error("Failed to render expenses:", error)
-  //         })
-  //     }
-  //   }, [])
-  // )
+  useFocusEffect(
+    useCallback(() => {
+      if (session?.user_id && session?.token) {
+        ExpenseService.getUserExpenses(session.user_id, session.token)
+          .then((response) => {
+            console.log(response, "RESPONSE")
+            // Ordenar as despesas pela data (mais recentes primeiro)
+            const sortedExpenses = response.sort(
+              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+            )
+            setUserExpenses(sortedExpenses)
+          })
+          .catch((error) => {
+            console.error("Failed to fetch expenses:", error)
+          })
+      }
+    }, [])
+  )
 
   // NOTE: acontece sempre que o componente é montado (ou quando a dependência muda, nesse caso, session)
 
@@ -43,7 +47,11 @@ export default function Home() {
       ExpenseService.getUserExpenses(session.user_id, session.token)
         .then((response) => {
           console.log(response, "RESPONSE")
-          setUserExpenses(response)
+          // Ordenar as despesas pela data (mais recentes primeiro)
+          const sortedExpenses = response.sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+          )
+          setUserExpenses(sortedExpenses)
         })
         .catch((error) => {
           console.error("Failed to fetch expenses:", error)
@@ -52,7 +60,23 @@ export default function Home() {
   }, [session])
 
   const monthToDateExpenses = () => {
-    return 0
+    const today = new Date()
+    const month = today.getMonth() + 1
+    const year = today.getFullYear()
+
+    const monthExpenses = userExpenses.filter(
+      (expense) =>
+        new Date(expense.date).getMonth() + 1 === month &&
+        new Date(expense.date).getFullYear() === year
+    )
+
+    // Corrigindo a soma
+    const total = monthExpenses.reduce(
+      (acc, expense) => acc + parseFloat(expense.value), // Converte o value para número
+      0
+    )
+
+    return Utils.transformToCurrency(total)
   }
 
   const renderItem = ({ item }: { item: any }) => (
@@ -102,7 +126,16 @@ export default function Home() {
           <Text style={{ fontWeight: "bold", fontSize: 16 }}>
             {item.type_name}
           </Text>
-          <Text style={{ fontSize: 12, opacity: 0.5 }}>{item.description}</Text>
+          <View
+            style={{
+              display: "flex",
+              width: "80%",
+            }}
+          >
+            <Text style={{ fontSize: 12, opacity: 0.5 }}>
+              {item.description}
+            </Text>
+          </View>
         </View>
       </View>
       <View style={{ gap: 8 }}>
@@ -125,12 +158,19 @@ export default function Home() {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            marginBottom: 40,
+            marginBottom: 20,
           }}
         >
-          <Text style={{ fontSize: 40, fontWeight: "bold" }}>
-            Olá, {session?.user_name}!
-          </Text>
+          <View
+            style={{
+              display: "flex",
+              width: "80%",
+            }}
+          >
+            <Text style={{ fontSize: 40, fontWeight: "bold" }}>
+              Olá, {session?.user_name}!
+            </Text>
+          </View>
           <View
             style={{
               display: "flex",
@@ -138,24 +178,24 @@ export default function Home() {
               gap: 10,
             }}
           >
-            <Ionicons
+            {/* <Ionicons
               name="notifications"
               size={32}
               color="black"
               style={{ opacity: 0.8 }}
-            />
+            /> */}
           </View>
         </View>
         <Text style={{ fontSize: 18, fontWeight: "semibold", opacity: 0.5 }}>
           Despesas do mês
         </Text>
         <Text style={{ fontSize: 38, fontWeight: "bold" }}>
-          R${userExpenses.length == 0 ? "---" : monthToDateExpenses}
+          {userExpenses.length == 0 ? "---" : monthToDateExpenses()}
         </Text>
       </View>
       <View
         style={{
-          paddingHorizontal: 30,
+          paddingHorizontal: 10,
           marginVertical: 30,
           display: "flex",
           flexDirection: "row",
@@ -220,8 +260,10 @@ export default function Home() {
             position: "relative",
             paddingHorizontal: 20,
           }}
-          data={userExpenses}
-          keyExtractor={(item) => item.id}
+          data={userExpenses.sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+          )} // Ordenar novamente antes de renderizar
+          keyExtractor={(item) => item.id.toString()}
           renderItem={renderItem}
         />
       ) : (

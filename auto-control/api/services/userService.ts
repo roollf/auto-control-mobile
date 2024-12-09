@@ -6,7 +6,7 @@ export const UserService = {
   async getUser(userId: number): Promise<UserData> {
     try {
       const response: AxiosResponse = await apiClient.get<UserData>(
-        `/users/${userId}`
+        `api/v1/app-users/register-user/${userId}`
       )
       return response.data
     } catch (error) {
