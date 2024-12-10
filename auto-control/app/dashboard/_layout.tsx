@@ -37,20 +37,7 @@ export default function TabLayout() {
         options={{
           title: "Expense",
           tabBarIcon: ({ color }) => (
-            <View
-              style={{
-                backgroundColor: "#FC6736",
-                borderRadius: 100,
-                padding: 10,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: 40,
-                height: 40,
-              }}
-            >
-              <FontAwesome size={18} name="plus" color="white" />
-            </View>
+            <FontAwesome size={28} name="plus" color={color} />
           ),
           headerShown: false,
         }}

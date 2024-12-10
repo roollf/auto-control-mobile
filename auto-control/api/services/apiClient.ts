@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const API_URL = "http://localhost:8001"
+const API_URL = "http://172.18.9.163:8001"
 // const API_URL = "http://192.168.0.24:8001/"
 
 class ApiClient {

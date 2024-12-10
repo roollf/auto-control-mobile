@@ -13,9 +13,12 @@ import { VehicleService } from "@/api/services/vehicleService"
 import AppInput from "@/components/AppInput/AppInput"
 
 import { router, useFocusEffect } from "expo-router"
+import { ExpenseService } from "@/api/services/expenseService"
 
 export default function Profile() {
   const { session, signOut } = useSession()
+
+  console.log("Sessão aqui", session)
 
   const [name, setName] = React.useState("")
   const [email, setEmail] = React.useState("")
@@ -40,11 +43,13 @@ export default function Profile() {
   }
 
   const fetchVehicleData = async () => {
-    if (session?.token) {
-      const { token: userToken } = session
+    if (session?.token && session?.user_id) {
       try {
-        const response = await VehicleService.getVehicles(userToken)
-        console.log("aqui paizao", response)
+        const response = await ExpenseService.getUserVehicles(
+          session?.user_id,
+          session?.token
+        )
+        console.log("Resposta veiculo aqui", response)
         setVehicles(response)
       } catch (error) {
         console.error("Error fetching vehicle data: ", error)
@@ -164,7 +169,7 @@ export default function Profile() {
           padding: 10,
         }}
       >
-        {vehicles.map((vehicle) => (
+        {vehicles.map((vehicle, index) => (
           <View
             style={{
               display: "flex",
@@ -172,6 +177,7 @@ export default function Profile() {
               gap: 10,
               padding: 2,
             }}
+            key={index}
           >
             <FontAwesome5
               name="car"

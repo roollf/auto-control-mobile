@@ -12,29 +12,34 @@ import { ScrollView } from "react-native-gesture-handler"
 import { router, useFocusEffect } from "expo-router"
 
 const VehicleBrandMock: VehicleBrand[] = [
-  { id: 1, name: "Fiat" },
-  { id: 2, name: "Ford" },
-  { id: 3, name: "Chevrolet" },
-  { id: 4, name: "Volkswagen" },
+  { id: 1, name: "Volkswagen" },
+  { id: 2, name: "Chevrolet" },
+  { id: 3, name: "Fiat" },
+  { id: 4, name: "Ford" },
   { id: 5, name: "Toyota" },
   { id: 6, name: "Honda" },
   { id: 7, name: "Hyundai" },
   { id: 8, name: "Renault" },
-  { id: 9, name: "Jeep" },
-  { id: 10, name: "Nissan" },
+  { id: 9, name: "Nissan" },
+  { id: 10, name: "Jeep" },
+  { id: 11, name: "Peugeot" },
+  { id: 12, name: "Citroën" },
+  { id: 13, name: "Mercedes-Benz" },
+  { id: 14, name: "BMW" },
+  { id: 15, name: "Audi" },
+  { id: 16, name: "Kia" },
+  { id: 17, name: "Volvo" },
+  { id: 18, name: "Mitsubishi" },
+  { id: 19, name: "Land Rover" },
+  { id: 20, name: "Jaguar" },
 ]
 
 const VehicleTypeMock: VehicleType[] = [
-  { id: 1, name: "Hatch" },
-  { id: 2, name: "Sedan" },
-  { id: 3, name: "SUV" },
-  { id: 4, name: "Picape" },
-  { id: 5, name: "Caminhão" },
-  { id: 6, name: "Van" },
-  { id: 7, name: "Moto" },
-  { id: 8, name: "Caminhonete" },
-  { id: 9, name: "Ônibus" },
-  { id: 10, name: "Trator" },
+  { id: 1, name: "Carro" },
+  { id: 2, name: "Moto" },
+  { id: 3, name: "Caminhão" },
+  { id: 4, name: "Carreta" },
+  { id: 5, name: "MotorHome" },
 ]
 
 export default function AddVehicle() {
@@ -66,6 +71,7 @@ export default function AddVehicle() {
           type: selectedVhicleType ?? 1,
           year: vehicleYear ?? 2021,
           owner: user_id,
+          description: vehicleDescription,
         }
 
         const response = await VehicleService.createVehicle(
@@ -93,7 +99,11 @@ export default function AddVehicle() {
   }
 
   return (
-    <ScrollView>
+    <ScrollView
+      style={{
+        backgroundColor: "white",
+      }}
+    >
       <View
         style={{
           width: "100%",

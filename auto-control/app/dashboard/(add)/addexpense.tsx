@@ -18,10 +18,10 @@ import { router, useFocusEffect } from "expo-router"
 
 const ExpenseTypes = [
   { name: "Multa 👮" },
-  { name: "Abastecimento ⛽" },
+  { name: "Imposto 🔐" },
   { name: "Manutenção 🛠️" },
-  { name: "Seguro 🔐" },
-  { name: "Taxas 🏦" },
+  { name: "Abastecimento ⛽" },
+  { name: "Revisão 🛠️" },
 ]
 
 export default function AddExpense() {
@@ -70,15 +70,15 @@ export default function AddExpense() {
       const { token: userToken } = session
 
       // Log the details before making the request
-      // console.log({
-      //   vehicleId,
-      //   typeId,
-      //   description,
-      //   formattedDate, // Ensure it's formatted as YYYY-MM-DD
-      //   value,
-      //   expenseName,
-      //   userToken,
-      // })
+      console.log({
+        vehicleId,
+        typeId,
+        description,
+        formattedDate, // Ensure it's formatted as YYYY-MM-DD
+        value,
+        expenseName,
+        userToken,
+      })
 
       try {
         const expenseData = await ExpenseService.createVehicleExpense(
@@ -195,7 +195,7 @@ export default function AddExpense() {
               <Picker
                 selectedValue={typeId}
                 onValueChange={(itemValue, itemIndex) => {
-                  console.log("tipo", itemValue)
+                  // console.log("tipo", itemValue)
                   setTypeId(itemValue)
                 }}
               >

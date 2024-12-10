@@ -22,6 +22,8 @@ import { pt } from "date-fns/locale"
 import { useSession } from "@/contexts/ctx"
 import { ExpenseService } from "@/api/services/expenseService"
 import { router, useFocusEffect } from "expo-router"
+import { Image } from "react-native"
+import Document from "@/assets/images/signdocument.png"
 
 const screenWidth = Dimensions.get("window").width
 
@@ -65,30 +67,6 @@ const calculateSummary = (expenses: ExpenseData[]) => {
     totalLastYear: `R$ ${totalLastYear.toFixed(2).replace(".", ",")}`,
   }
 }
-
-// const SummaryCard = () => {
-//   const { averageMonthly, totalLast6Months, totalLastYear } =
-//     calculateSummary(expensesData)
-
-//   return (
-//     <View style={styles.summaryCard}>
-//       <Text style={styles.summaryItem}>
-//         <Text style={styles.summaryLabel}>Valor Médio Mensal: </Text>
-//         <Text style={styles.summaryValue}>{averageMonthly}</Text>
-//       </Text>
-//       <Text style={styles.summaryItem}>
-//         <Text style={styles.summaryLabel}>
-//           Total Gasto Nos Últimos 6 Meses:{" "}
-//         </Text>
-//         <Text style={styles.summaryValue}>{totalLast6Months}</Text>
-//       </Text>
-//       <Text style={styles.summaryItem}>
-//         <Text style={styles.summaryLabel}>Total Gasto No Último Ano: </Text>
-//         <Text style={styles.summaryValue}>{totalLastYear}</Text>
-//       </Text>
-//     </View>
-//   )
-// }
 
 const Expenses = () => {
   const { session } = useSession()
@@ -230,16 +208,16 @@ const Expenses = () => {
             <View style={styles.modalContent}>
               <Text style={styles.modalTitle}>Escolha o Tipo de Despesa</Text>
               <Button
-                title="Abastecimento"
+                title="Multa"
                 onPress={() => {
-                  setSelectedCategory("Abastecimento")
+                  setSelectedCategory("Multa")
                   setModalVisible(false)
                 }}
               />
               <Button
-                title="Taxas"
+                title="Imposto"
                 onPress={() => {
-                  setSelectedCategory("Taxas")
+                  setSelectedCategory("Imposto")
                   setModalVisible(false)
                 }}
               />
@@ -251,16 +229,16 @@ const Expenses = () => {
                 }}
               />
               <Button
-                title="Seguro"
+                title="Abastecimento"
                 onPress={() => {
-                  setSelectedCategory("Seguro")
+                  setSelectedCategory("Abastecimento")
                   setModalVisible(false)
                 }}
               />
               <Button
-                title="Multa"
+                title="Revisão"
                 onPress={() => {
-                  setSelectedCategory("Multa")
+                  setSelectedCategory("Revisão")
                   setModalVisible(false)
                 }}
               />
@@ -276,30 +254,45 @@ const Expenses = () => {
         </Modal>
 
         <Text style={styles.header}>Despesas Totais</Text>
-        <LineChart
-          data={{
-            labels: labels.length > 0 ? labels : ["Sem Dados"],
-            datasets: [
-              {
-                data: data.length > 0 ? data : [0], // Substituir por valores padrão
-                color: (opacity = 1) => `rgba(0, 123, 255, ${opacity})`,
-                strokeWidth: 2,
-              },
-            ],
-          }}
-          width={screenWidth - 40}
-          height={220}
-          chartConfig={{
-            backgroundGradientFrom: "#ffffff",
-            backgroundGradientTo: "#ffffff",
-            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-            labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-            strokeWidth: 2,
-            barPercentage: 0.5,
-          }}
-          bezier
-          style={styles.chart}
-        />
+        {expensesDataApi.length > 0 && (
+          <LineChart
+            data={{
+              labels: labels.length > 0 ? labels : ["Sem Dados"],
+              datasets: [
+                {
+                  data: data.length > 0 ? data : [0], // Substituir por valores padrão
+                  color: (opacity = 1) => `rgba(0, 123, 255, ${opacity})`,
+                  strokeWidth: 2,
+                },
+              ],
+            }}
+            width={screenWidth - 40}
+            height={220}
+            chartConfig={{
+              backgroundGradientFrom: "#ffffff",
+              backgroundGradientTo: "#ffffff",
+              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+              strokeWidth: 2,
+              barPercentage: 0.5,
+            }}
+            bezier
+            style={styles.chart}
+          />
+        )}
+        {expensesDataApi.length === 0 && (
+          <View style={styles.empathyScreen}>
+            <Image
+              source={Document}
+              style={{ width: 96, height: 96 }}
+            />
+            <Text style={styles.empathyText}>
+              Parece que você ainda não tem despesas registradas. Comece a
+              adicionar suas despesas para visualizar o gráfico e obter insights
+              sobre seus gastos.
+            </Text>
+          </View>
+        )}
 
         <View style={styles.summaryCard}>
           <Text style={styles.summaryItem}>
@@ -319,7 +312,7 @@ const Expenses = () => {
         </View>
 
         <Text style={styles.subHeader}>Despesas por Categoria</Text>
-        <ScrollView style={styles.categoryList}>
+        <ScrollView style={styles.categoryList} nestedScrollEnabled={true}>
           {limitedCategories.map((item) => (
             <View
               key={item.id}
@@ -357,7 +350,7 @@ const Expenses = () => {
         )}
 
         <Text style={styles.subHeader}>Últimas Despesas</Text>
-        <ScrollView style={styles.lastExpenseList}>
+        <ScrollView style={styles.lastExpenseList} nestedScrollEnabled={true}>
           {limitedLastExpenses.map((item) => (
             <View key={item.id} style={styles.lastExpenseItem}>
               <Text style={styles.lastExpenseName}>{item.name}</Text>
@@ -370,6 +363,9 @@ const Expenses = () => {
                 .replace(".", ",")}`}</Text>
             </View>
           ))}
+          {limitedCategories.length === 0 && (
+            <Text style={styles.noExpensesText}>Não há despesas ainda</Text>
+          )}
         </ScrollView>
         {expensesDataApi.length > maxItems && (
           <TouchableOpacity
@@ -388,15 +384,15 @@ const Expenses = () => {
 
 const getCategoryColor = (typeName: string) => {
   switch (typeName) {
-    case "Abastecimento":
+    case "Multa":
       return "#FFE5E5"
-    case "Taxas":
+    case "Imposto":
       return "#E5E5FF"
     case "Manutenção":
       return "#FFFFE5"
-    case "Seguro":
+    case "Abastecimento":
       return "#E5FFE5"
-    case "Multa":
+    case "Revisão":
       return "#FFE5FF"
     default:
       return "#FFF"
@@ -407,6 +403,18 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  empathyScreen: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    opacity: 0.6,
+  },
+  empathyText: {
+    fontSize: 16,
+    color: "#555",
+    textAlign: "center",
+    marginTop: 20,
   },
   container: {
     flex: 1,

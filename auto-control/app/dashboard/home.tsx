@@ -24,9 +24,10 @@ export default function Home() {
   useFocusEffect(
     useCallback(() => {
       if (session?.user_id && session?.token) {
+        console.log("Info user", session)
         ExpenseService.getUserExpenses(session.user_id, session.token)
           .then((response) => {
-            // console.log(response, "RESPONSE")
+            console.log(response, "RESPONSE")
             // Ordenar as despesas pela data (mais recentes primeiro)
             const sortedExpenses = response.sort(
               (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -156,16 +157,16 @@ export default function Home() {
           }}
         >
           <Text>
-            {item.type_name == "Seguro"
+            {item.type_name == "Multa"
+              ? "👮"
+              : item.type_name === "Imposto"
               ? "🔐"
-              : item.type_name === "Abastecimento"
-              ? "⛽️"
-              : item.type_name === "Taxas"
-              ? "🏦"
               : item.type_name === "Manutenção"
               ? "🛠️"
-              : item.type_name === "Multa"
-              ? "👮"
+              : item.type_name === "Abastecimento"
+              ? "⛽"
+              : item.type_name === "Revisão"
+              ? "🛠️"
               : ""}
           </Text>
         </View>
@@ -176,7 +177,7 @@ export default function Home() {
           <View
             style={{
               display: "flex",
-              width: "80%",
+              width: "70%",
             }}
           >
             <Text style={{ fontSize: 12, opacity: 0.5 }}>
@@ -267,7 +268,7 @@ export default function Home() {
               Mês crítico
             </Text>
             <Text style={{ fontWeight: "bold", fontSize: 20, color: "white" }}>
-              {getMonthWithHighestExpense().month} - {" "}
+              {getMonthWithHighestExpense().month} -{" "}
               {getMonthWithHighestExpense().year}
             </Text>
             <Text style={{ fontWeight: "bold", fontSize: 16, color: "white" }}>
@@ -292,7 +293,7 @@ export default function Home() {
             <Text style={{ fontWeight: "bold", color: "white" }}>
               Tipo mais frequente
             </Text>
-            <Text style={{ fontWeight: "bold", fontSize: 20, color: "white" }}>
+            <Text style={{ fontWeight: "bold", fontSize: 18, color: "white" }}>
               {getMostFrequentExpenseType() || "---"}
             </Text>
           </View>
@@ -326,7 +327,7 @@ export default function Home() {
             justifyContent: "center",
             alignItems: "center",
             gap: 20,
-            opacity: 0.5,
+            opacity: 0.6,
             marginTop: 20,
           }}
         >
