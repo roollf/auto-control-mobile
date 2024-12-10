@@ -12,6 +12,8 @@ import { VehicleService } from "@/api/services/vehicleService"
 
 import AppInput from "@/components/AppInput/AppInput"
 
+import { router, useFocusEffect } from "expo-router"
+
 export default function Profile() {
   const { session, signOut } = useSession()
 
@@ -58,6 +60,12 @@ export default function Profile() {
     // setCnh(UserMock.cnh)
     // setVehicles(VehicleMock)
   }, [])
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchVehicleData()
+    }, [])
+  )
 
   return (
     <ScrollView

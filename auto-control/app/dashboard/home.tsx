@@ -26,7 +26,7 @@ export default function Home() {
       if (session?.user_id && session?.token) {
         ExpenseService.getUserExpenses(session.user_id, session.token)
           .then((response) => {
-            console.log(response, "RESPONSE")
+            // console.log(response, "RESPONSE")
             // Ordenar as despesas pela data (mais recentes primeiro)
             const sortedExpenses = response.sort(
               (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -46,7 +46,7 @@ export default function Home() {
     if (session?.user_id && session?.token) {
       ExpenseService.getUserExpenses(session.user_id, session.token)
         .then((response) => {
-          console.log(response, "RESPONSE")
+          // console.log(response, "RESPONSE")
           // Ordenar as despesas pela data (mais recentes primeiro)
           const sortedExpenses = response.sort(
             (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -77,6 +77,53 @@ export default function Home() {
     )
 
     return Utils.transformToCurrency(total)
+  }
+
+  const getMonthWithHighestExpense = () => {
+    const monthlyExpenses: { [key: string]: number } = {}
+
+    userExpenses.forEach((expense) => {
+      const date = new Date(expense.date)
+      const monthKey = `${date.getFullYear()}-${date.getMonth() + 1}`
+
+      if (!monthlyExpenses[monthKey]) {
+        monthlyExpenses[monthKey] = 0
+      }
+
+      monthlyExpenses[monthKey] += parseFloat(expense.value)
+    })
+
+    const highestMonth = Object.entries(monthlyExpenses).reduce(
+      (max, current) => (current[1] > max[1] ? current : max),
+      ["", 0]
+    )
+
+    const [yearMonth, total] = highestMonth
+    const [year, month] = yearMonth.split("-")
+
+    return {
+      month: Utils.getMonthName(parseInt(month)), // Crie uma função para retornar o nome do mês
+      year,
+      total: Utils.transformToCurrency(total),
+    }
+  }
+
+  const getMostFrequentExpenseType = () => {
+    const typeCounts: { [key: string]: number } = {}
+
+    userExpenses.forEach((expense) => {
+      if (!typeCounts[expense.type_name]) {
+        typeCounts[expense.type_name] = 0
+      }
+      typeCounts[expense.type_name] += 1
+    })
+
+    const mostFrequent = Object.entries(typeCounts).reduce(
+      (max, current) => (current[1] > max[1] ? current : max),
+      ["", 0]
+    )
+
+    return mostFrequent[0] // Retorna o tipo de despesa mais frequente
   }
 
   const renderItem = ({ item }: { item: any }) => (
@@ -217,10 +264,14 @@ export default function Home() {
           <Ionicons name="calendar" size={32} color="white" />
           <View>
             <Text style={{ fontWeight: "bold", color: "white" }}>
-              Próxima despesa
+              Mês crítico
             </Text>
             <Text style={{ fontWeight: "bold", fontSize: 20, color: "white" }}>
-              03/12/2024
+              {getMonthWithHighestExpense().month} - {" "}
+              {getMonthWithHighestExpense().year}
+            </Text>
+            <Text style={{ fontWeight: "bold", fontSize: 16, color: "white" }}>
+              {getMonthWithHighestExpense().total}
             </Text>
           </View>
         </View>
@@ -236,13 +287,13 @@ export default function Home() {
             padding: 20,
           }}
         >
-          <Ionicons name="wallet" size={32} color="white" />
+          <Ionicons name="trending-up" size={32} color="white" />
           <View>
             <Text style={{ fontWeight: "bold", color: "white" }}>
-              Economias
+              Tipo mais frequente
             </Text>
             <Text style={{ fontWeight: "bold", fontSize: 20, color: "white" }}>
-              R$ 132,33
+              {getMostFrequentExpenseType() || "---"}
             </Text>
           </View>
         </View>

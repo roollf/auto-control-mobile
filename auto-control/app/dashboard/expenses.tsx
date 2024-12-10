@@ -21,209 +21,16 @@ import { ExpenseData } from "@/types/expense/expense.type"
 import { pt } from "date-fns/locale"
 import { useSession } from "@/contexts/ctx"
 import { ExpenseService } from "@/api/services/expenseService"
+import { router, useFocusEffect } from "expo-router"
 
 const screenWidth = Dimensions.get("window").width
-
-const useExpenses = (
-  user_id: number | undefined,
-  token: string | undefined
-) => {
-  const [userExpenses, setUserExpenses] = React.useState<ExpenseData[]>([])
-
-  React.useEffect(() => {
-    if (user_id && token) {
-      const fetchData = async () => {
-        try {
-          const response = await ExpenseService.getUserExpenses(user_id, token)
-          setUserExpenses(response)
-        } catch (error) {
-          console.error("Failed to fetch expenses:", error)
-        }
-      }
-      fetchData()
-    }
-  }, [user_id, token])
-
-  return { userExpenses }
-}
-
-const expensesData: ExpenseData[] = [
-  {
-    id: 1,
-    name: "Combustível",
-    user: 1,
-    value: "250.40",
-    date: "2024-11-01",
-    vehicle: 1,
-    vehicle_name: "Uno",
-    description: "Abastecimento com gasolina",
-    type: 1,
-    type_name: "Combustível",
-    file: null,
-    created_at: "2024-11-01T12:00:00",
-  },
-  {
-    id: 2,
-    name: "Impostos",
-    user: 1,
-    value: "860.00",
-    date: "2024-10-01",
-    vehicle: 2,
-    vehicle_name: "Onix",
-    description: "Despesa relacionada ao IPVA",
-    type: 2,
-    type_name: "Impostos",
-    file: null,
-    created_at: "2024-10-01T12:00:00",
-  },
-  {
-    id: 3,
-    name: "Manutenção",
-    user: 1,
-    value: "550.90",
-    date: "2024-09-01",
-    vehicle: 3,
-    vehicle_name: "Sandero",
-    description: "Reparo do freio",
-    type: 3,
-    type_name: "Manutenção",
-    file: null,
-    created_at: "2024-09-01T12:00:00",
-  },
-  {
-    id: 4,
-    name: "Combustível",
-    user: 1,
-    value: "300.00",
-    date: "2024-08-15",
-    vehicle: 4,
-    vehicle_name: "Civic",
-    description: "Abastecimento com gasolina",
-    type: 1,
-    type_name: "Combustível",
-    file: null,
-    created_at: "2024-08-15T12:00:00",
-  },
-  {
-    id: 5,
-    name: "Impostos",
-    user: 1,
-    value: "980.00",
-    date: "2024-07-01",
-    vehicle: 5,
-    vehicle_name: "Corolla",
-    description: "Pagamento de IPVA",
-    type: 2,
-    type_name: "Impostos",
-    file: null,
-    created_at: "2024-07-01T12:00:00",
-  },
-  {
-    id: 6,
-    name: "Manutenção",
-    user: 1,
-    value: "400.00",
-    date: "2024-06-12",
-    vehicle: 6,
-    vehicle_name: "Fit",
-    description: "Troca de óleo e filtros",
-    type: 3,
-    type_name: "Manutenção",
-    file: null,
-    created_at: "2024-06-12T12:00:00",
-  },
-  {
-    id: 7,
-    name: "Combustível",
-    user: 1,
-    value: "250.40",
-    date: "2024-05-01",
-    vehicle: 7,
-    vehicle_name: "Palio",
-    description: "Abastecimento com gasolina",
-    type: 1,
-    type_name: "Combustível",
-    file: null,
-    created_at: "2024-05-01T12:00:00",
-  },
-  {
-    id: 8,
-    name: "Impostos",
-    user: 1,
-    value: "600.00",
-    date: "2024-04-01",
-    vehicle: 8,
-    vehicle_name: "Fiesta",
-    description: "Pagamento de Licenciamento",
-    type: 2,
-    type_name: "Impostos",
-    file: null,
-    created_at: "2024-04-01T12:00:00",
-  },
-  {
-    id: 9,
-    name: "Manutenção",
-    user: 1,
-    value: "150.00",
-    date: "2024-03-01",
-    vehicle: 9,
-    vehicle_name: "Vectra",
-    description: "Reparo do motor",
-    type: 3,
-    type_name: "Manutenção",
-    file: null,
-    created_at: "2024-03-01T12:00:00",
-  },
-  {
-    id: 10,
-    name: "Combustível",
-    user: 1,
-    value: "350.00",
-    date: "2024-02-01",
-    vehicle: 10,
-    vehicle_name: "Hilux",
-    description: "Abastecimento com diesel",
-    type: 1,
-    type_name: "Combustível",
-    file: null,
-    created_at: "2024-02-01T12:00:00",
-  },
-  {
-    id: 11,
-    name: "Impostos",
-    user: 1,
-    value: "900.00",
-    date: "2024-01-01",
-    vehicle: 11,
-    vehicle_name: "Tucson",
-    description: "Pagamento de IPVA",
-    type: 2,
-    type_name: "Impostos",
-    file: null,
-    created_at: "2024-01-01T12:00:00",
-  },
-  {
-    id: 12,
-    name: "Manutenção",
-    user: 1,
-    value: "700.00",
-    date: "2023-12-01",
-    vehicle: 12,
-    vehicle_name: "Kia Sportage",
-    description: "Troca de pneus",
-    type: 3,
-    type_name: "Manutenção",
-    file: null,
-    created_at: "2023-12-01T12:00:00",
-  },
-]
 
 const calculateSummary = (expenses: ExpenseData[]) => {
   const today = new Date()
 
   const parsedExpenses = expenses.map((expense) => ({
     ...expense,
-    value: parseFloat(expense.value.replace(".", ",")),
+    value: parseFloat(expense.value.replace(",", ".")), // Corrige separador decimal
     date: parseISO(expense.date),
   }))
 
@@ -231,18 +38,21 @@ const calculateSummary = (expenses: ExpenseData[]) => {
     (acc, expense) => acc + expense.value,
     0
   )
+
   const monthsCovered = new Set(
     parsedExpenses.map(
       (e) => `${e.date.getFullYear()}-${e.date.getMonth() + 1}`
     )
   ).size
-  const averageMonthly = totalExpenses / (monthsCovered || 1)
+
+  const averageMonthly = monthsCovered > 0 ? totalExpenses / monthsCovered : 0 // Evita divisão por zero
 
   const totalLast6Months = parsedExpenses
     .filter((expense) =>
       isWithinInterval(expense.date, { start: subMonths(today, 6), end: today })
     )
     .reduce((acc, expense) => acc + expense.value, 0)
+
   const totalLastYear = parsedExpenses
     .filter((expense) =>
       isWithinInterval(expense.date, { start: subYears(today, 1), end: today })
@@ -256,29 +66,29 @@ const calculateSummary = (expenses: ExpenseData[]) => {
   }
 }
 
-const SummaryCard = () => {
-  const { averageMonthly, totalLast6Months, totalLastYear } =
-    calculateSummary(expensesData)
+// const SummaryCard = () => {
+//   const { averageMonthly, totalLast6Months, totalLastYear } =
+//     calculateSummary(expensesData)
 
-  return (
-    <View style={styles.summaryCard}>
-      <Text style={styles.summaryItem}>
-        <Text style={styles.summaryLabel}>Valor Médio Mensal: </Text>
-        <Text style={styles.summaryValue}>{averageMonthly}</Text>
-      </Text>
-      <Text style={styles.summaryItem}>
-        <Text style={styles.summaryLabel}>
-          Total Gasto Nos Últimos 6 Meses:{" "}
-        </Text>
-        <Text style={styles.summaryValue}>{totalLast6Months}</Text>
-      </Text>
-      <Text style={styles.summaryItem}>
-        <Text style={styles.summaryLabel}>Total Gasto No Último Ano: </Text>
-        <Text style={styles.summaryValue}>{totalLastYear}</Text>
-      </Text>
-    </View>
-  )
-}
+//   return (
+//     <View style={styles.summaryCard}>
+//       <Text style={styles.summaryItem}>
+//         <Text style={styles.summaryLabel}>Valor Médio Mensal: </Text>
+//         <Text style={styles.summaryValue}>{averageMonthly}</Text>
+//       </Text>
+//       <Text style={styles.summaryItem}>
+//         <Text style={styles.summaryLabel}>
+//           Total Gasto Nos Últimos 6 Meses:{" "}
+//         </Text>
+//         <Text style={styles.summaryValue}>{totalLast6Months}</Text>
+//       </Text>
+//       <Text style={styles.summaryItem}>
+//         <Text style={styles.summaryLabel}>Total Gasto No Último Ano: </Text>
+//         <Text style={styles.summaryValue}>{totalLastYear}</Text>
+//       </Text>
+//     </View>
+//   )
+// }
 
 const Expenses = () => {
   const { session } = useSession()
@@ -289,19 +99,24 @@ const Expenses = () => {
   const [isModalVisible, setModalVisible] = React.useState<boolean>(false)
   const [showMoreCategories, setShowMoreCategories] = React.useState(false)
   const [showMoreLastExpenses, setShowMoreLastExpenses] = React.useState(false)
+  const [expensesDataApi, setExpensesDataApi] = React.useState<ExpenseData[]>(
+    []
+  )
 
-  const { userExpenses } = useExpenses(session?.user_id, session?.token)
+  const { averageMonthly, totalLast6Months, totalLastYear } =
+    calculateSummary(expensesDataApi)
 
-  const filteredExpenses = selectedCategory
-    ? expensesData.filter(
-        (expense) => expense.type_name === selectedCategory
-      )
-    : expensesData
+  const filteredExpenses =
+    selectedCategory && expensesDataApi.length > 0
+      ? expensesDataApi.filter(
+          (expense) => expense.type_name === selectedCategory
+        )
+      : expensesDataApi
 
   const calculateChartData = (expenses: ExpenseData[]) => {
     const parsedExpenses = expenses.map((expense) => ({
       ...expense,
-      value: parseFloat(expense.value.replace(".", ",")),
+      value: parseFloat(expense.value.replace(",", ".")), // Corrige o uso do separador decimal
       date: parseISO(expense.date),
     }))
 
@@ -314,7 +129,7 @@ const Expenses = () => {
       }
       acc[month] += expense.value
       return acc
-    }, {})
+    }, {} as Record<string, number>)
 
     const labels = Object.keys(groupedByMonth).map((month) => {
       const firstExpenseDate = parsedExpenses.find(
@@ -327,7 +142,10 @@ const Expenses = () => {
         ? format(firstExpenseDate, "MMM", { locale: pt })
         : ""
     })
-    const data = Object.values(groupedByMonth)
+
+    const data = Object.values(groupedByMonth).map(
+      (value) => (isNaN(value) || !isFinite(value) ? 0 : value) // Substituir valores inválidos por zero
+    )
 
     return { labels, data }
   }
@@ -341,12 +159,60 @@ const Expenses = () => {
     : filteredExpenses.slice(0, maxItems)
 
   const limitedLastExpenses = showMoreLastExpenses
-    ? expensesData
-    : expensesData.slice(0, maxItems)
+    ? expensesDataApi
+    : expensesDataApi.slice(0, maxItems)
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (session?.user_id && session?.token) {
+        const fetchExpensesDataApi = async () => {
+          try {
+            const response = await ExpenseService.getUserExpenses(
+              session?.user_id,
+              session?.token
+            )
+            console.log("Resposta da API", response)
+            setExpensesDataApi(response)
+          } catch (error) {
+            console.error("Failed to fetch expenses:", error)
+          }
+        }
+        fetchExpensesDataApi()
+      }
+    }, [])
+  )
+
+  React.useEffect(() => {
+    if (session?.user_id && session?.token) {
+      const fetchExpensesDataApi = async () => {
+        try {
+          const response = await ExpenseService.getUserExpenses(
+            session?.user_id,
+            session?.token
+          )
+          console.log("Resposta da API", response)
+          setExpensesDataApi(response)
+        } catch (error) {
+          console.error("Failed to fetch expenses:", error)
+        }
+      }
+      fetchExpensesDataApi()
+    }
+  }, [])
 
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
+        <View style={{ marginBottom: 10 }}>
+          <Text
+            style={{
+              fontSize: 40,
+              fontWeight: "bold",
+            }}
+          >
+            Despesas
+          </Text>
+        </View>
         <TouchableOpacity
           style={styles.filterButton}
           onPress={() => setModalVisible(true)}
@@ -364,16 +230,16 @@ const Expenses = () => {
             <View style={styles.modalContent}>
               <Text style={styles.modalTitle}>Escolha o Tipo de Despesa</Text>
               <Button
-                title="Combustível"
+                title="Abastecimento"
                 onPress={() => {
-                  setSelectedCategory("Combustível")
+                  setSelectedCategory("Abastecimento")
                   setModalVisible(false)
                 }}
               />
               <Button
-                title="Impostos"
+                title="Taxas"
                 onPress={() => {
-                  setSelectedCategory("Impostos")
+                  setSelectedCategory("Taxas")
                   setModalVisible(false)
                 }}
               />
@@ -381,6 +247,20 @@ const Expenses = () => {
                 title="Manutenção"
                 onPress={() => {
                   setSelectedCategory("Manutenção")
+                  setModalVisible(false)
+                }}
+              />
+              <Button
+                title="Seguro"
+                onPress={() => {
+                  setSelectedCategory("Seguro")
+                  setModalVisible(false)
+                }}
+              />
+              <Button
+                title="Multa"
+                onPress={() => {
+                  setSelectedCategory("Multa")
                   setModalVisible(false)
                 }}
               />
@@ -398,10 +278,10 @@ const Expenses = () => {
         <Text style={styles.header}>Despesas Totais</Text>
         <LineChart
           data={{
-            labels,
+            labels: labels.length > 0 ? labels : ["Sem Dados"],
             datasets: [
               {
-                data,
+                data: data.length > 0 ? data : [0], // Substituir por valores padrão
                 color: (opacity = 1) => `rgba(0, 123, 255, ${opacity})`,
                 strokeWidth: 2,
               },
@@ -421,7 +301,22 @@ const Expenses = () => {
           style={styles.chart}
         />
 
-        <SummaryCard />
+        <View style={styles.summaryCard}>
+          <Text style={styles.summaryItem}>
+            <Text style={styles.summaryLabel}>Valor Médio Mensal: </Text>
+            <Text style={styles.summaryValue}>{averageMonthly}</Text>
+          </Text>
+          <Text style={styles.summaryItem}>
+            <Text style={styles.summaryLabel}>
+              Total Gasto Nos Últimos 6 Meses:{" "}
+            </Text>
+            <Text style={styles.summaryValue}>{totalLast6Months}</Text>
+          </Text>
+          <Text style={styles.summaryItem}>
+            <Text style={styles.summaryLabel}>Total Gasto No Último Ano: </Text>
+            <Text style={styles.summaryValue}>{totalLastYear}</Text>
+          </Text>
+        </View>
 
         <Text style={styles.subHeader}>Despesas por Categoria</Text>
         <ScrollView style={styles.categoryList}>
@@ -444,6 +339,11 @@ const Expenses = () => {
                 .replace(".", ",")}`}</Text>
             </View>
           ))}
+          {limitedCategories.length === 0 && (
+            <Text style={styles.noExpensesText}>
+              Não há despesas desse tipo ainda
+            </Text>
+          )}
         </ScrollView>
         {filteredExpenses.length > maxItems && (
           <TouchableOpacity
@@ -471,7 +371,7 @@ const Expenses = () => {
             </View>
           ))}
         </ScrollView>
-        {expensesData.length > maxItems && (
+        {expensesDataApi.length > maxItems && (
           <TouchableOpacity
             style={styles.showMoreButton}
             onPress={() => setShowMoreLastExpenses(!showMoreLastExpenses)}
@@ -488,12 +388,16 @@ const Expenses = () => {
 
 const getCategoryColor = (typeName: string) => {
   switch (typeName) {
-    case "Combustível":
+    case "Abastecimento":
       return "#FFE5E5"
-    case "Impostos":
+    case "Taxas":
       return "#E5E5FF"
     case "Manutenção":
       return "#FFFFE5"
+    case "Seguro":
+      return "#E5FFE5"
+    case "Multa":
+      return "#FFE5FF"
     default:
       return "#FFF"
   }
@@ -614,6 +518,11 @@ const styles = StyleSheet.create({
   },
   chart: {
     marginBottom: 20,
+  },
+  noExpensesText: {
+    fontSize: 16,
+    color: "#555",
+    textAlign: "center",
   },
 })
 

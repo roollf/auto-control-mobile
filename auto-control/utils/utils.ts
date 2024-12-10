@@ -13,4 +13,22 @@ export const Utils = {
     const year = dateObj.getFullYear()
     return `${day}/${month}/${year}`
   },
+
+  getMonthName: (month: number) => {
+    const monthNames = [
+      "Janeiro",
+      "Fevereiro",
+      "Março",
+      "Abril",
+      "Maio",
+      "Junho",
+      "Julho",
+      "Agosto",
+      "Setembro",
+      "Outubro",
+      "Novembro",
+      "Dezembro",
+    ]
+    return monthNames[month - 1]
+  },
 }

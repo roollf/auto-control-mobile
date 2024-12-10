@@ -90,7 +90,7 @@ export default function AddExpense() {
           expenseName, // Name of the expense
           userToken // Bearer token
         )
-        Alert.alert("Expense created successfully", `ID: ${expenseData.id}`)
+        Alert.alert("Despesa adicionada com sucesso.")
 
         // Navigate to the home screen after submitting
         router.replace("/dashboard/home")

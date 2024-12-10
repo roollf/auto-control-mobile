@@ -9,6 +9,7 @@ import {
 } from "@/types/vehicle/vehicle.type"
 import { VehicleService } from "@/api/services/vehicleService"
 import { ScrollView } from "react-native-gesture-handler"
+import { router, useFocusEffect } from "expo-router"
 
 const VehicleBrandMock: VehicleBrand[] = [
   { id: 1, name: "Fiat" },
@@ -47,6 +48,12 @@ export default function AddVehicle() {
   const [vehicleYear, setVehicleYear] = React.useState<number>()
   const [vehicleDescription, setVehicleDescription] = React.useState<string>("")
 
+  useFocusEffect(
+    React.useCallback(() => {
+      clearForm() // Clear the form when the user navigates to the "Add Expense" tab
+    }, [])
+  )
+
   const handleSubmit = async () => {
     if (session?.token && session?.user_id) {
       const { token: userToken, user_id } = session
@@ -61,21 +68,28 @@ export default function AddVehicle() {
           owner: user_id,
         }
 
-        console.log("vehicleData", vehicleData)
-
         const response = await VehicleService.createVehicle(
           vehicleData,
           userToken
         )
 
-        console.log("response", response)
-
         Alert.alert("Veículo criado com sucesso!")
+        router.replace("/dashboard/home")
+        clearForm()
       } catch (error) {
         console.error("Error creating vehicle:", error)
         Alert.alert("Erro", "Falha ao criar veículo")
       }
     }
+  }
+
+  const clearForm = () => {
+    setSelectedVehicleBrand(1)
+    setSelectedVhicleType(1)
+    setVehicleName("")
+    setVehiclePlate("")
+    setVehicleYear(2021)
+    setVehicleDescription("")
   }
 
   return (
